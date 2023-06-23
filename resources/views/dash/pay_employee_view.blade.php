@@ -139,7 +139,7 @@
             {{-- <a href="/emp_report"><p class="print_report">&nbsp;<i class="fa fa-print"></i></p></a> --}}
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>
-
+ 
         <div class="row">
             <div class="col-12 col-md-8">
                 <form action="{{ url('/employee') }}">

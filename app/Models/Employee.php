@@ -80,4 +80,12 @@ class Employee extends Model
         return $this->hasMany('App\Models\Leave');
     }
 
+    public function directpay(){
+        return $this->hasMany('App\Models\DirectPay');
+    }
+
+    public function loangrant(){
+        return $this->hasMany('App\Models\LoanGrant');
+    }
+
 }

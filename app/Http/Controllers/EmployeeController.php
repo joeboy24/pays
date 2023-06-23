@@ -23,6 +23,8 @@ use App\Models\SalaryCat;
 use App\Models\Department;
 use App\Models\AllowanceList;
 use App\Models\Allowexp;
+use App\Models\DirectPay;
+use App\Models\LoanGrant;
 use App\Models\User;
 use Session;
 
@@ -923,19 +925,106 @@ class EmployeeController extends Controller
 
             break;
 
-            case 'grant_loan2':
+            case 'direct_pay2':
+                return 777234235;
+            break;
 
+            case 'direct_pay':
+
+                $emp_id = $request->input('emp_id');
+                $emp = Employee::find($emp_id);
+                // $check = DirectPay::where('employee_id', $emp_id)->latest()->first();
+                // if ($check->amt_rem != 0) {
+                //     return redirect(url()->previous())->with('error', 'Oops..! '.$emp->fname.' has an outstanding debt. Kindly clear debt to request for a new loan');
+                // }
+
+                $amt_paid = $request->input('amt_paid');
+                $amt_rem = $emp->loan_bal - $amt_paid;
+                $mth_dud = $emp->loan_montly_ded;
+                // $mth_dud = $request->input('mth_dud');
                 try {
-                    $loanset = LoanSetup::firstOrCreate([
+                    // 'employee_id','amt_paid','amt_rem','dur','del','monthly_dud'
+                    $dpay = DirectPay::firstOrCreate([
                         'user_id' => auth()->user()->id,
-                        'interest' => $request->input('interest'),
-                        'dur' => $request->input('dur'),
+                        'employee_id' => $emp_id,
+                        'amt_paid' => $amt_paid,
+                        'amt_rem' => $amt_rem,
+                        // 'dur' => $request->input('dur'),
+                        'monthly_dud' => $mth_dud,
                     ]);
+
+                    if ($dpay) {
+                        $loan = Loan::where('employee_id', $emp_id)->first();
+                        $loan->bal = $amt_rem;
+                        if ($amt_rem < 50) {
+                            $loan->dur = 0;
+                        }
+                        $loan->save();
+
+                        $emp->loan_bal = $amt_rem;
+                        $emp->save();
+                    }
+
                 } catch (\Throwable $th) {
-                    // throw $th;
+                    throw $th;
                         return redirect(url()->previous())->with('error', 'Oops..! An error occured');
                 }
-                return redirect(url()->previous())->with('success', 'Loan Interest and Duration successfully set');
+                return redirect(url()->previous())->with('success', 'Payment Successful..!');
+
+            break;
+
+            case 'special_loan':
+                // $check = DirectPay::where('employee_id', $emp_id)->latest()->first();
+                // if ($check->amt_rem != 0) {
+                //     return redirect(url()->previous())->with('error', 'Oops..! '.$emp->fname.' has an outstanding debt. Kindly clear debt to request for a new loan');
+                // }
+
+                $emp_id = $request->input('emp_id');
+                $loan_amt = $request->input('loan_amt');
+                $mth_dud = $request->input('mth_dud');
+                $dur = $request->input('dur');
+                $emp = Employee::find($emp_id);
+
+                $grant_check = LoanGrant::where('employee_id', $emp_id)->where('loan_type', 'special')->latest()->first();
+                if ($grant_check != '' && $emp->loan_bal > 50) {
+                    return redirect(url()->previous())->with('error', 'Oops..! '.$emp->fname.' has an outstanding debt. Kindly clear debt to request for a new loan');
+                }
+
+                // 'user_id','employee_id','loan_amt','monthly_dud','dur','loan_type','status','del'
+                $loangrant = LoanGrant::firstOrCreate([
+                    'user_id' => auth()->user()->id,
+                    'employee_id' => $emp_id,
+                    'loan_amt' => $loan_amt,
+                    'monthly_dud' => $mth_dud,
+                    'dur' => $dur,
+                    'loan_type' => 'special',
+                    'dur' => $dur,
+                ]);
+
+                // return 98789;
+
+                try {
+                    $loan = Loan::where('employee_id', $emp_id)->first();
+                    $loan->bal = $loan->bal + $loan_amt;
+                    if ($loan->bal < 50) {
+                        $loan->dur = $dur;
+                    }else {
+                        $loan->dur = $loan->dur + $dur;
+                    }
+
+                    $emp->loan_bal = $emp->loan_bal + $loan_amt;
+                    if ($mth_dud != '') {
+                        $emp->staff_loan = $mth_dud;
+                        $emp->loan_monthly_ded = $mth_dud;
+                        $loan->monthly_ded = $mth_dud;
+                    }
+                    $emp->save();
+                    $loan->save();
+                } catch (\Throwable $th) {
+                    // throw $th;
+                    return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect(url()->previous())->with('success', 'Special loan grant successful!');
 
             break;
 
@@ -1638,6 +1727,7 @@ class EmployeeController extends Controller
 
                 $emp->staff_loan = 0;
                 $emp->loan_bal = 0;
+                $emp->loan_monthly_ded = 0;
                 $emp->save();
                 return redirect(url()->previous())->with('success', 'Loan details successfully cleared!');
             break;

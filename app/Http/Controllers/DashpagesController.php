@@ -51,9 +51,17 @@ class DashpagesController extends Controller
         return view('dash.pay_company')->with('company', $company);
     }
 
-    public function pay_loan(){
-        $em = Employee::find(1);
+    public function pay_loan(Request $request){
 
+        $src = $request->input('search_emp');
+        if ($src) {
+            $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->paginate(20);
+        } else {
+            $employees = Employee::orderBy('fname', 'ASC')->paginate(20);
+        }
+        
+        
+        // $em = Employee::find(1);
         // if ($em->loan) {
         //     return 1;
         // } else {
@@ -63,7 +71,6 @@ class DashpagesController extends Controller
 
         // $users = User::where('status', '!=', 'Student')->get();
         $loan_setup = LoanSetup::where('del', 'no')->latest()->first();
-        $employees = Employee::orderBy('fname', 'ASC')->paginate(20);
         $patch = [
             'c' => 1,
             'loans' => Loan::all(),

@@ -88,7 +88,7 @@ class CreateEmployeesTable extends Migration
             // $table->string('nok_contact', 50);
             // $table->string('status', 50)->default('Active', 50);
             // $table->string('del', 50)->default('no', 50);
-            $table->primary(array('dob', 'email', 'acc_no'));
+            // $table->primary(array('dob', 'email', 'acc_no'));
             $table->timestamps();
         });
     }

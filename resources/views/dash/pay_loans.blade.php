@@ -140,9 +140,21 @@
             <a href="/taxexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Download Excel</p></a> --}}
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>
+
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form action="{{ url('/loans') }}">
+                    @csrf
+                    <input type="hidden" name="check" value="employee">
+                    <input type="text" name="search_emp" class="search_emp" placeholder="Search">
+                    <button class="search_btn" name="store_action" value="search_emp"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    {{ $employees->links() }}
+    {{-- {{ $employees->links() }} --}}
+    {{ $employees->appends(['search_emp' => request()->query('search_emp')])->links() }}
 
     <div class="row">
         <div class="col-12 col-xl-12">
@@ -186,7 +198,13 @@
                                                     @endif
                                                 @endfor 
                                             </td>
-                                            <td class="text-bold-500">{{ number_format($emp->salary * 12, 2) }}</td>
+                                            <td class="text-bold-500">
+                                                @if ($emp->loan_bal <= 50) 
+                                                    {{ number_format($emp->salary * 12, 2) }}
+                                                @else
+                                                    {{ number_format(($emp->salary * 12)/2, 2) }}
+                                                @endif
+                                            </td>
 
                                             <form action="{{ action('EmployeeController@update', $emp->id) }}" method="POST">
                                                 <input type="hidden" name="_method" value="DELETE">
@@ -200,32 +218,52 @@
                                                             <i class="fa fa-check-square-o"></i>&nbsp; Grant Loan
                                                         </button>
                                                     @else
-                                                        <button type="button" class="my_trash2 yellow_bg"><i class="fa fa-times"></i>&nbsp; Not Qualified</button>
-                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#special_loan_setup" class="my_trash2 bg3 color8 genhover">
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#direct_pay{{$c}}" class="my_trash2 yellow_bg genhover"><i class="fa fa-dollar"></i>&nbsp; Pay Loan</button>
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#special_loan_setup{{$c}}" class="my_trash2 bg3 color8 genhover">
                                                             <i class="fa fa-warning"></i>
                                                         </button>
                                                         <button type="submit" name="update_action" value="del_loan" class="my_trash2 bg6 color8 genhover" onclick="return confirm('Note: This action will permanently clear loan status')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
+
                                                     @endif
                                                 </td>
-
-                                                {{-- @if ($emp->del == 'yes')
-                                                    <td class="text-bold-500 align_right action_size">
-                                                        <button type="submit" name="update_action" value="restore_employee" class="my_trash" onclick="return confirm('Do you want to restore this record?')"><i class="fa fa-reply"></i></button>
-                                                    </td>
-                                                @else
-                                                    <td class="text-bold-500 align_right action_size">
-                                                        <button type="submit" name="update_action" value="del_employee" class="my_trash" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
-                                                    </td>
-                                                @endif --}}
 
                                             </form>
 
                                         </tr>
 
-                                        <!-- Special Loan Setup Modal -->
-                                        <div class="modal fade" id="special_loan_setup" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
+
+                                        <!-- Direct Pay Modal -->
+                                        <div class="modal fade" id="direct_pay{{$c}}" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalRequestLabel">Loan Direct Pay</h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ action('EmployeeController@store') }}" method="POST">
+                                                            @csrf
+
+                                                            <input type="hidden" name="emp_id" value="{{$emp->id}}">
+                                                            <div class="filter_div">
+                                                                <i class="fa fa-edit"></i>&nbsp;&nbsp; Amount 
+                                                                <input type="number" step="any" min="0" max="{{$emp->loan_bal}}" placeholder="Bal.: {{ number_format($emp->loan_bal, 2) }}" name="amt_paid" required>
+                                                            </div>
+                                                            
+                                                            <div class="form-group modal_footer">
+                                                                <button type="submit" name="store_action" value="direct_pay" class="load_btn"><i class="fa fa-save"></i>&nbsp; Pay Now</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Special Loan Application Modal -->
+                                        <div class="modal fade" id="special_loan_setup{{$c}}" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -236,18 +274,32 @@
                                                     <form action="{{ action('EmployeeController@store') }}" method="POST">
                                                         @csrf
 
+                                                        <input type="hidden" name="emp_id" value="{{$emp->id}}">
                                                         <div class="filter_div">
                                                             <i class="fa fa-edit"></i>&nbsp;&nbsp; Loan Amount
-                                                            <input type="text" @if ($emp->loan) value="{{number_format($emp->loan->bal/2, 2)}}" @endif step="any" min="0" placeholder="Enter Amount eg. 1200" name="interest" required>
+                                                            <input type="number" 
+                                                                @if ($emp->loan_bal < 50)
+                                                                    max="{{$emp->salary * 12}}" 
+                                                                    placeholder="Max.: {{number_format($emp->salary * 12, 2)}}"
+                                                                @else
+                                                                    max="{{$emp->loan_bal/2}}" 
+                                                                    placeholder="Max.: {{number_format($emp->loan_bal/2, 2)}}"
+                                                                @endif 
+                                                            max="{{$emp->loan_bal/2}}" step="any" min="0" name="loan_amt" required>
                                                         </div>
 
                                                         <div class="filter_div">
                                                             <i class="fa fa-calendar"></i>&nbsp;&nbsp; Duration (mth)
-                                                            <input type="number" @if ($loanset!='') value="{{$loanset->dur/2}}" @endif step="any" min="0" max="12" placeholder="Duration(months) eg. 7" name="dur" required>
+                                                            <input type="number" @if ($loanset!='') value="{{$loanset->dur/2}}" @endif step="any" min="0" placeholder="Duration(months) eg. 7" name="dur" required>
+                                                        </div>
+
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp; Monthly Dud. 
+                                                            <input type="number" step="any" min="0" placeholder="Current: {{ number_format($emp->staff_loan, 2) }}" name="mth_dud">
                                                         </div>
                                                         
                                                         <div class="form-group modal_footer">
-                                                            <button type="submit" name="store_action" value="loan_setup" class="load_btn"><i class="fa fa-save"></i>&nbsp; Submit</button>
+                                                            <button type="submit" name="store_action" value="special_loan" class="load_btn"><i class="fa fa-save"></i>&nbsp; Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -376,7 +428,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $employees->links() }}
+                            {{-- {{ $employees->links() }} --}}
+                            {{ $employees->appends(['search_emp' => request()->query('search_emp')])->links() }}
                         @else
                             <div class="alert alert-danger">
                                 No Records Found on Employees
