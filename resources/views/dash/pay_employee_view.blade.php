@@ -198,7 +198,10 @@
                                                 <a href="/reporting/{{$emp->id}}"><button type="button" class="my_trash2 green_bg color8 genhover"><i class="fa fa-print"></i>&nbsp; Pay Slip</button></a>
                                             </td>
                                             {{-- <td class="text-bold-500">{{ $emp->contact }}</td> --}}
-                                            <td class="text-bold-500">{{ $emp->status }}
+                                            <td class="text-bold-500">{{ $emp->status }}<br>
+                                                @if ($emp->valid_comment != '')
+                                                    <textarea class="valid_comments" name="comments" cols="30" rows="2" readonly>{{ $emp->valid_comment }}</textarea>
+                                                @endif
                                                 {{-- <button type="button" value="del_loan" class="my_trash2 green_bg color8 genhover"><i class="fa fa-folder-open"></i></button> --}}
                                             </td>
 
@@ -417,23 +420,7 @@
                             </div>
                         @endif
                     </div>
-
-                    <form class="form form-horizontal" action="{{action('DashController@store')}}" method="POST">
-                        @csrf
-
-                        <!--div class="row seablue_bottom">
-                                    
-
-                            <div style="height: 10px"></div>
-                            <div class="col-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-info me-1 mb-1" name="store_action" value="add_homepage">Save</button>
-                                <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                            </div>
-                            <p class="small_p float_right">Click on save to update Section 1 - 3 &nbsp;</p>
-                                    
-                        </div-->    
-                    </form>
-
+                    
                 </div>
             </div>
         </div>

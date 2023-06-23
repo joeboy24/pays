@@ -13,7 +13,7 @@ class Employee extends Model
         'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id',
         'afis_no','fname','sname','oname','gender','dob','position','date_emp','cur_pos','ssn','salary',
         'contact','ssf','2tier_ssf','email','dept','region','bank','branch','acc_no','sub_div',
-        'staff_loan','loan_date_started','loan_bal','loan_monthly_ded','photo','status','del'
+        'staff_loan','loan_date_started','loan_bal','loan_monthly_ded','valid_comment','photo','status','del'
 
         // 'biometric_reg_no',
         // 'year',

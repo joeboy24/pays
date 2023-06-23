@@ -872,8 +872,16 @@
     color: #fff!important;
 }
 
+.black_bg {
+    background: #212121;
+}
+
 .green_bg {
     background: #05c140;
+}
+
+.blue_bg {
+    background: #05a2c1;
 }
 
 .red_bg {
@@ -950,6 +958,7 @@
 .search_emp {
     border: 1px solid #eee;
     height: 45px;
+    outline: none;
     width: calc(100% - 45px);
     padding: 0 30px;
     color: #181818;
@@ -985,6 +994,39 @@
     background: #009b1a20!important;
 }
 
+.validate {
+    margin-top: 50px;
+    padding: 30px 10px;
+    border-radius: 7px;
+    background: rgba(202, 202, 202, 0.577);
+}
+
+/* .validate_cont {
+    margin-top: 10px;
+} */
+
+.vname {
+    margin-top: 10px!important;
+}
+
+.validate_hleft, .validate_hright {
+    /* border: 1px solid #fff; */
+    padding: 5px 70px;
+}
+
+.validate_hleft p {
+    margin: 2px;
+    clear: both;
+}
+
+.valid_comments {
+    width: 70%;
+    font-size: 0.9em;
+    border: 1px solid #cccccc97;
+    border-radius: 5px;
+    padding: 5px 10px;
+    outline: none;
+}
 
 
 

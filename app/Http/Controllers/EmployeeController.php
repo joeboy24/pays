@@ -1736,7 +1736,16 @@ class EmployeeController extends Controller
                 $emp = Employee::find($id);
                 $emp->del = 'yes';
                 $emp->save();
-                return redirect(url()->previous())->with('success', $emp->fname.'`s records Deleted!');
+                return redirect(url()->previous())->with('success', $emp->fname.'`s records deleted!');
+            break;
+
+            case 'change_status_del':
+                $emp = Employee::find($id);
+                $emp->status = 'inactive';
+                $emp->del = 'yes';
+                $emp->valid_comment = $request->input('comments');
+                $emp->save();
+                return redirect(url()->previous())->with('success', $emp->fname.'`s records deleted!');
             break;
 
             case 'del_allowexp':
@@ -1769,6 +1778,7 @@ class EmployeeController extends Controller
             // Restore
             case 'restore_employee':
                 $emp = Employee::find($id);
+                $emp->valid_comment = '';
                 $emp->del = 'no';
                 $emp->save();
                 return redirect(url()->previous())->with('success', $emp->name.' Successfully Restored!');

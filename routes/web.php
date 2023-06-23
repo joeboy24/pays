@@ -53,6 +53,7 @@ Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
 // Workers Pages
 Route::get('/wdash', 'WorkersPagesController@index');
+Route::get('/validation', 'WorkersPagesController@sal_validation');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');

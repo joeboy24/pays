@@ -51,6 +51,7 @@ class CreateEmployeesTable extends Migration
             $table->string('loan_date_started', 50)->nullable();
             $table->string('loan_bal', 50)->default(0);
             $table->string('loan_monthly_ded', 50)->default(0);
+            $table->string('valid_comment', 100)->nullable();
 
             $table->string('photo', 50)->default('noimage.png', 50);
             $table->string('status', 50)->default('Active', 50); 
