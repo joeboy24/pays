@@ -88,4 +88,8 @@ class Employee extends Model
         return $this->hasMany('App\Models\LoanGrant');
     }
 
+    public function employeeext(){
+        return $this->belongsTo('App\Models\EmployeeExt');
+    }
+
 }

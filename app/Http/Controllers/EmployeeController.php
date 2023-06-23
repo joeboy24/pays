@@ -940,8 +940,7 @@ class EmployeeController extends Controller
 
                 $amt_paid = $request->input('amt_paid');
                 $amt_rem = $emp->loan_bal - $amt_paid;
-                $mth_dud = $emp->loan_montly_ded;
-                // $mth_dud = $request->input('mth_dud');
+                $mth_dud = $emp->loan_monthly_ded;
                 try {
                     // 'employee_id','amt_paid','amt_rem','dur','del','monthly_dud'
                     $dpay = DirectPay::firstOrCreate([

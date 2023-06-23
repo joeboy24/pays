@@ -8,6 +8,7 @@ use App\Models\Bank;
 use App\Models\Salary;
 use App\Models\Taxation;
 use App\Models\Employee;
+use App\Models\DirectPay;
 use App\Models\AllowanceOverview;
 use DateTime;
 use Session;
@@ -164,6 +165,40 @@ class ReportsController extends Controller
             ];
 
             return view('dash.report_format_bksum')->with($send);
+
+        }elseif ($report_type == 'loanr') {
+            # For loanr;
+
+            // if ($bank == '' || $bank == 'all') {
+            //     $where = ['del' => 'no',];
+            // } else {
+            //     $where = ['bank' => $bank, 'del' => 'no'];
+            // }
+            
+            if ($from == '') {
+                return redirect(url()->previous())->with('error', 'Oops..! Select Date From to proceed.');
+            }else{
+                if ($to == '') {
+                    $dpays = DirectPay::where('del', 'no')->where('created_at', '>=', $from)->orderBy('id', $order)->get();
+                }else {
+                    $dpays = DirectPay::where('del', 'no')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', $order)->get();
+                }
+            }
+
+            $send = [
+                'c' => 1,
+                'to' => $to,
+                'from' => $from,
+                // 'banks' => $banks,
+                'report_type' => 'Loanpays',
+                'cur_date' => date('D, d-M-Y'),
+                'dpays' => $dpays, 
+                // 'allowoverview' => $allow_ov
+                // 'region' => $region,
+            ];
+
+            // return $dpays;
+            return view('dash.report_format_loanpays')->with($send);
 
         }
         

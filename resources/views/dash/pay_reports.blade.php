@@ -155,6 +155,7 @@
                         <option value="emp">Employees Reports</option>
                         <option value="tax">Taxation Reports</option>
                         <option value="sal">Salaries Reports</option>
+                        <option value="loanr">Loan Reports</option>
                         <option value="tax">Leave Reports</option>
                         <option value="bksum">Bank Summary</option>
                       </select>
@@ -237,6 +238,12 @@
                         } else if (report_id == 'tax') {
                           document.getElementById('bank').style.display = "none";
                           document.getElementById('region').style.display = "none";
+                          document.getElementById('orderby').style.display = "block";
+                          document.getElementById('from').style.display = "block";
+                          document.getElementById('to').style.display = "block";
+                        } else if (report_id == 'loanr') {
+                          // document.getElementById('bank').style.display = "none";
+                          // document.getElementById('region').style.display = "none";
                           document.getElementById('orderby').style.display = "block";
                           document.getElementById('from').style.display = "block";
                           document.getElementById('to').style.display = "block";

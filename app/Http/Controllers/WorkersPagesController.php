@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\SalaryCat;
 use App\Models\Region;
+use PDF;
+use Mail;
 use Session;
 
 class WorkersPagesController extends Controller
@@ -42,6 +44,23 @@ class WorkersPagesController extends Controller
             'employees' => $employees
         ];
         return view('dash.validation')->with($patch);
+    }
+
+    public function sendMailWithPDF(Request $request)
+    {
+        $data["email"] = "durogh24@gmail.com";
+        $data["title"] = "Laravel 8 send email with attachment - Techsolutionstuff";
+        $data["body"] = "Laravel 8 send email with attachment";
+
+        $pdf = PDF::loadView('pdf_mail', $data);
+
+        Mail::send('pdf_mail', $data, function ($message) use ($data, $pdf) {
+            $message->to($data["email"], $data["email"])
+                ->subject($data["title"])
+                ->attachData($pdf->output(), "test.pdf");
+        });
+
+        echo "email send successfully !!";
     }
 
 }

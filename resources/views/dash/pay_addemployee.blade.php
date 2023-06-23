@@ -185,6 +185,11 @@
                             </div>
                     
                             <div class="filter_div">
+                                <i class="fa fa-pencil-square"></i> &nbsp; TIN No.
+                                <input type="text" name="tin_no">
+                            </div>
+                    
+                            <div class="filter_div">
                                 <i class="fa fa-user"></i> &nbsp; Firstname
                                 <input type="text" name="fname" required>
                             </div>
@@ -351,6 +356,110 @@
                                 <i class="fa fa-edit"></i> &nbsp; New Branch
                                 <input type="text" name="branch2" placeholder="Type New Branch Here">
                             </div>
+
+                            <p>&nbsp;</p>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-address-book"></i> &nbsp; SSNIT No.
+                                <input type="text" name="ssnit_no" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; M.Firstname
+                                <input type="text" name="mfname" placeholder="Maiden Firstname" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; M.Surname
+                                <input type="text" name="msname" placeholder="Maiden Surname" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; M.Othernames
+                                <input type="text" name="moname" placeholder="Maiden Othernames" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-envelope"></i> &nbsp; Address
+                                <input type="text" name="addr" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-building"></i> &nbsp; Last Emp.
+                                <input type="text" name="last_emp_place" placeholder="Last Place of Employment" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-envelope"></i> &nbsp; Address
+                                <input type="text" name="lep_add" placeholder="Last Emp. Place Address" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-phone"></i> &nbsp; Phone
+                                <input type="text" name="lep_phone" placeholder="Last Emp. Place Contact" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-dot-circle-o"></i> &nbsp; Position
+                                <input type="text" name="lep_pos" placeholder="Last Emp. Place Contact" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; Father
+                                <input type="text" name="father" placeholder="Father's Fullname" required>
+                            </div>
+                
+                            <div class="filter_div" id="">
+                                <i class="fa fa-warning"></i> &nbsp; F.Status
+                                <select name="father_status">
+                                    <option value="all" selected>Alive / Deceased</option>
+                                        <option>Alive</option>
+                                        <option>Deceased</option>
+                                </select>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; Mother
+                                <input type="text" name="mother" placeholder="Mother's Fullname" required>
+                            </div>
+                
+                            <div class="filter_div" id="">
+                                <i class="fa fa-warning"></i> &nbsp; M.Status
+                                <select name="mother_status">
+                                    <option value="all" selected>Alive / Deceased</option>
+                                        <option>Alive</option>
+                                        <option>Deceased</option>
+                                </select>
+                            </div>
+
+                            {{-- // 'user_id','employee_id','maiden_fname','maiden_sname','maiden_oname','address','ssnit_no',
+                            // 'last_emp_place','lep_add','lep_phone','lep_pos','father','father_status','mother_status',
+                            // 'spouse','spouse_status','nok','nok_contact','del' --}}
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; Spouse
+                                <input type="text" name="spouse" placeholder="Spouse's Fullname" required>
+                            </div>
+                
+                            <div class="filter_div" id="">
+                                <i class="fa fa-warning"></i> &nbsp; S.Status
+                                <select name="father_status">
+                                    <option value="all" selected>Alive / Deceased</option>
+                                        <option>Alive</option>
+                                        <option>Deceased</option>
+                                </select>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; Next of Kin
+                                <input type="text" name="nok" required>
+                            </div>
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-phone"></i> &nbsp; NOK's Phone
+                                <input type="text" name="addr" required>
+                            </div>
+
                     
                             <div class="filter_div">
                                 <i class="fa fa-camera"></i> &nbsp; Photo

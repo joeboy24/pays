@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Event;
 use App\Models\Homepage;
+use App\Http\Controllers\WorkersPagesController;
 // use Session;
 
 /*
@@ -25,6 +26,10 @@ Route::get('/car', 'CarpagesController@index');
 
 /* End Car */
  
+
+/* Mail Routes */
+Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF'])->name('send_mail_pdf');
+/* End Mail Routes */
 
 
 Route::get('/', 'GeneralController@index');
