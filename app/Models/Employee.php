@@ -10,7 +10,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id',
+        'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id','region_id',
         'afis_no','fname','sname','oname','gender','dob','position','date_emp','cur_pos','ssn','salary',
         'contact','ssf','2tier_ssf','email','dept','region','bank','branch','acc_no','sub_div',
         'staff_loan','loan_date_started','loan_bal','loan_monthly_ded','valid_comment','photo','status','del'
@@ -90,6 +90,14 @@ class Employee extends Model
 
     public function employeeext(){
         return $this->belongsTo('App\Models\EmployeeExt');
+    }
+
+    public function validation(){
+        return $this->hasMany('App\Models\Validation');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
 
 }

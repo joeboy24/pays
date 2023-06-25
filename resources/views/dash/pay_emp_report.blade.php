@@ -407,7 +407,7 @@
                                             <td class="col-sm-1 pr"><h4 class="color6">Tax: -{{$pmt->tax * $pmt->day_count * $pmt->enrolment}}</h4><br><h4>{{number_format($pmt->amt_paid, 2)}}</h4><p>Enr. : {{$pmt->enrolment}}</p></td>
                                             <td class="col-sm-1 pr cap1">
                                                 @if ($pmt->status == 'no')
-                                                    Not Paid
+                                                    Withheld
                                                 @else
                                                     <i class="fa fa-check color4"></i> Paid
                                                 @endif

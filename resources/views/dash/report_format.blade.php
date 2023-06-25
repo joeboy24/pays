@@ -561,7 +561,7 @@
                                                 </td>
                                                 <td class="col-sm-1 pr cap1">
                                                     @if ($pmt->amt_paid < $pmt->bill)
-                                                        Not Paid
+                                                        Withheld
                                                     @else
                                                         <i class="fa fa-check color4"></i> Paid
                                                     @endif

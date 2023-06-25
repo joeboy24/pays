@@ -25,6 +25,7 @@ use App\Models\AllowanceList;
 use App\Models\Allowexp;
 use App\Models\DirectPay;
 use App\Models\LoanGrant;
+use App\Models\Validation;
 use App\Models\User;
 use Session;
 
@@ -1511,6 +1512,38 @@ class EmployeeController extends Controller
 
             break;
 
+            case 'val_withhold_all':
+                $validation = Validation::where('month', date('01-m-Y'))->where('status', 'Pending')->get();
+                try {
+                    foreach ($validation as $val) {
+                        $val->status = 'Withheld';
+                        $val->save();
+                        $emp = Employee::find($val->employee->id);
+                        $emp->status = 'inactive';
+                        $emp->save();
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+                return redirect(url()->previous())->with('success', 'Records successfully validated for '. date('F, Y'));
+            break;
+
+            case 'val_release_all':
+                $validation = Validation::where('month', date('01-m-Y'))->where('status', 'Withheld')->get();
+                try {
+                    foreach ($validation as $val) {
+                        $val->status = 'Pay';
+                        $val->save();
+                        $emp = Employee::find($val->employee->id);
+                        $emp->status = 'Active';
+                        $emp->save();
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+                return redirect(url()->previous())->with('success', 'Release records successfully validated for '. date('F, Y'));
+            break;
+
         }
 
     }
@@ -1738,13 +1771,29 @@ class EmployeeController extends Controller
                 return redirect(url()->previous())->with('success', $emp->fname.'`s records deleted!');
             break;
 
-            case 'change_status_del':
+            case 'change_val_status':
                 $emp = Employee::find($id);
-                $emp->status = 'inactive';
-                $emp->del = 'yes';
-                $emp->valid_comment = $request->input('comments');
-                $emp->save();
-                return redirect(url()->previous())->with('success', $emp->fname.'`s records deleted!');
+                // 'user_id','employee_id','region_id','comments','month','del'
+                
+                try {
+                    $val_insert = Validation::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'employee_id' => $id,
+                        'region_id' => $emp->region_id,
+                        'comments' => $request->input('comments'),
+                        'status' => 'Pending',
+                        'month' => Date('01-m-Y'),
+                    ]);
+                } catch (\Throwable $th) {
+                    // throw $th;
+                    return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+
+                // $emp->status = 'inactive';
+                // $emp->del = 'yes';
+                // $emp->valid_comment = $request->input('comments');
+                // $emp->save();
+                return redirect(url()->previous())->with('success', $emp->fname.'`s records have been checked!');
             break;
 
             case 'del_allowexp':
@@ -1773,6 +1822,29 @@ class EmployeeController extends Controller
                 $alx->save();
                 return redirect(url()->previous())->with('success', 'Record deletion successfull for '.$alx->employee->fname);
             break;
+
+            case 'confirm_val_withheld':
+                $val = Validation::find($id);
+                $val->status = 'Withheld';
+                $val->save();
+                $emp = Employee::find($val->employee_id);
+                $emp->status = 'inactive';
+                $emp->save();
+                return redirect(url()->previous())->with('success', $val->employee->fname.'`s details Successfully Restored!');
+            break;
+
+            case 'confirm_val_release':
+                $val = Validation::find($id);
+                $val->status = 'Pay';
+                $val->save();
+                $emp = Employee::find($val->employee_id);
+                $emp->status = 'active';
+                $emp->save();
+                return redirect(url()->previous())->with('success', $val->employee->fname.'`s details Successfully Restored!');
+            break;
+
+
+
             
             // Restore
             case 'restore_employee':
@@ -1781,6 +1853,22 @@ class EmployeeController extends Controller
                 $emp->del = 'no';
                 $emp->save();
                 return redirect(url()->previous())->with('success', $emp->name.' Successfully Restored!');
+            break;
+
+            case 'restore_validation':
+                $val = Validation::find($id);
+                $val->delete();
+                return redirect(url()->previous())->with('success', $val->employee->fname.'`s details Successfully Restored!');
+            break;
+
+            case 'admi_restore_validation':
+                $val = Validation::find($id);
+                $val->status = 'Pay';
+                $val->save();
+                $emp = Employee::find($val->employee_id);
+                $emp->status = 'active';
+                $emp->save();
+                return redirect(url()->previous())->with('success', $val->employee->fname.'`s details Successfully Restored!');
             break;
 
 

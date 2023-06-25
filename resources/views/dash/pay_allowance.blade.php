@@ -57,6 +57,13 @@
             </li>
 
             <li class="sidebar-item">
+                <a href="/staff-validation" class='sidebar-link'>
+                    <i class="fa fa-calendar-check-o"></i>
+                    <span>Validation</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
                 <a href="/loans" class='sidebar-link'>
                     <i class="fa fa-money"></i>
                     <span>Staff Loans</span>

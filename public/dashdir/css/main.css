@@ -182,7 +182,7 @@
 }
 
 .del_danger {
-    background: #a3010127;
+    background: #a301011a;
     /* background: #ffffffc2; */
 }
 
@@ -840,6 +840,7 @@
 
 .print_report {
     /* width: 180px; */
+    outline: none;
     font-size: 0.7em;
     padding: 3px 10px;
     border-radius: 5px;
@@ -848,6 +849,20 @@
     margin-right: 7px!important;
     text-transform: uppercase;
     border: 0.5px solid #aaa;
+}
+
+.gen_btn {
+    /* width: 180px; */
+    outline: none;
+    font-size: 0.7em;
+    padding: 3px 10px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    /* margin: 0 5px 0 0!important; */
+    margin: 6px 0;
+    text-transform: uppercase;
+    /* border: 0.5px solid #aaa; */
+    border: 1px solid rgba(0, 0, 0, 0.18);
 }
 
 .my_header {

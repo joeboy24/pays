@@ -16,4 +16,8 @@ class Region extends Model
     public function employee(){
         return $this->hasMany('App\Models\Employee');
     }
+
+    public function validation(){
+        return $this->hasMany('App\Models\Validation');
+    }
 }

@@ -36,7 +36,6 @@ class CreateEmployeeExtsTable extends Migration
             $table->string('spouse_status', 50)->nullable();
             $table->string('nok', 50)->nullable();
             $table->string('nok_contact', 50)->nullable();
-            $table->string('mother_status', 50)->nullable();
             $table->timestamps();
         });
     }

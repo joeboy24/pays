@@ -15,15 +15,16 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id', 50);
-            $table->string('department_id', 50)->nullable();
-            $table->string('allowance_id', 50)->nullable();
-            $table->string('salarycat_id', 50)->nullable();
-            $table->string('salary_id', 50)->nullable();
-            $table->string('bank_id', 50)->nullable();
-            $table->string('loan_id', 50)->nullable();
-            $table->string('staff_id', 50)->nullable();
-            $table->string('afis_no', 50)->nullable();
+            $table->string('user_id', 24);
+            $table->string('department_id', 24)->nullable();
+            $table->string('allowance_id', 24)->nullable();
+            $table->string('salarycat_id', 24)->nullable();
+            $table->string('salary_id', 24)->nullable();
+            $table->string('bank_id', 24)->nullable();
+            $table->string('loan_id', 24)->nullable();
+            $table->string('staff_id', 24)->nullable();
+            $table->string('region_id', 24)->nullable();
+            $table->string('afis_no', 24)->nullable();
 
             $table->string('fname', 50);
             $table->string('sname', 50); 
