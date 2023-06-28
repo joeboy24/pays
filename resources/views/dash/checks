@@ -1353,7 +1353,7 @@ CREATE TABLE `leaves` (
   `employee_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `leave_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `days` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `issue_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `resume_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `del` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
@@ -1365,7 +1365,7 @@ CREATE TABLE `leaves` (
 -- Dumping data for table `leaves`
 --
 
-INSERT INTO `leaves` (`id`, `user_id`, `employee_id`, `leave_type`, `days`, `issue_date`, `resume_date`, `status`, `del`, `created_at`, `updated_at`) VALUES
+INSERT INTO `leaves` (`id`, `user_id`, `employee_id`, `leave_type`, `days`, `start_date`, `resume_date`, `status`, `del`, `created_at`, `updated_at`) VALUES
 (1, '1', '347', 'sick', '3', '20-06-2023', NULL, 'active', 'no', '2023-06-20 01:58:16', '2023-06-20 01:58:16'),
 (2, '1', '440', 'others', '7', '20-06-2023', NULL, 'active', 'no', '2023-06-20 01:58:46', '2023-06-20 01:58:46');
 

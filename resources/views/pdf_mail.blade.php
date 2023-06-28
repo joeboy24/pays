@@ -1,11 +1,11 @@
 <html>
 <head>
-    <title>Laravel 8 Send Email With Attachment - Techsolutionstuff</title>
+    <title>PivoApps Mail Test 02</title>
 </head>
 <body>    
-    <h3> Laravel 8 Send Email With Attachment </h3>
+    <h3> Mail Sender | {{session('trys')}}</h3>
 
-    <p> generate pdf and send mail in laravel 8 </p>
+    <p> Generate pdf and send mail in from PivoApps </p>
 
     <p> Thanks & Regards </p>
 </body>

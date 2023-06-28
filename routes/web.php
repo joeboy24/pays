@@ -28,7 +28,8 @@ Route::get('/car', 'CarpagesController@index');
  
 
 /* Mail Routes */
-Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF'])->name('send_mail_pdf');
+// Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF'])->name('send_mail_pdf');
+Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF']);
 /* End Mail Routes */
 
 
@@ -58,8 +59,10 @@ Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
 // Workers Pages
-Route::get('/wdash', 'WorkersPagesController@index');
+Route::get('/mydashboard', 'WorkersPagesController@index');
+Route::get('/myprofile', 'WorkersPagesController@showProfile');
 Route::get('/validation', 'WorkersPagesController@sal_validation');
+Route::get('/staff-leave', 'WorkersPagesController@staff_leave');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');

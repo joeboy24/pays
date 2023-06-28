@@ -145,7 +145,7 @@ class HrdashController extends Controller
 
                     if ($lv_check != '') {
                         $lv_check->leave_type = $leave_type;
-                        $lv_check->issue_date = date('d-m-Y');
+                        $lv_check->start_date = date('d-m-Y');
                         $lv_check->days = $days;
                         $lv_check->save();
                     } else {
@@ -153,7 +153,7 @@ class HrdashController extends Controller
                             'user_id' => auth()->user()->id,
                             'employee_id' => $id,
                             'leave_type' => $leave_type,
-                            'issue_date' => date('d-m-Y'),
+                            'start_date' => date('d-m-Y'),
                             'days' => $days
                         ]);
                     }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\SalaryCat;
+use App\Models\Salary;
 use App\Models\Region;
+use App\Models\Leave;
 use App\Models\Validation;
 use PDF;
 use Mail;
@@ -24,8 +26,58 @@ class WorkersPagesController extends Controller
         //     Session::put('https', 'https');
         //     return redirect('https://payroll.pivoapps.net');
         // }
+        // $sals = Salary::all();
+        // foreach ($sals as $sal) {
+        //     $sal->month = '05-2023';
+        //     $sal->save();
+        // }
+        // return 'Sal. month change successful';
 
-        return view('worker.dashboard');
+        $user = auth()->user();
+        $cur_pay = Salary::where('employee_id', $user->employee->id)->latest()->first();
+        if ($cur_pay->month == date('m-Y')) {
+            $limit = 3;
+        } else {
+            $limit = 2;
+        }
+        
+        $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
+        $pay_stubs = Salary::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
+        $leaves = Leave::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
+        // return $coworkers;
+
+        $sends = [
+            'limit' => $limit,
+            'leaves' => $leaves,
+            'coworkers' => $coworkers,
+            'pay_stubs' => $pay_stubs,
+        ];
+
+        return view('worker.dashboard')->with($sends);
+    }
+
+    public function showProfile()
+    {
+        $emp = Employee::find(auth()->user()->employee_id);
+        $send = [
+            'emp' => $emp
+        ];
+        return view('worker.myprofile')->with($send);
+    }
+
+    public function staff_leave()
+    {
+        $user = auth()->user();
+        $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
+        $leaves = Leave::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
+        // return $coworkers;
+
+        $sends = [
+            'leaves' => $leaves,
+            'coworkers' => $coworkers,
+        ];
+
+        return view('worker.staff_leave')->with($sends);
     }
 
     public function sal_validation(Request $request){
@@ -74,19 +126,22 @@ class WorkersPagesController extends Controller
 
     public function sendMailWithPDF(Request $request)
     {
-        $data["email"] = "durogh24@gmail.com";
-        $data["title"] = "Laravel 8 send email with attachment - Techsolutionstuff";
-        $data["body"] = "Laravel 8 send email with attachment";
+        $data["email"] = "mehear24@yahoo.com";
+        $data["title"] = "Mail Check";
+        $data["body"] = "This is a live send mail check 01";
 
+        Session::put('trys', 'Just Trying 05');
+        // return session('trys');
         $pdf = PDF::loadView('pdf_mail', $data);
 
         Mail::send('pdf_mail', $data, function ($message) use ($data, $pdf) {
             $message->to($data["email"], $data["email"])
                 ->subject($data["title"])
-                ->attachData($pdf->output(), "test.pdf");
+                ->attachData($pdf->output(), "Payslip_June-2023.pdf");
         });
 
-        echo "email send successfully !!";
+        // echo "email send successfully !!";
+        dd('Mail sent successfully');
     }
 
 }

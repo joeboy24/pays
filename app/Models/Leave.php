@@ -10,7 +10,7 @@ class Leave extends Model
     use HasFactory;
  
     protected $fillable = [
-        'user_id','employee_id','leave_type','days','issue_date','resume_date','status'
+        'user_id','employee_id','leave_type','with_pay','start_date','end_date','resume_date','days','hand_over','leave_notes','status'
     ];
 
     public function employee(){

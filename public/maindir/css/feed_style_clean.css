@@ -1,9 +1,9 @@
 /* rgb(35, 137, 255) */
 
-body{
-    /* background: url(/public/maindir/images/Bg-f1f1f1.jpg); */
+/* body{
+    background: url(/public/maindir/images/Bg-2.jpg);
     background: rgb(242, 249, 255);
-}
+} */
 
 .test_section {
     height: 700px;
@@ -178,11 +178,11 @@ body{
     /* margin-top: 20px; */
 }
 
-.menu_content i {
+.menu_content i, .menus i {
     font-size: 3em;
 }
 
-.menu_content button {
+.menu_content button, .menus button {
     width: 31.5%;
     border: none;
     min-height: 50px;
@@ -193,11 +193,11 @@ body{
     box-shadow: 0 1px 13px 4px rgba(0, 83, 138, 0.048);
 }
 
-.menu_content button:hover {
+.menu_content button:hover, .menus button:hover {
     background: rgb(242, 249, 255);
 }
 
-.menu_content p {
+.menu_content p, .menus p {
     font-size: 0.9em;
     color: #aaa;
     margin: 10px 0 0 0;
@@ -573,10 +573,10 @@ body{
 .color1 { color: rgb(255, 0, 106); }
 .color2 { color: rgb(234, 0, 255); }
 .color3 { color: rgb(35, 137, 255); }
-.color4 { color: rgb(29, 207, 190) }
+.color4 { color: rgb(8, 193, 175) }
 .color5 { color: rgb(111, 0, 255); }
 .color6 { color: rgb(255, 0, 76); }
-.color7 { color: rgb(255, 196, 0) }
+.color7 { color: rgb(255, 183, 0) }
 .color8 { color: rgb(255, 255, 255) }
 .color10 { color: rgb(46, 46, 46) }
 
@@ -586,7 +586,7 @@ body{
 .bg4 { background: rgb(55, 255, 178) }
 .bg5 { background: rgb(111, 0, 255); }
 .bg6 { background: rgb(255, 0, 76); }
-.bg7 { background: rgb(255, 196, 0) }
+.bg7 { background: rgb(255, 183, 0) }
 .bg8 { background: rgb(255, 255, 255) }
 .bg9 { background: rgb(249, 249, 249) }
 .bg10 { background: rgb(46, 46, 46) }

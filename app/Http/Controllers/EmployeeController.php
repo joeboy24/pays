@@ -340,9 +340,10 @@ class EmployeeController extends Controller
                 $email = $request->input('email');
                 $contact = $request->input('contact');
                 $status = $request->input('status');
+                // return $status;
                 // $pass_photo = $request->input('pass_photo');
 
-                if ($status == 0) {
+                if ($status == 'none') {
                     return redirect(url()->previous())->with('error', 'Oops..! Select Status to procceed.');
                 }
 
@@ -365,6 +366,8 @@ class EmployeeController extends Controller
                     try {
 
                         $create_user = User::firstOrCreate([
+                            'employee_id' => '347',
+                            'staff_id' => '227',
                             'name' => $username,
                             'email' => $email,
                             'contact' => $contact,
@@ -376,7 +379,7 @@ class EmployeeController extends Controller
                         return redirect(url()->previous())->with('success', 'User `'.$username.'` successfully added!');
                         
                     }catch(\Throwable $th){
-                        // return $th;
+                        return $th;
                         return redirect(url()->previous())->with('error', 'Oops..! Something is wrong! Could be duplicate entry.');
                     }
                 }else{

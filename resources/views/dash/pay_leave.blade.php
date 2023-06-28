@@ -182,7 +182,7 @@
                                                 <td>{{$c++}}</td>
                                                 <td class="text-bold-500">{{ $lv->employee->fname.' '.$lv->employee->sname.' '.$lv->employee->oname }}</td>
                                                 <td class="text-bold-500">{{$lv->days}}</td>
-                                                <td class="text-bold-500">@if ($lv->issue_date != '') {{date('d M, Y', strtotime($lv->issue_date))}} @endif</td>
+                                                <td class="text-bold-500">@if ($lv->start_date != '') {{date('d M, Y', strtotime($lv->start_date))}} @endif</td>
                                                 <td class="text-bold-500">@if ($lv->resume_date != '') {{date('d M, Y', strtotime($lv->resume_date))}} 
                                                     @else
 

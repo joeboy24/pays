@@ -84,6 +84,47 @@ class HrdashController extends Controller
             //     $lv_check = Leave::where('employee_id', $id)->first();
             // break;
 
+            case 'staff_add_leave':
+                
+                $emp = auth()->user()->employee;
+                $lv_check = Leave::where('employee_id', $emp->id)->latest()->first();
+                if ($lv_check->status == 'Pending') {
+                    return redirect(url()->previous())->with('error', 'Oops..! There is a pending application made on '.date('M, d Y', strtotime($lv_check->created_at)).'. Kindly wait for approval or defer and reapply for a different date');
+                }
+                $start = $request->input('from');
+                $end = $request->input('to');
+                $days = $request->input('days');
+                $hand_over = $request->input('hand_over');
+                $dt_diff = (strtotime($end)-strtotime($start)) / (60 * 60 * 24);
+                // return $hand_over;
+
+                if ($dt_diff < 0) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Start date cannot be ahead of end date');
+                }
+                if ($hand_over == 'none') {
+                    return redirect(url()->previous())->with('error', 'Oops..! Select who you are handing over to');
+                }
+                // return $dt_diff;
+                // 'user_id','employee_id','leave_type','start_date','end_date','resume_date','days','hand_over','leave_notes','status'
+                try {
+                    $lv_insert = Leave::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'employee_id' => $emp->id,
+                        'leave_type' => $request->input('leave_type'),
+                        'with_pay' => $request->input('with_pay'),
+                        'start_date' => $start,
+                        'end_date' => $end,
+                        'hand_over' => $hand_over,
+                        'leave_notes' => $request->input('leave_notes'),
+                        'days' => $days
+                    ]);
+                } catch (\Throwable $th) {
+                    throw $th;
+                    return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect(url()->previous())->with('success', 'Leave application successfully sent on '.date('M, d Y').'. Note: Your portal will be updated once approved');
+            break;
+
         }
     }
 
@@ -149,7 +190,7 @@ class HrdashController extends Controller
 
                     if ($lv_check != '') {
                         $lv_check->leave_type = $leave_type;
-                        $lv_check->issue_date = date('d-m-Y');
+                        $lv_check->start_date = date('d-m-Y');
                         $lv_check->days = $days;
                         $lv_check->save();
                     } else {
@@ -157,7 +198,7 @@ class HrdashController extends Controller
                             'user_id' => auth()->user()->id,
                             'employee_id' => $id,
                             'leave_type' => $leave_type,
-                            'issue_date' => date('d-m-Y'),
+                            'start_date' => date('d-m-Y'),
                             'days' => $days
                         ]);
                     }
@@ -188,7 +229,7 @@ class HrdashController extends Controller
                 $emp->status = 'active';
                 $emp->del = 'no';
                 $emp->save();
-                return redirect(url()->previous())->with('Success', 'Leave resumed for '.$lv->employee->fname.' on '.date('d-m-Y'));
+                return redirect(url()->previous())->with('success', 'Leave resumed for '.$lv->employee->fname.' on '.date('d-m-Y'));
             break;
 
         }

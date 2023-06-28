@@ -177,8 +177,9 @@
                             <div class="filter_div">
                                 <i class="fa fa-address-card"></i> &nbsp; Status
                                 <select name="status">
-                                  <option value="0">Select User/Administrator</option>
+                                  <option value="none">Select User/Administrator</option>
                                   {{-- <option value="User">User</option> --}}
+                                  <option value="sysuser">System User</option>
                                   <option value="hradmin">HR Administrator</option>
                                   <option value="financeadmin">Finance Administrator</option>
                                   {{-- <option value="Administrator">Administrator</option> --}}

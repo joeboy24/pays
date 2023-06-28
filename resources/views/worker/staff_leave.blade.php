@@ -11,7 +11,7 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item active">
+            <li class="sidebar-item">
                 <a href="/mydashboard" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
@@ -32,7 +32,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
+            <li class="sidebar-item active">
                 <a href="/staff-leave" class='sidebar-link'>
                     <i class="fa fa-clipboard"></i>
                     <span>Manage Leave</span><b class="menu_figure yellow_bg"><i class="fa fa-warning"></i></b>
@@ -69,79 +69,16 @@
 
 
     <div class="page-heading">
-        <h3><i class="fa fa-th color2"></i>&nbsp;&nbsp;My Dashboard</h3>
+        <h3><i class="fa fa-clipboard color2"></i>&nbsp;&nbsp;Leave</h3>
+        <a href="/mydashboard"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Dashboard</p></a>
+        <p>&nbsp;</p>
     </div>
 
     <section class="menu_content1">
         <div class="row">
             @include('inc.messages') 
-            <div class="col-md-4 profile_col mybody">
-                {{-- <button type="button" class="my_trash2 bg7 color9"><i class="fa fa-warning"></i>&nbsp; Inactive</button>
-                <a><button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i>&nbsp; Active</button></a>
-                <button type="submit" name="update_action" value="change_val_status" class="my_trash2 color8 black_bg genhover"><i class="fa fa-trash"></i></button> --}}
             
-                <div class="profile_img_cont">
-                    <img src="/dashdir/images/faces/user3.png">
-                    <div class="profile_cover"></div>
-                </div>
-                <h2>{{auth()->user()->employee->fname}}</h2>
-                <p class="gray">{{auth()->user()->employee->sname.' '.auth()->user()->employee->oname}}</p>
-                <h6>{{auth()->user()->employee->position}}</h6>
-            </div>
-            
-            <div class="col-md-7 pay_stubs">
-                <div class="pay_stub_header">
-                    <i class="fa fa-credit-card color1"></i>
-                    <div class="ps_txt_cont">
-                        <h4 class="psh">Payment</h4>
-                        <p class="psp gray">Notification / Payslip</p>
-                    </div>
-                </div>
-                <div id="ps_tbl1">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-times-o color6"></i></td>
-                                    <td class="td_right">{{date('M, Y')}}
-                                        <p>Not Paid</p>
-                                    </td>
-                                </tr>
-                            @endif
-                            @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
-                                    <td class="td_right">{{date('M, Y', strtotime('01-'.$pay->month))}}
-                                        <p>Paid | Gh₵{{number_format($pay->salary, 2)}}</p>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div id="ps_tbl2">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="">
-                                        <button class="ps_print"><i class="fa fa-warning color7"></i></button>
-                                    </td>
-                                </tr>
-                            @endif
-                            @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="">
-                                        <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="col-md-7 pay_stubs">
+            <div class="col-md-10 pay_stubs">
                 <div class="pay_stub_header">
                     <i class="fa fa-clipboard color2"></i>
                     <div class="ps_txt_cont2">
@@ -152,6 +89,15 @@
                 </div>
                 <div id="ps_tbl3">
                     <table class="mytable mb-0 table-lg">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="td_right">Leave Type</th>
+                                <th class="td_right">Hand Over To</th>
+                                <th class="td_right">Notes</th>
+                                <th class="td_right align_right">Dates</th>
+                            </tr>
+                        </thead>  
                         <tbody>
                             @foreach ($leaves as $item)
                                 <tr>
@@ -162,6 +108,8 @@
                                         <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
                                         <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Approved</p></td>
                                     @endif
+                                    <td class="td_right"><p>{{$item->hand_over}}</p></td>
+                                    <td class="td_right"><p>{{$item->leave_notes}}</p></td>
                                     <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($item->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($item->end_date))}}</p></td>
                                 </tr>
                             @endforeach
@@ -170,53 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 apps_col">
-
-                <a href="/myprofile">
-                    <div class="single_app">
-                        <i class="fa fa-address-book-o color5"></i>
-                        <p class="">Profile</p>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="single_app">
-                        <i class="fa fa-suitcase color3"></i>
-                        <p class="">Loan</p>
-                    </div>
-                </a>
-
-                <a href="/staff-leave">
-                    <div class="single_app">
-                        <i class="fa fa-clipboard color2"></i>
-                        <p class="">Leave</p>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="single_app">
-                        <i class="fa fa-credit-card color1"></i>
-                        <p class="">Payment</p>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="single_app">
-                        <i class="fa fa-envelope-o color7"></i>
-                        <p class="">Mail</p>
-                    </div>
-                </a>
-            </div>
         </div>
-        {{-- <div class="menus">
-            <a href="#"><button class="menu_btn"><i class="fa fa-address-card color5"></i><p>Profile</p></button></a>
-            <a href="#"><button class="menu_btn"><i class="fa fa-clipboard color2"></i><p>Apply Leave</p></button></a>
-            <a href="#"><button class="menu_btn"><i class="fa fa-suitcase color3"></i><p>Apply Loan</p></button></a>
-            <a href="#"><button class="menu_btn"><i class="fa fa-envelope-o color7"></i><p>Inbox</p></button></a>
-            <a href="#"><button class="menu_btn"><i class="fa fa-credit-card-alt"></i><p>Pay Status</p></button></a>
-            <a href="#"><button class="menu_btn"><i class="fa fa-file-text color6"></i><p>Reports</p></button></a>
-        </div> --}}
-
 
         <!-- Add Leave -->
         <div class="modal fade" id="applyleave" tabindex="-1" role="dialog"

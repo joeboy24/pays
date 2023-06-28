@@ -18,10 +18,14 @@ class CreateLeavesTable extends Migration
             $table->string('user_id')->nullable();
             $table->string('employee_id')->nullable();
             $table->string('leave_type')->nullable();
-            $table->string('days')->nullable();
-            $table->string('issue_date')->nullable();
+            $table->string('with_pay')->nullable();
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
             $table->string('resume_date')->nullable();
-            $table->string('status')->default('active');
+            $table->string('days')->nullable();
+            $table->string('hand_over')->nullable();
+            $table->string('leave_notes')->nullable();
+            $table->string('status')->default('Pending');
             $table->string('del')->default('no');
             $table->timestamps();
         });
