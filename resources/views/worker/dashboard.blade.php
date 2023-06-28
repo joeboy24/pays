@@ -132,7 +132,8 @@
                             @foreach ($pay_stubs as $pay)
                                 <tr>
                                     <td class="">
-                                        <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a>
+                                        <a href="/reporting/347"><button class="ps_print"><i class="fa fa-print"></i></button></a>
+                                        {{-- <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a> --}}
                                     </td>
                                 </tr>
                             @endforeach
