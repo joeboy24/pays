@@ -74,110 +74,114 @@
 
     <section class="menu_content1">
         <div class="row">
-
             {{-- <div class="row r1">
                 <div class="col-md-6 c1">1</div>
                 <div class="col-md-6 c2">2</div>
                 gfgsdf
             </div> --}}
             @include('inc.messages') 
-            <div class="col-md-4 profile_col">
-                {{-- <button type="button" class="my_trash2 bg7 color9"><i class="fa fa-warning"></i>&nbsp; Inactive</button>
-                <a><button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i>&nbsp; Active</button></a>
-                <button type="submit" name="update_action" value="change_val_status" class="my_trash2 color8 black_bg genhover"><i class="fa fa-trash"></i></button> --}}
-            
-                <div class="profile_img_cont">
-                    <img src="/dashdir/images/faces/user3.png">
-                    <div class="profile_cover"></div>
-                </div>
-                <h2>{{auth()->user()->employee->fname}}</h2>
-                <p class="gray">{{auth()->user()->employee->sname.' '.auth()->user()->employee->oname}}</p>
-                <h6>{{auth()->user()->employee->position}}</h6>
-            </div>
-            
-            <div class="col-md-7 pay_stubs">
-                <div class="pay_stub_header">
-                    <i class="fa fa-credit-card color1"></i>
-                    <div class="ps_txt_cont">
-                        <h4 class="psh">Payment</h4>
-                        <p class="psp gray">Notification / Payslip</p>
+            <div class="col-md-4">
+                <div class="profile_col">
+                    {{-- <button type="button" class="my_trash2 bg7 color9"><i class="fa fa-warning"></i>&nbsp; Inactive</button>
+                    <a><button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i>&nbsp; Active</button></a>
+                    <button type="submit" name="update_action" value="change_val_status" class="my_trash2 color8 black_bg genhover"><i class="fa fa-trash"></i></button> --}}
+                
+                    <div class="profile_img_cont">
+                        <img src="/dashdir/images/faces/user3.png">
+                        <div class="profile_cover"></div>
                     </div>
-                </div>
-                <div id="ps_tbl1">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-times-o color6"></i></td>
-                                    <td class="td_right">{{date('M, Y')}}
-                                        <p>Not Paid</p>
-                                    </td>
-                                </tr>
-                            @endif
-                            @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
-                                    <td class="td_right">{{date('M, Y', strtotime('01-'.$pay->month))}}
-                                        <p>Paid | Gh₵{{number_format($pay->salary, 2)}}</p>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div id="ps_tbl2">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="">
-                                        <button class="ps_print"><i class="fa fa-warning color7"></i></button>
-                                    </td>
-                                </tr>
-                            @endif
-                            @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="">
-                                        <a href="/reporting/347"><button class="ps_print"><i class="fa fa-print"></i></button></a>
-                                        {{-- <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <h2>{{auth()->user()->employee->fname}}</h2>
+                    <p class="gray">{{auth()->user()->employee->sname.' '.auth()->user()->employee->oname}}</p>
+                    <h6>{{auth()->user()->employee->position}}</h6>
                 </div>
             </div>
             
-            <div class="col-md-7 pay_stubs">
-                <div class="pay_stub_header">
-                    <i class="fa fa-clipboard color2"></i>
-                    <div class="ps_txt_cont2">
-                        <a class="add_leave" data-bs-toggle="modal" data-bs-target="#applyleave" class="my_trash_small">+</a>
-                        <h4 class="psh">Leave</h4>
-                        <p class="psp gray">Applications</p>
+            <div class="col-md-7">
+                <div class="pay_stubs">
+                    <div class="pay_stub_header">
+                        <i class="fa fa-credit-card color1"></i>
+                        <div class="ps_txt_cont">
+                            <h4 class="psh">Payment</h4>
+                            <p class="psp gray">Notification / Payslip</p>
+                        </div>
                     </div>
-                </div>
-                <div id="ps_tbl3">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @foreach ($leaves as $item)
-                                <tr>
-                                    @if ($item->status == 'Pending')
-                                        <td class="td_left"><i class="fa fa-calendar-times-o color7"></i></td>
-                                        <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Pending</p></td>
-                                    @else
+                    <div id="ps_tbl1">
+                        <table class="mytable">
+                            <tbody>
+                                @if ($limit == 2)
+                                    <tr>
+                                        <td class="td_left"><i class="fa fa-calendar-times-o color6"></i></td>
+                                        <td class="td_right">{{date('M, Y')}}
+                                            <p>Not Paid</p>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @foreach ($pay_stubs as $pay)
+                                    <tr>
                                         <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
-                                        <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Approved</p></td>
-                                    @endif
-                                    <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($item->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($item->end_date))}}</p></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <td class="td_right">{{date('M, Y', strtotime('01-'.$pay->month))}}
+                                            <p>Paid | Gh₵{{number_format($pay->salary, 2)}}</p>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{-- <div id="ps_tbl2">
+                        <table class="mytable mb-0 table-lg">
+                            <tbody>
+                                @if ($limit == 2)
+                                    <tr>
+                                        <td class="">
+                                            <button class="ps_print"><i class="fa fa-warning color7"></i></button>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @foreach ($pay_stubs as $pay)
+                                    <tr>
+                                        <td class="">
+                                            <a href="/reporting/347"><button class="ps_print"><i class="fa fa-print"></i></button></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div> --}}
+                </div>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="pay_stubs">
+                    <div class="pay_stub_header">
+                        <i class="fa fa-clipboard color2"></i>
+                        <div class="ps_txt_cont2">
+                            <a class="add_leave" data-bs-toggle="modal" data-bs-target="#applyleave" class="my_trash_small">+</a>
+                            <h4 class="psh">Leave</h4>
+                            <p class="psp gray">Records / Applications</p>
+                        </div>
+                    </div>
+                    <div id="ps_tbl3">
+                        <table class="mytable mb-0 table-lg">
+                            <tbody>
+                                @foreach ($leaves as $item)
+                                    <tr>
+                                        @if ($item->status == 'Pending')
+                                            <td class="td_left"><i class="fa fa-calendar-times-o color7"></i></td>
+                                            <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Pending</p></td>
+                                        @else
+                                            <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
+                                            <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Approved</p></td>
+                                        @endif
+                                        <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($item->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($item->end_date))}}</p></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-4 apps_col">
+            {{-- <div class="col-md-4 apps_col">
 
                 <a href="/myprofile">
                     <div class="single_app">
@@ -200,7 +204,7 @@
                     </div>
                 </a>
 
-                {{-- <a href="">
+                <a href="">
                     <div class="single_app">
                         <i class="fa fa-credit-card color1"></i>
                         <p class="">Payment</p>
@@ -212,9 +216,8 @@
                         <i class="fa fa-envelope-o color7"></i>
                         <p class="">Mail</p>
                     </div>
-                </a> --}}
-            </div>
-
+                </a>
+            </div> --}}
         </div>
         {{-- <div class="menus">
             <a href="#"><button class="menu_btn"><i class="fa fa-address-card color5"></i><p>Profile</p></button></a>
@@ -254,7 +257,7 @@
                             </div> --}}
                             
                             <div class="filter_div" id="orderby">
-                                <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Type
+                                <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Leave Type
                                 <select name="leave_type" id="leave_type" onchange="others_check()">
                                     <option value="maternity">Maternity</option>
                                     <option value="casual" selected>Casual</option>
@@ -274,24 +277,24 @@
                             </div> 
 
                             <div class="filter_div" id="others">
-                                <i class="fa fa-calendar"></i>&nbsp;&nbsp; From
+                                <i class="fa fa-calendar"></i>&nbsp;&nbsp; Start Date
                                 <input type="date" id="lfrom" name="from" onchange="datecount()" required>
                             </div>
 
                             <div class="filter_div" id="others">
-                                <i class="fa fa-calendar"></i>&nbsp;&nbsp; To
+                                <i class="fa fa-calendar"></i>&nbsp;&nbsp; End Date
                                 <input type="date" id="lto" name="to" onchange="datecount()" required>
                             </div>
 
                             <div class="filter_div" id="others">
-                                <i class="fa fa-calendar-check-o"></i>&nbsp;&nbsp; Days
+                                <i class="fa fa-calendar-check-o"></i>&nbsp;&nbsp; No. of Days
                                 <input type="number" min="0" id="days" name="days" readonly>
                             </div>
                             
                             <div class="filter_div" id="orderby">
-                                <i class="fa fa-suitcase"></i>&nbsp;&nbsp; Select
+                                <i class="fa fa-suitcase"></i>&nbsp;&nbsp; Hand over to
                                 <select name="hand_over">
-                                    <option value="none" selected>Hand over to</option>
+                                    <option value="none" selected>Select Name</option>
                                     @foreach ($coworkers as $item)
                                         @if ($item->id != auth()->user()->employee_id)
                                             <option>{{$item->fname.' '.$item->sname}}</option>

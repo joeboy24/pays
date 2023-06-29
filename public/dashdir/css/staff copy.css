@@ -19,40 +19,34 @@
 }
 
 .profile_col {
-    width: calc(34% - 20px);
-    /* height: 100%; */
+    /* width: calc(100% - 24px); */
+    /* width: 100%; */
+    height: calc(100% - 20px);
     min-height: 50px;
     background: white;
     border-radius: 20px;
-    margin: 10px;
+    margin: 5px 5px 20px 5px;
     padding: 30px;
     transition: all .2s ease-in-out;
     box-shadow: 0 1px 13px 4px rgba(0, 83, 138, 0.048);
 }
 
 .pay_stubs {
-    width: calc(59% - 20px);
-    /* height: 100%; */
+    /* width: 100%; */
+    height: calc(100% - 20px);
+    /* width: calc(100% - 24px); */
     background: white;
     border-radius: 20px;
-    margin: 10px;
+    margin: 5px 5px 20px 5px;
+    padding: 7px;
     padding-bottom: 12px;
     transition: all .2s ease-in-out;
     box-shadow: 0 1px 13px 4px rgba(0, 83, 138, 0.048);
 }
 
-.pay_stubs_clone {
-    background: white;
-    border-radius: 20px;
-    /* margin: 10px; */
-    padding-bottom: 12px;
-    box-shadow: 0 1px 13px 4px rgba(0, 83, 138, 0.048);
-}
-
 .apps_col {
-    width: calc(34% - 20px);
     min-height: 50px;
-    margin: 10px;
+    /* margin: 12px; */
     padding: 30px;
     border-radius: 20px;
     transition: all .2s ease-in-out;
@@ -98,7 +92,7 @@
 .pay_stub_header {
     width: 100%;
     padding: 20px 30px;
-    margin: 10px 0;
+    margin: 0 0 10px 0;
     border-radius: 20px 20px 0 0;
     background: rgba(238, 240, 242, 0.702);
 }
@@ -142,6 +136,7 @@
 
 .mytable {
     width: 100%;
+    /* margin-bottom: 15px!important; */
 }
 
 .tbl_scroll tbody {
@@ -185,7 +180,7 @@
 }
 
 #ps_tbl1 {
-    width: 80%;
+    width: 77%;
     float: left;
     padding: 0 5% 0 15px;
     /* background: turquoise; */
@@ -201,7 +196,7 @@
 }
 
 #ps_tbl2 {
-    width: 16%;
+    width: 20%;
     display: block;
     float: right;
     line-height: 17px;
@@ -228,7 +223,6 @@
     float: right;
     padding: 0 15px;
     font-size: 1.5em;
-    margin-right: 10px;
     border-radius: 5px;
     border: 1px solid #e0e0e0;
 }
@@ -249,7 +243,7 @@
     height: 85px;
     padding: 10px 12px;
     margin: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     background: #ffffffbe;
     transition: all .2s ease-in-out;
     border: 1px solid #ededed;
@@ -292,18 +286,4 @@
 .c2 {
     min-height: 70px;
     background: turquoise;
-}
-
-
-
-
-
-
-
-@media (max-width: 900px) {
-
-    .profile_col, .pay_stubs, .apps_col {
-        width: calc(100% - 20px);
-    }
-    
 }

@@ -140,7 +140,7 @@
         <h3><i class="fa fa-clipboard color2"></i>&nbsp;&nbsp;Leave</h3>
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
-            <a href="#"><p class="print_report">&nbsp;<i class="fa fa-leaf"></i>&nbsp; Leave Requests</p></a>
+            <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
             {{-- <a data-bs-toggle="modal" data-bs-target="#allow_overview"><p class="print_report">&nbsp;<i class="fa fa-file-text"></i>&nbsp; Allowance Overview</p></a> --}}
             <a data-bs-toggle="modal" data-bs-target="#leave_setup"><p class="view_daily_report">&nbsp;<i class="fa fa-gears color5"></i>&nbsp; Leave Setup</p></a>
             {{-- <a data-bs-toggle="modal" data-bs-target="#add_leave"><p class="view_daily_report">&nbsp;<i class="fa fa-plus-circle color5"></i>&nbsp; Add Leave</p></a> --}}
@@ -151,7 +151,7 @@
     {{ $leaves->links() }}
 
     <div class="row">
-        <div class="col-12 col-xl-12">
+        <div class="col-12 col-xl-10">
             @include('inc.messages') 
             <div class="card">
                 <div class="card-body">
@@ -164,10 +164,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Employee Name</th>
-                                        <th>No. of Days</th>
+                                        <th>Leave Details</th>
                                         <th>Issue Date</th>
-                                        <th>Resume Date</th>
-                                        <th>Status</th>
+                                        <th class="align_right action_size2">Actions</th>
                                     </tr>
                                 </thead>   
                                 <tbody>
@@ -180,31 +179,38 @@
                                                 <tr>
                                             @endif
                                                 <td>{{$c++}}</td>
-                                                <td class="text-bold-500">{{ $lv->employee->fname.' '.$lv->employee->sname.' '.$lv->employee->oname }}</td>
-                                                <td class="text-bold-500">{{$lv->days}}</td>
-                                                <td class="text-bold-500">@if ($lv->start_date != '') {{date('d M, Y', strtotime($lv->start_date))}} @endif</td>
-                                                <td class="text-bold-500">@if ($lv->resume_date != '') {{date('d M, Y', strtotime($lv->resume_date))}} 
+                                                <td class="text-bold-500">{{ $lv->employee->fname.' '.$lv->employee->sname.' '.$lv->employee->oname }}<br>
+                                                    @if ($lv->status == 'Approved')
+                                                        <button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i> &nbsp;Approved</button>
                                                     @else
-
+                                                        <button type="button" class="my_trash2 bg7 color10"><i class="fa fa-warning"></i> &nbsp;Pending</button>
+                                                    @endif
+                                                </td>
+                                                <td class="text-bold-500"><p class="gray_p2">Start Date: @if ($lv->start_date != '') {{date('D, M d, Y', strtotime($lv->start_date))}} @endif</p>
+                                                    <p class="gray_p2">End Date: @if ($lv->end_date != '') {{date('D, M d, Y', strtotime($lv->end_date))}} @endif</p>
+                                                    <p class="small_p">Date Resumed:@if ($lv->end_date != '') {{date('D, M d, Y', strtotime($lv->end_date))}} @endif</p>
+                                                </td>
+                                                <td class="gray_p2">@if ($lv->start_date != '') {{date('D, M d, Y', strtotime($lv->start_date))}} @endif</td>
+                                                <td class="text-bold-500 align_right">
+                                                    @if ($lv->resume_date != '')
+                                                        <button type="button" class="my_trash2 bg10 color8"><i class="fa fa-ban"></i> &nbsp;Closed</button>
+                                                    @else
                                                         <form action="{{ action('HrdashController@update', $lv->id) }}" method="POST">
                                                             <input type="hidden" name="_method" value="DELETE">
                                                             <input type="hidden" name="_method" value="PUT">
                                                             @csrf
                 
-                
-                                                            @if ($lv->status == 'inactive')
-                                                                {{-- <td class="text-bold-500 align_right action_size">
-                                                                    <button type="submit" name="update_action" value="restore_employee" class="my_trash" onclick="return confirm('Do you want to restore this record?')"><i class="fa fa-reply"></i></button>
-                                                                </td> --}}
+                                                            @if ($lv->status == 'Approved')
+                                                                @if ($lv->resume_date == '')
+                                                                    <input class="small_input" type="date" required><br>
+                                                                    <button type="submit" name="update_action" value="resume_leave" class="my_trash2 bg7 color10 genhover" onclick="return confirm('Are you sure you want to resume leave?')"><i class="fa fa-clipboard"></i> &nbsp;Resume</button>
+                                                                @endif
                                                             @else
-                                                                {{-- <td class="text-bold-500 align_right action_size"> --}}
-                                                                <button type="submit" name="update_action" value="resume_leave" class="my_trash2 bg7 color10 genhover" onclick="return confirm('Are you sure you want to resume leave?')"><i class="fa fa-clipboard"></i> &nbsp;Resume Now</button>
-                                                                {{-- </td> --}}
+                                                                <button type="submit" name="update_action" value="approve_leave" class="my_trash2 blue_bg color8 genhover" onclick="return confirm('Click Ok to continue leave approval?')"><i class="fa fa-check"></i> &nbsp;Approve</button>
                                                             @endif
                                                         </form>
-
-                                                    @endif</td>
-                                                <td class="text-bold-500">{{$lv->status}}</td>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         {{-- @else
                                             <tr>

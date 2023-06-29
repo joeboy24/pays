@@ -46,12 +46,12 @@
               </a>
           </li>
 
-          <li class="sidebar-item">
-              <a href="#" class='sidebar-link'>
-                  <i class="fa fa-envelope"></i>
-                  <span>Inbox</span><b class="menu_figure green_bg">&nbsp;73&nbsp;</b>
-              </a>
-          </li>
+          {{-- <li class="sidebar-item">
+                <a href="#" class='sidebar-link'>
+                    <i class="fa fa-envelope"></i>
+                    <span>Inbox</span><b class="menu_figure green_bg">&nbsp;73&nbsp;</b>
+                </a>
+            </li> --}}
 
           {{-- <li class="sidebar-item">
               <a href="#" class='sidebar-link'>

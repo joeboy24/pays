@@ -222,7 +222,6 @@ class HrdashController extends Controller
             case 'resume_leave':
                 $lv = Leave::find($id);
                 $lv->resume_date = date('d-m-Y');
-                $lv->status = 'inactive';
                 $lv->save();
 
                 $emp = Employee::find($lv->employee_id);
@@ -230,6 +229,20 @@ class HrdashController extends Controller
                 $emp->del = 'no';
                 $emp->save();
                 return redirect(url()->previous())->with('success', 'Leave resumed for '.$lv->employee->fname.' on '.date('d-m-Y'));
+            break;
+
+            case 'approve_leave':
+                $lv = Leave::find($id);
+                $lv->status = 'Approved';
+                $lv->save();
+
+                $emp = Employee::find($lv->employee_id);
+                $emp->status = 'inactive';
+                if ($lv->with_pay != '1') {
+                    $emp->del = 'yes';
+                }
+                $emp->save();
+                return redirect(url()->previous())->with('success', 'Leave approved for '.$lv->employee->fname.' on '.date('d-m-Y'));
             break;
 
         }

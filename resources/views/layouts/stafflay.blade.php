@@ -61,7 +61,7 @@
                 </a>
             </header> --}}
 
-            <div id="main-content" class="mybody">
+            <div id="main-content">
 
                 @yield('content')
 

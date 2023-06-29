@@ -1597,6 +1597,48 @@ class EmployeeController extends Controller
                 return 12;
             break;
 
+            case 'staff_update_leave':
+                try {
+                    $emp = auth()->user()->employee;
+                    $start = $request->input('from');
+                    $end = $request->input('to');
+                    // $days = $request->input('days');
+                    $hand_over = $request->input('hand_over');
+                    $dt_diff = (strtotime($end)-strtotime($start)) / (60 * 60 * 24);
+                    // return $hand_over;
+
+                    if ($dt_diff < 0) {
+                        return redirect(url()->previous())->with('error', 'Oops..! Start date cannot be ahead of end date');
+                    }
+                    if ($hand_over == 'none') {
+                        return redirect(url()->previous())->with('error', 'Oops..! Select who you are handing over to');
+                    }
+
+                    $leave = Leave::find($id);
+                    $leave->user_id = auth()->user()->id;
+                    $leave->employee_id = $emp->id;
+                    $leave->leave_type = $request->input('sname');
+                    $leave->start_date = $start;
+                    $leave->end_date = $end;
+                    $leave->hand_over = $hand_over;
+                    $leave->leave_notes = $request->input('leave_notes');
+                    $leave->days = $dt_diff;
+                    $leave->save();
+                    return redirect(url()->previous())->with('success', "Leave update successful");
+                } catch (\Throwable $th) {
+                    throw $th;
+                    return redirect(url()->previous())->with('error', 'Oops..! Something went wrong');
+                }
+            break;
+
+            // case 'del_leave_request':
+            //     return $id;
+            //     $leave = Leave::find($id);
+            //     $leave->del = 'no';
+            //     $leave->save();
+            //     return redirect(url()->previous())->with('success', 'Record deletion successful!');
+            // break;
+
             case 'update_employee':
                 try {
                     $emp = Employee::find($id);
@@ -1689,6 +1731,14 @@ class EmployeeController extends Controller
                 ];
                 return redirect(url()->previous())->with($patch);
 
+            break;
+
+            case 'staff_del_leave':
+                return $id;
+                $dept = Department::find($id);
+                $dept->dept_name = $request->input('dept_name');
+                $dept->save();
+                return redirect(url()->previous())->with('success', $dept->name.' Updated Successfully!');
             break;
 
             case 'update_dept':

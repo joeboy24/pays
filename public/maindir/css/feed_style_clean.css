@@ -1224,9 +1224,9 @@
         box-shadow: 0 1px 13px 4px rgba(0, 83, 138, 0.048);
     }
 
-    /* .login_content{
+    .login_content{
         width: 90%;
-    } */
+    }
 
     .menu_content button {
         width: 45%;
