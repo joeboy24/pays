@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EmployeeExtImport;
 use App\Imports\EmployeeImport;
 use App\Imports\TaxationImport;
 use App\Models\Employee;
@@ -16,6 +17,7 @@ use App\Models\Taxation;
 use App\Models\Salary;
 use App\Models\Bank;
 use App\Models\Loan;
+use App\Models\User;
 use App\Models\Leave;
 use App\Models\Region;
 use App\Models\LoanSetup;
@@ -26,7 +28,7 @@ use App\Models\Allowexp;
 use App\Models\DirectPay;
 use App\Models\LoanGrant;
 use App\Models\Validation;
-use App\Models\User;
+use App\Models\Journal;
 use Session;
 
 class EmployeeController extends Controller
@@ -401,6 +403,26 @@ class EmployeeController extends Controller
                     // Excel::import(new TaxationImport,request()->file('ex_file'))->selectSheets('TAXATION');
                     // Excel::selectSheetsByIndex(0)->load();
                     return redirect(url()->previous())->with('success', 'Employee Data successfully uploaded');
+
+                } catch (ValidationException $exception) {
+                    return redirect(url()->previous())->with('Error', $exception->errors());
+                }
+
+            break;
+
+            case 'import_employee_ext':
+
+                // return 'Im in!';
+
+                try {
+                    $this->validate($request, [
+                        'ext_file'   => 'required|max:5000|mimes:xlsx,xls,csv'
+                    ]);
+
+                    Excel::import(new EmployeeExtImport,request()->file('ext_file'));
+                    // Excel::import(new TaxationImport,request()->file('ex_file'))->selectSheets('TAXATION');
+                    // Excel::selectSheetsByIndex(0)->load();
+                    return redirect(url()->previous())->with('success', 'Employee Ext. Data successfully uploaded');
 
                 } catch (ValidationException $exception) {
                     return redirect(url()->previous())->with('Error', $exception->errors());
@@ -897,11 +919,51 @@ class EmployeeController extends Controller
                                 ]);
                             }
                             
+                            
                         } catch (\Throwable $th) {
                             throw $th;
                         return redirect(url()->previous())->with('error', 'Oops..! An error occured');
                         }
                     }
+                }
+
+                // 'user_id','month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye',
+                // 'advances','veh_loan','staff_loan','net_pay','debit','credit','status','del'
+                $sals = Salary::where('month', date('m-Y'))->get();
+                $jv_check = Journal::where('month', date('m-Y'))->first();
+                if ($jv_check) {
+                    $jv_check->gross = $sals->sum('salary');
+                    
+                    $jv_check->gross = $sals->sum('salary');
+                    $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
+                    $jv_check->fuel_alw = $sals->sum('tnt');
+                    $jv_check->back_pay = $sals->sum('back_pay');
+                    $jv_check->total_ssf = $sals->sum('ssf_emp_cont') + $sals->sum('ssf');
+                    $jv_check->total_paye = $sals->sum('income_tax');
+                    // $jv_check->advances = '';
+                    // $jv_check->veh_loan = '';
+                    $jv_check->staff_loan = $sals->sum('staff_loan');
+                    $jv_check->net_pay = $sals->sum('net_aft_ded');
+                    $jv_check->debit = $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+                    $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+                
+                } else {
+                    $jv_insert = Journal::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'month' => date('m-Y'),
+                        'gross' => $sals->sum('salary'),
+                        'ssf_emp' => $sals->sum('ssf_emp_cont'),
+                        'fuel_alw' => $sals->sum('tnt'),
+                        'back_pay' => $sals->sum('back_pay'),
+                        'total_ssf' => $sals->sum('ssf_emp_cont') + $sals->sum('ssf'),
+                        'total_paye' => $sals->sum('income_tax'),
+                        // 'advances' => '',
+                        // 'veh_loan' => '',
+                        'staff_loan' => $sals->sum('staff_loan'),
+                        'net_pay' => $sals->sum('net_aft_ded'),
+                        'debit' => $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
+                        'credit' => $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
+                    ]);
                 }
 
                 return redirect(url()->previous())->with('success', 'Taxation & Salaries Recalculated!');

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/dashdir/css/app.css">
     <link rel="stylesheet" href="/dashdir/css/main.css">
     <link rel="stylesheet" href="/maindir/css/feed_style_clean.css">
+    <link rel="stylesheet" href="/dashdir/css/staff.css">
     <link rel="shortcut icon" href="/dashdir/images/favicon.svg" type="image/x-icon">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

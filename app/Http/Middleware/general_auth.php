@@ -4,11 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Models\Company;
-use Session;
 use Auth;
 
-class load_auth
+class general_auth
 {
     /**
      * Handle an incoming request.
@@ -19,14 +17,11 @@ class load_auth
      */
     public function handle(Request $request, Closure $next)
     {
-        // if (Auth::check()) {
-        // }else {
-            $company = Company::find(1);
-            // $newsblog = 5;
-            Session::put('company', $company);
-            // Session::put('event', $event);
+        if (Auth::check() && Auth::user()->status != 'Staff') {
             return $next($request);
-            // return redirect('/uiuytyu');
-        // }
+        }else {
+            return redirect(url()->previous());
+            abort(403);
+        }
     }
 }

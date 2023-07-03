@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Event;
 use App\Models\Homepage;
-use App\Http\Controllers\WorkersPagesController;
+use App\Http\Controllers\StaffPagesController;
 // use Session;
 
 /*
@@ -28,44 +28,52 @@ Route::get('/car', 'CarpagesController@index');
  
 
 /* Mail Routes */
-// Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF'])->name('send_mail_pdf');
-Route::get('send_mail_pdf', [WorkersPagesController::class, 'sendMailWithPDF']);
+Route::get('send_mail_pdf', [StaffPagesController::class, 'sendMailWithPDF']);
+Route::get('/payslip_forwarding', 'FinancePagesController@mail_send');
 /* End Mail Routes */
 
-
+// System Access
+Route::get('/companysetup', 'SystemAccessController@pay_company');
+Route::get('/adduser', 'SystemAccessController@pay_adduser');
+Route::get('/add_dept', 'SystemAccessController@pay_add_dept');
+// General Access
 Route::get('/', 'GeneralController@index');
-Route::get('/pay_employee', 'GeneralController@pay_employee');
+Route::get('/reports', 'GeneralController@pay_reports');
 Route::get('/view_employee', 'GeneralController@pay_employee_view');
-Route::get('/allowance', 'GeneralController@pay_allowance');
+
 Route::get('/emp_report', 'DashpagesController@emp_report');
-Route::get('/taxation', 'DashpagesController@pay_tax');
-Route::get('/salaries', 'DashpagesController@pay_sal');
-Route::get('/banksummary', 'DashpagesController@pay_banksummary');
-Route::get('/loans', 'DashpagesController@pay_loan');
-Route::get('/reports', 'DashpagesController@pay_reports');
-Route::get('/add_employee', 'DashpagesController@pay_add_emp');
-Route::get('/sal_cat', 'DashpagesController@pay_sal_cat');
-Route::get('/add_dept', 'DashpagesController@pay_add_dept');
-Route::get('/adduser', 'DashpagesController@pay_adduser');
-Route::get('/companysetup', 'DashpagesController@pay_company');
-Route::get('/allowance_mgt', 'DashpagesController@pay_allowance_mgt');
-Route::get('/allowance_exp', 'DashpagesController@pay_allowexp');
-Route::get('/alawa', 'DashpagesController@alawa');
-Route::get('/staff-validation', 'DashpagesController@staff_validation');
 // HR Pages
 Route::get('/leaves', 'HrpagesController@pay_leave');
 Route::get('/birthdays', 'HrpagesController@pay_birthdays');
 Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
-// Workers Pages
-Route::get('/mydashboard', 'WorkersPagesController@index');
-Route::get('/myprofile', 'WorkersPagesController@showProfile');
-Route::get('/validation', 'WorkersPagesController@sal_validation');
-Route::get('/staff-leave', 'WorkersPagesController@staff_leave');
+Route::get('/add_employee', 'DashpagesController@pay_add_emp');
+
+Route::get('/pay_employee', 'GeneralController@pay_employee');  // Checkout
+// Finance Pages
+Route::get('/allowance', 'FinancePagesController@pay_allowance');
+Route::get('/taxation', 'FinancePagesController@pay_tax');
+Route::get('/salaries', 'FinancePagesController@pay_sal');
+Route::get('/payroll_jv', 'FinancePagesController@pay_sal_jv');
+Route::get('/banksummary', 'FinancePagesController@pay_banksummary');
+Route::get('/loans', 'FinancePagesController@pay_loan');
+Route::get('/sal_cat', 'FinancePagesController@pay_sal_cat');
+Route::get('/allowance_mgt', 'FinancePagesController@pay_allowance_mgt');
+Route::get('/allowance_exp', 'FinancePagesController@pay_allowexp');
+Route::get('/alawa', 'FinancePagesController@alawa');
+// Regional Mgr.
+Route::get('/staff-validation', 'DashpagesController@staff_validation');
+// Staff Pages
+Route::resource('/staff', 'StaffController');
+Route::get('/mydashboard', 'StaffPagesController@index');
+Route::get('/myprofile', 'StaffPagesController@showProfile');
+Route::get('/validation', 'StaffPagesController@sal_validation');
+Route::get('/staff-leave', 'StaffPagesController@staff_leave');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');
+Route::get('/sal-multiexport', 'ExportsController@pay_multiexport');
 Route::get('/banksum', 'ExportsController@pay_banksum_export');
 
 
@@ -142,7 +150,7 @@ Route::post('importExcel', 'MaatwebsiteController@importExcel');
 // });
  
 
-Route::get('/staff', 'PagesController@staff');
+// Route::get('/staff', 'PagesController@staff');
 // Route::get('/student', 'PagesController@student');
 Route::get('/code80', 'PagesController@code80');
 Auth::routes(['register' => false]);

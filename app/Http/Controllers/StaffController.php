@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Course;
-use App\Models\Program;
-use App\Models\Department;
+use App\Models\Employee;
+use App\Models\SalaryCat;
+use App\Models\Salary;
+use App\Models\Region;
+use App\Models\Leave;
+use App\Models\Validation;
+use Session;
 
-class AdminCourseReg extends Controller
+class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +21,7 @@ class AdminCourseReg extends Controller
     public function index()
     {
         //
+        return 45894;
     }
 
     /**
@@ -49,16 +54,22 @@ class AdminCourseReg extends Controller
     public function show($id)
     {
         //
-        // return $id;
-        $program = Program::find($id);
-        $courses = Course::where('program_id', $id)->get();
-        $patch = [
-            'program' => $program,
-            'departments' => Department::all()
-            // 'courses' => $courses
-        ];
-        return view('dash.programs_course_reg')->with($patch);
+        $emp = auth()->user()->employee;
+        $sal = Salary::find($id);
+        
+        if ($emp->id != $sal->employee_id) {
+            return redirect(url()->previous())->with('error', 'Oops..! Access Denied');
+        }
 
+        // if (session('payslip')) {
+        //     return view('dash.pay_slip');
+        // }else{
+            Session::put('month', date('M Y', strtotime('01-'.$sal->month)));
+            Session::put('report_type', 'payslip');
+            Session::put('employee', $emp);
+            Session::put('payslip', $sal);
+            return view('worker.staff_payslip');
+        // }
     }
 
     /**

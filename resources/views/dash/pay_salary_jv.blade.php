@@ -3,7 +3,7 @@
 
 @section('header_nav')
     @include('inc.header_nav')  
-@endsection
+@endsection 
 
 @section('sidebar_menu')
     
@@ -39,14 +39,14 @@
                 </ul>
             </li>
 
-            <li class="sidebar-item active">
+            <li class="sidebar-item">
                 <a href="/taxation" class='sidebar-link'>
                     <i class="fa fa-bar-chart"></i>
                     <span>Taxation</span>
                 </a>
             </li>
 
-            <li class="sidebar-item">
+            <li class="sidebar-item active">
                 <a href="/salaries" class='sidebar-link'>
                     <i class="fa fa-pie-chart"></i>
                     <span>Salary</span>
@@ -137,108 +137,100 @@
 @section('content')
 
     <div class="page-heading">
-        <h3><i class="fa fa-file-text color4"></i>&nbsp;&nbsp;Taxation</h3>
+        <h3><i class="fa fa-pie-chart color3"></i>&nbsp;&nbsp;Payroll JV</h3>
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
-            <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
-            {{-- <a data-bs-toggle="modal" data-bs-target="#allow_overview"><p class="print_report">&nbsp;<i class="fa fa-file-text"></i>&nbsp; Allowance Overview</p></a> --}}
-            {{-- <a href="/taxexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Download Excel</p></a> --}}
-            <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
+            <a href="/salaries"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Salary </p></a>
+            <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-refresh"></i></p></a>
+            {{-- <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
+            <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
         </form>
     </div>
 
-    {{ $taxation->links() }}
 
     <div class="row">
-        <div class="col-12 col-xl-12">
+        <div class="col-12 col-xl-7">
             @include('inc.messages') 
             <div class="card">
                 <div class="card-body">
 
                     <!-- Allowances View -->
                     <div class="table-responsive">
-                        @if (count($taxation) > 0)
-                            <table class="table mb-0 table-lg">
+                        @if ($jv)
+                            <table class="mytable">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Employee Name</th>
-                                        <th>Position</th>
-                                        <th>Gross Basic Salary</th>
-                                        <th>Month</th>
-                                        <th>{{$allowoverview->rent}}% Rent Allow</th>
-                                        <th>{{$allowoverview->prof}}% Prof. Allow</th>
-                                        <th>Total Income</th>
-                                        <th>SSF&nbsp;@ {{$allowoverview->ssf}}%</th>
-                                        <th>Taxable Income</th>
-                                        <th>Total Tax Payable</th>
-                                        <th>First GhC 319</th>
-                                        <th>Next GhC 419</th>
-                                        <th>Next GhC 549</th>
-                                        <th>Next GhC 3,539</th>
-                                        <th>Next GhC 16,461</th>
-                                        <th>Next GhC 20,000</th>
-                                        <th>Net Amount(GhC)</th>
-                                        {{-- <th>Allowances</th> --}}
+                                        <th class="td_right"><h6>{{date('M-Y')}} Payroll JV</h6></th>
+                                        <th class="td_right"></th>
+                                        <th class="td_right"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="td_right"></th>
+                                        <th class="td_right"><h6>Debit</h6></th>
+                                        <th class="td_right"><h6>Credit</h6></th>
                                     </tr>
                                 </thead>   
                                 <tbody>
-                                    @foreach ($taxation as $txn)
-                                        
-                                        @if ($c % 2 == 1)
-                                            <tr class="bg9">
-                                        @else
-                                            <tr>
-                                        @endif
-                                            <td>{{$c++}}</td>
-                                            <td class="text-bold-500">{{ $txn->employee->fname.' '.$txn->employee->sname.' '.$txn->employee->oname }}</td>
-                                            <td class="text-bold-500">{{$txn->position}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->salary, 2)}}</td>
-                                            <td class="text-bold-500">{{date('F Y', strtotime('30-'.$txn->month))}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->rent, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->prof, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->tot_income, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->ssf, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->taxable_inc, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->tax_pay, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->first1, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->next1, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->next2, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->next3, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->next4, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->next5, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($txn->net_amount, 2)}}</td>
-                                        </tr>
-
-                                    @endforeach
-
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('salary'), 2)}}</b></td>
-                                            <td></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('rent'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('prof'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('tot_income'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('ssf'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('taxable_inc'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('tax_pay'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('first1'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('next1'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('next2'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('next3'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('next4'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('next5'), 2)}}</b></td>
-                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('net_amount'), 2)}}</b></td>
-                                        </tr>
-
+                                    <tr>
+                                        <td class="td_right">Gross</td>
+                                        <td class="td_right">{{number_format($jv->gross, 2)}}</td>
+                                        <td class="td_right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">SSF Employer</td>
+                                        <td class="td_right">{{number_format($jv->ssf_emp, 2)}}</td>
+                                        <td class="td_right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Fuel Allowance</td>
+                                        <td class="td_right">{{number_format($jv->fuel_alw, 2)}}</td>
+                                        <td class="td_right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Back Pay</td>
+                                        <td class="td_right">{{number_format($jv->back_pay, 2)}}</td>
+                                        <td class="td_right"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Total SSF</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">{{number_format($jv->total_ssf, 2)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Total Paye</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">{{number_format($jv->gross, 2)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Advances</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Vehicle Loan</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Staff Loan</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">{{number_format($jv->staff_loan, 2)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right">Net Pay</td>
+                                        <td class="td_right"></td>
+                                        <td class="td_right">{{number_format($jv->net_pay, 2)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_right"><h6>Total</h6></td>
+                                        <td class="td_right"><h6>{{number_format($jv->debit, 2)}}</h6></td>
+                                        <td class="td_right"><h6>{{number_format($jv->credit, 2)}}</h6></td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            {{ $taxation->links() }}
                         @else
                             <div class="alert alert-danger">
-                                No Records Found on Taxation
+                                No Records Found on {{date('M-Y')}} Payroll JV
                             </div>
                         @endif
                     </div>

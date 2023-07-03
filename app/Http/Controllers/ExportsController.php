@@ -20,6 +20,7 @@ use App\Imports\StdImport;
 use App\Exports\TaxExport;
 use App\Exports\SalExport;
 use App\Exports\BanksumExport;
+use App\Exports\SalMultiExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExportsController extends Controller 
@@ -27,6 +28,22 @@ class ExportsController extends Controller
     
     public function importFile(){
         return view('uploadtest');
+    }
+
+    public function pay_multiexport() 
+    {
+        $tbl = [
+            'Salary',
+            'Taxation',
+            // 'Banks-Bank Summary',
+            'Payroll Journals',
+            'Comparison',
+        ];
+        Session::put('tbl', $tbl);
+        // $tbl = session('tbl')[0];
+        // return $tbl;
+        return (new SalMultiExport(date('m-Y')))->download('salaries-'.date('M-Y').'.xlsx');
+        // return Excel::download(new MultiExport(2023), date('M-Y').'_Salary.xlsx');
     }
 
     public function pay_sal_export() 
@@ -37,36 +54,6 @@ class ExportsController extends Controller
     public function pay_tax_export() 
     {
         return Excel::download(new TaxExport, date('M-Y').'_Taxation.xlsx');
-        // $taxes = Taxation::all();
-        // $taxation = [];
-        // $tx = [];
-        // foreach ($taxes as $tax) {
-        //     array_push($tx, [
-        //         'A' => $tax->employee->fname.' '.$tax->employee->sname.' '.$tax->employee->oname,
-        //         'B' => $tax->cur_pos,
-        //         'C' => $tax->salary,
-        //         'D' => $tax->rent,
-        //         'E' => $tax->prof,
-        //         'F' => $tax->tot_income,
-        //         'G' => $tax->ssf,
-        //         'H' => $tax->taxable_inc,
-        //         'I' => $tax->tax_pay,
-        //         'J' => $tax->first1,
-        //         'K' => $tax->next1,
-        //         'L' => $tax->next2,
-        //         'M' => $tax->next3,
-        //         'N' => $tax->next4,
-        //         'O' => $tax->next5,
-        //         'P' => $tax->net_amount
-        //     ]);
-        // }
-        // // $x = [];
-        // // array_push($x, [
-        // //     'A' => 'New Data'
-        // // ]);
-        // session::put('tx', $tx);
-        // return session::get('tx');
-        // // return session('bills');
     }
 
     public function pay_banksum_export() 

@@ -156,10 +156,15 @@
                         <div class="col-md-12 my_borders">
                             <form class="form form-horizontal" action="{{action('EmployeeController@store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <h5>Upload Employees Data</h5>
+                                <h5>Upload Employee Data</h5>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-upload"></i></label>
                                     <input type="file" name="ex_file" multiple class="form-control" id="inputGroupFile01" >
+                                </div>
+                                <p class="small_p">Emp. Ext</p>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-upload"></i></label>
+                                    <input type="file" name="ext_file" multiple class="form-control" id="inputGroupFile01" >
                                 </div>
 
                                 <div style="height: 20px"></div>
@@ -170,8 +175,9 @@
 
                                 <div style="height: 10px"></div>
                                 <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-dark me-1 mb-1" name="store_action" value="import_employee">Upload</button>
-                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                    <button type="submit" class="my_trash2 green_bg color8 genhover" name="store_action" value="import_employee">Upload</button>
+                                    <button type="submit" class="my_trash2 blue_bg color8 genhover" name="store_action" value="import_employee_ext">Upload Ext</button>
+                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1 genhover">Reset</button>
                                 </div>
                             </form>
                         </div>

@@ -14,8 +14,8 @@
         {{-- <link href="/maindir/css/bootstrap2.min.css" rel="stylesheet">
         <link href="/maindir/css/font-awesome.min.css" rel="stylesheet"> --}}
         <link rel="stylesheet" href="/maindir/css/bootstrap.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet"> --}}
+        {{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> --}}
     </head>
 
     <style>
@@ -417,7 +417,6 @@
 
 
 
-
         @media print {
             #invoice {
                 width: 100%;
@@ -475,31 +474,31 @@
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Employee&nbsp;Name:</td>
-                                    <td class="td_data">{{$payslip->employee->fname.' '.$payslip->employee->sname.' '.$payslip->employee->oname}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->fname.' '.session('payslip')->employee->sname.' '.session('payslip')->employee->oname}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">AFIS NO:</td>
-                                    <td class="td_data">{{$payslip->employee->afis_no}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->afis_no}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Region:</td>
-                                    <td class="td_data">{{$employee->region}}</td>
+                                    <td class="td_data">{{session('employee')->region}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Department:</td>
-                                    <td class="td_data">{{$payslip->employee->dept}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->dept}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Position:</td>
-                                    <td class="td_data">{{$payslip->employee->cur_pos}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->cur_pos}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Bank:</td>
-                                    <td class="td_data">{{$payslip->employee->bank}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->bank}}</td>
                                 </tr>
                                 <tr>
                                     <td class="td_heading">Account No.:</td>
-                                    <td class="td_data">{{$payslip->employee->acc_no}}</td>
+                                    <td class="td_data">{{session('payslip')->employee->acc_no}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -527,12 +526,12 @@
                                 <td class="col-sm-5 pl">Basic Salary</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
                                 <td class="col-sm-2 pl">&nbsp;</td>
-                                <td class="col-sm-2 pr">{{number_format($payslip->salary, 2)}}</td>
+                                <td class="col-sm-2 pr">{{number_format(session('payslip')->salary, 2)}}</td>
                             </tr>
                             <tr class="my_focus">
                                 <td class="col-sm-5 pl">Less 5.5% SSF Deduction</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
-                                <td class="col-sm-2 pl">{{number_format($payslip->ssf, 2)}}</td>
+                                <td class="col-sm-2 pl">{{ number_format(session('payslip')->ssf, 2)}}</td>
                                 <td class="col-sm-2 pr">&nbsp;</td>
                             </tr>
                             <td>&nbsp;</td><td></td><td></td><td></td>
@@ -542,92 +541,92 @@
                                 <td class="col-sm-2 pl"></td>
                                 <td class="col-sm-2 pr"></td>
                             </tr>
-                            @if ($payslip->rent != 0)
+                            @if (session('payslip')->rent != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Rent Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->rent, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->rent, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->prof != 0)
+                            @if (session('payslip')->prof != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Professional Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->prof, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->prof, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->resp != 0)
+                            @if (session('payslip')->resp != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Responsibility Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->resp, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->resp, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->risk != 0)
+                            @if (session('payslip')->risk != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Risk Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->risk, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->risk, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->vma != 0)
+                            @if (session('payslip')->vma != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Vehicle Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->vma, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->vma, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->ent != 0)
+                            @if (session('payslip')->ent != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Entertainment Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->ent, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->ent, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->dom != 0)
+                            @if (session('payslip')->dom != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Domestic Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->dom, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->dom, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->intr != 0)
+                            @if (session('payslip')->intr != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Internet & Other Utility</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->intr, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->intr, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->tnt != 0)
+                            @if (session('payslip')->tnt != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">T & T Allowance</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->tnt, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->tnt, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->cola != 0)
+                            @if (session('payslip')->cola != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">COLA</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->cola, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->cola, 2)}}</td>
                                 </tr>
                             @endif
-                            @if ($payslip->back_pay != 0)
+                            @if (session('payslip')->back_pay != 0)
                                 <tr>
                                     <td class="col-sm-5 pl">Back Pay</td>
                                     <td class="col-sm-3 pl">&nbsp;</td>
                                     <td class="col-sm-2 pl">&nbsp;</td>
-                                    <td class="col-sm-2 pr">{{number_format($payslip->back_pay, 2)}}</td>
+                                    <td class="col-sm-2 pr">{{number_format(session('payslip')->back_pay, 2)}}</td>
                                 </tr>
                             @endif
                             <tr class="my_focus">
@@ -639,13 +638,13 @@
                             <tr>
                                 <td class="col-sm-5 pl">Income Tax (PAYE)</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
-                                <td class="col-sm-2 pl">{{number_format($payslip->income_tax, 2)}}</td>
+                                <td class="col-sm-2 pl">{{number_format(session('payslip')->income_tax, 2)}}</td>
                                 <td class="col-sm-2 pr">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td class="col-sm-5 pl">Staff Loan</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
-                                <td class="col-sm-2 pl">{{number_format($payslip->staff_loan, 2)}}</td>
+                                <td class="col-sm-2 pl">{{number_format(session('payslip')->staff_loan, 2)}}</td>
                                 <td class="col-sm-2 pr">&nbsp;</td>
                             </tr>
                             <tr>
@@ -658,19 +657,19 @@
                                 <td class="col-sm-5 pl">Total Deduction</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
-                                <td class="col-sm-2 pr">{{number_format(($payslip->income_tax + $payslip->staff_loan + $payslip->ssf), 2)}}</td>
+                                <td class="col-sm-2 pr">{{number_format((session('payslip')->income_tax + session('payslip')->staff_loan + session('payslip')->ssf), 2)}}</td>
                             </tr>
                             <tr class="my_focus">
                                 <td class="col-sm-5 pl">Net Pay</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
                                 <td class="col-sm-2 pl">&nbsp;</td>
-                                <td class="col-sm-2 pr">{{number_format($payslip->net_aft_ded, 2)}}</td>
+                                <td class="col-sm-2 pr">{{number_format(session('payslip')->net_aft_ded, 2)}}</td>
                             </tr>
                             <tr class="">
                                 <td class="col-sm-5 pl">EMPLOYER SSF CONTRIBUTION(13%)</td>
                                 <td class="col-sm-3 pl">&nbsp;</td>
                                 <td class="col-sm-2 pl">&nbsp;</td>
-                                <td class="col-sm-2 pr">{{number_format($payslip->ssf_emp_cont, 2)}}</td>
+                                <td class="col-sm-2 pr">{{number_format(session('payslip')->ssf_emp_cont, 2)}}</td>
                             </tr>
                         </tbody>
 

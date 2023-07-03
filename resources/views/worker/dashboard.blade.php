@@ -138,7 +138,7 @@
                             @foreach ($pay_stubs as $pay)
                                 <tr>
                                     <td class="">
-                                        <a href="/reporting/347"><button class="ps_print"><i class="fa fa-print"></i></button></a>
+                                        <a href="/staff/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a>
                                         {{-- <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a> --}}
                                     </td>
                                 </tr>
@@ -154,7 +154,7 @@
                     <div class="ps_txt_cont2">
                         <a class="add_leave" data-bs-toggle="modal" data-bs-target="#applyleave" class="my_trash_small">+</a>
                         <h4 class="psh">Leave</h4>
-                        <p class="psp gray">Applications</p>
+                        <p class="psp gray">Application</p>
                     </div>
                 </div>
                 <div id="ps_tbl3">

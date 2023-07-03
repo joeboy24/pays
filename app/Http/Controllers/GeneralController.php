@@ -9,6 +9,7 @@ use App\Imports\EmployeeImport;
 use App\Imports\TaxationImport;
 use App\Models\Employee;
 use App\Models\EmployeeRead;
+use App\Models\EmployeeExtRead;
 use App\Models\Allowance;
 use App\Models\AllowanceOverview;
 use App\Models\TaxationRead;
@@ -23,12 +24,13 @@ use App\Models\LoanSetup;
 use App\Models\SalaryCat;
 use App\Models\AllowanceList;
 use Session;
+use DateTime;
 
 class GeneralController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth',]);
+        $this->middleware(['auth', 'general_auth']);
     }  
     
     public function index(){
@@ -37,6 +39,29 @@ class GeneralController extends Controller
         //     Session::put('https', 'https');
         //     return redirect('https://payroll.pivoapps.net');
         // }
+
+
+        $ext = EmployeeExtRead::find(1);
+
+        // $dob = date('d-m-Y', strtotime($ext->dob));
+        // // $dt_diff = (strtotime(date('d-m-Y'))-strtotime($dob)) / (60 * 60 * 24);
+        // // return ($dt_diff / 30) / 12;
+
+        // // $age = date_diff(date_create($dob), date_create(date('d-m-Y')))->y;
+        // // return $age;
+        
+        // $date = new DateTime($dob);
+        // $now = new DateTime(date('d-m-Y'));
+        // $interval = $now->diff($date);
+        // return $ext->dob.' Age: '.$interval->y;
+        // return date('M-Y', strtotime(date('Y-m')." -1 month"));
+
+        $salary = Salary::where('month', '07-2023')->get();
+        foreach ($salary as $key => $value) {
+            $premo = Salary::select(['net_aft_ded'])->where('employee_id', $salary[$key]['employee_id'])->where('month', '06-2023')->latest()->first();
+            return $premo->net_aft_ded;
+        }
+
         
         $system_users = User::where('del', 'no')->count();
         $emp_count = Employee::where('del', 'no')->count();
@@ -58,7 +83,14 @@ class GeneralController extends Controller
         return view('dash.pay_employee');
     }
 
+
+
+
+
     public function pay_employee_view(){
+        if (auth()->user()->status == 'System') {
+            return redirect(url()->previous())->with('warning', 'Oops..! Access Denied!');
+        }
         // $users = User::where('status', '!=', 'Student')->get();
         $regions = Employee::select('region')->orderBy('region', 'ASC')->distinct('region')->get();
         $position = SalaryCat::orderBy('position', 'ASC')->get();
@@ -73,20 +105,19 @@ class GeneralController extends Controller
         return view('dash.pay_employee_view')->with($patch);
     }
 
-    public function pay_allowance(){
+    public function pay_reports(){
         // $users = User::where('status', '!=', 'Student')->get();
-        // $employees = Employee::where('del', 'no')->get();
-        // return $employees;
-        // foreach ($employees as $item) {}
-
-        $allowances = Allowance::orderBy('fname', 'ASC')->paginate(20);
-        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
+        $loan_setup = LoanSetup::where('del', 'no')->latest()->first();
+        $employees = Employee::orderBy('fname', 'ASC')->get();
+        $regions = Employee::select('region')->orderBy('region', 'ASC')->distinct('region')->get();
+        $banks = Employee::select('bank')->orderBy('bank', 'ASC')->distinct('bank')->get();
         $patch = [
-            'new_name' => '',
-            'allowances' => $allowances,
-            'new_allows' => AllowanceList::all(),
-            'allowoverview' => $allowoverview
+            'c' => 1,
+            'banks' => $banks,
+            'regions' => $regions,
+            'loanset' => $loan_setup,
+            'employees' => $employees
         ];
-        return view('dash.pay_allowance')->with($patch);
+        return view('dash.pay_reports')->with($patch);
     }
 }

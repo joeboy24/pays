@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\SalaryCat;
 use App\Models\Salary;
+use App\Models\Taxation;
 use App\Models\Region;
 use App\Models\Leave;
 use App\Models\Validation;
@@ -13,11 +14,11 @@ use PDF;
 use Mail;
 use Session;
 
-class WorkersPagesController extends Controller
+class StaffPagesController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth', 'admin_auth']);
+        $this->middleware(['auth']);
     } 
 
     public function index(){
@@ -26,12 +27,20 @@ class WorkersPagesController extends Controller
         //     Session::put('https', 'https');
         //     return redirect('https://payroll.pivoapps.net');
         // }
-        // $sals = Salary::all();
+        
+        // $sals = Salary::where('month', '07-2023')->get();
         // foreach ($sals as $sal) {
-        //     $sal->month = '05-2023';
+        //     $sal->month = '06-2023';
+        //     $sal->net_aft_ded = $sal->net_aft_ded - ($sal->net_aft_ded * 0.2);
         //     $sal->save();
         // }
-        // return 'Sal. month change successful';
+        // $taxes = Taxation::where('month', '07-2023')->get();
+        // foreach ($taxes as $tax) {
+        //     $tax->month = '06-2023';
+        //     $tax->net_aft_ded = $tax->net_amount - ($tax->net_amount * 0.1);
+        //     $tax->save();
+        // }
+        // return 'Sal & Tax month change successful';
 
         $user = auth()->user();
         $cur_pay = Salary::where('employee_id', $user->employee->id)->latest()->first();

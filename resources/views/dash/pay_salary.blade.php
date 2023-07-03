@@ -47,16 +47,9 @@
             </li>
 
             <li class="sidebar-item active">
-                <a href="" class='sidebar-link'>
+                <a href="/salaries" class='sidebar-link'>
                     <i class="fa fa-pie-chart"></i>
                     <span>Salary</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="/staff-validation" class='sidebar-link'>
-                    <i class="fa fa-calendar-check-o"></i>
-                    <span>Validation</span>
                 </a>
             </li>
 
@@ -148,11 +141,22 @@
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
-            {{-- <a data-bs-toggle="modal" data-bs-target="#allow_overview"><p class="print_report">&nbsp;<i class="fa fa-file-text"></i>&nbsp; Allowance Overview</p></a> --}}
-            <a href="/salexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Download Excel</p></a>
-            <a href="/"><p class="view_daily_report"><i class="fa fa-envelope color9"></i></p></a>
+            <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
+            <a href="/payslip_forwarding"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a>
+            <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-file-text color10"></i> JV</p></a>
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>
+ 
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form action="{{ url('/salaries') }}">
+                    @csrf
+                    <input type="hidden" name="check" value="employee">
+                    <input type="text" name="search_emp" class="search_emp" placeholder="Search">
+                    <button class="search_btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
     </div>
 
     {{ $salaries->links() }}

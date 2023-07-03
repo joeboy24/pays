@@ -153,7 +153,7 @@
 
         <div class="row">
             <div class="col-12 col-md-8">
-                <form action="{{ url('/alawa') }}">
+                <form action="{{ url('/allowance') }}">
                     @csrf
                     <input type="hidden" name="check" value="allowance">
                     <input type="text" name="search_alw" class="search_emp" placeholder="Search">

@@ -18,7 +18,7 @@ class CreateEmployeeExtsTable extends Migration
             // 'last_emp_place','lep_add','lep_phone','lep_pos','father','father_status','mother_status',
             // 'spouse','spouse_status','nok','nok_contact','del'
             $table->id();
-            $table->string('user_id', 50);
+            $table->string('user_id', 12);
             $table->string('employee_id', 50);
             $table->string('address', 50)->nullable();
             $table->string('maiden_fname', 50)->nullable();
