@@ -85,9 +85,9 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="/birthdays" class='sidebar-link'>
+                <a href="/retirement" class='sidebar-link'>
                     <i class="fa fa-gift"></i>
-                    <span>Birthdays</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
+                    <span>Retirement</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
                 </a>
             </li>
 

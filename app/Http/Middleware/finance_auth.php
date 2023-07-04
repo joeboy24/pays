@@ -20,7 +20,7 @@ class finance_auth
         if (Auth::check() && Auth::user()->status == 'Fiance' || Auth::user()->status == 'Administrator') {
             return $next($request);
         }else {
-            return redirect(url()->previous())->with('warning', 'Oops..! Access Denied. Contact Finance Administrator');
+            return redirect('/')->with('warning', 'Oops..! Access Denied. Contact Finance Administrator');
             abort(403);
         }
     }

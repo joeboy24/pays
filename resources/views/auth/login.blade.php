@@ -27,22 +27,18 @@
             {{-- <div style="height: 50px"></div> --}}
             {{-- <div class="logos_div">
               <img class="logo_img1" src="/maindir/images/masloc.png" alt="">
-              <img class="logo_img2" src="/maindir/images/coat2.png" alt="">
+              <img class="logo_img2" src="/maindir/images/coat2.png" alt=""> 
             </div> --}}
             <form action="{{ route('login') }}" method="POST">
               @csrf
               <input placeholder="Phone / Email" id="email" type="text" class="@error('email') is-invalid @enderror login_input" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
               @error('email')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
+                <p class="login_feedback color6" role="alert">{{ $message }}</p>
               @enderror
 
               <input placeholder="Password" id="password" type="password" class="@error('password') is-invalid @enderror login_input" name="password" required autocomplete="current-password">
               @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
+                <p class="login_feedback color6" role="alert">{{ $message }}</p>
               @enderror
 
               <div class="login_btn_container">

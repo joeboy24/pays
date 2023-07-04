@@ -1168,11 +1168,11 @@
 }
  
 .bday_icon i {
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 20px;
     color: rgb(255, 0, 106);
     background: #fff;
-    padding: 10px 15px;
+    padding: 7px 10px;
     border-radius: 5px;
     border: 0.5px solid #ddd;
 }
@@ -1197,6 +1197,28 @@
     background: url(../images/Bg-f1f1f1_2.jpg); */
 }
 
+.login_feedback {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-style: italic;
+    padding: 5px 15px;
+    font-size: 0.9em;
+    font-weight: 300;
+}
+
+.burger-btn {
+    color: #fff;
+}
+
+.user-name p {
+    color: #ccc;
+}
+
+.user-name h6 {
+    color: #fff;
+}
+
 
 
 
@@ -1209,6 +1231,14 @@
 
     /* .col_A {
         height: 150px;
+    } */
+
+    .burger-btn, .user-name h6 {
+        color: #727e86;
+    }
+
+    /* .burger-btn, .user-name h6 {
+        color: #000;
     } */
 
     .day {

@@ -246,38 +246,46 @@ class FinancePagesController extends Controller
     public function mail_send(Request $request){
 
         // $emp = Employee::find(347);
-        // $sal = Salary::find(347);
-
-        // Session::put('month', date('M Y', strtotime('01-'.$sal->month)));
-        // Session::put('report_type', 'payslip');
-        // Session::put('employee', $emp);
-        // Session::put('payslip', $sal);
-        // return view('worker.staff_payslip');
 
 
         // $sals = Salary::where('month', date('m-Y'))->get();
         // foreach ($sals as $sal) {
         // }
-        // $emps = Employee::all();
-        // return $emp->count();
+        $emps = Employee::all();
+        // Session::put('ctt', 0);
+        // // return $emps->count();
+        // return view('worker.staff_payslip');
         
-        $data["email"] = "durogh24@gmail.com";
-        $data["title"] = "Mail Check";
-        $data["body"] = "This is a live send mail check 07";
+        foreach ($emps as $emp) {
+            $sal = Salary::where('employee_id', $emp->id)->latest()->first();
+            Session::put('ctt', session('ctt') + 1);
+            Session::put('month', date('M Y', strtotime('01-'.$sal->month)));
+            Session::put('report_type', 'payslip');
+            Session::put('employee', $emp);
+            Session::put('payslip', $sal);
 
-        Session::put('trys', 'Just Trying 05');
-        $pdf = PDF::loadView('pdf_mail', $data);
-        // $pdf = PDF::loadView('worker.staff_payslip', $data);
+            if ($emp->email) {
+                $data["email"] = $emp->email;
+                $data["title"] = "Masloc Payslip-".date('M-Y');
+                $data["body"] = "This is a live send mail check 27";
 
-        // Mail::send('worker.staff_payslip', $data, function ($message) use ($data, $pdf) {
-        Mail::send('pdf_mail', $data, function ($message) use ($data, $pdf) {
-            $message->to($data["email"], $data["email"])
-                ->subject($data["title"])
-                ->attachData($pdf->output(), "Payslip_July-2023.pdf");
-        });
+                $pdf = PDF::loadView('pdf_mail', $data);
+                // $pdf = PDF::loadView('pdf_mail', ['Data' => $data])->setOptions(['defaultFont' => 'sans-serif']);
+                // $pdf = PDF::loadView('worker.staff_payslip', $data);
+
+                // Mail::send('worker.staff_payslip', $data, function ($message) use ($data, $pdf) {
+                Mail::send('pdf_mail', $data, function ($message) use ($data, $pdf) {
+                    $message->to($data["email"], $data["email"])
+                        ->subject($data["title"])
+                        ->attachData($pdf->output(), "Payslip-".date('M-Y-').".pdf");
+                });
+            }
+            
+        }
         // ->attachData($pdf->output(), "Payslip-".date('M-Y-').$emp->fname.$emp->staff_id.".pdf");
 
-        // return redirect(url()->previous())->with('success', 'Mail forwarding successful');
+        return redirect(url()->previous())->with('success', 'Mail forwarding successful');
+        // return session('ctt');
         dd('Mail sent successfully');
     }
 }

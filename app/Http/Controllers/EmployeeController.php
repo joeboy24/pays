@@ -368,6 +368,7 @@ class EmployeeController extends Controller
                     try {
 
                         $create_user = User::firstOrCreate([
+                            'user_id' => auth()->user()->id,
                             'employee_id' => '347',
                             'staff_id' => '227',
                             'name' => $username,
@@ -1796,11 +1797,10 @@ class EmployeeController extends Controller
             break;
 
             case 'staff_del_leave':
-                return $id;
-                $dept = Department::find($id);
-                $dept->dept_name = $request->input('dept_name');
-                $dept->save();
-                return redirect(url()->previous())->with('success', $dept->name.' Updated Successfully!');
+                $leave = Leave::find($id);
+                // $leave->del = 'yes';
+                $leave->delete();
+                return redirect(url()->previous())->with('success', 'Leave record successfully deleted!');
             break;
 
             case 'update_dept':
@@ -1811,11 +1811,22 @@ class EmployeeController extends Controller
             break;
 
             case 'update_user':
+                $ps1 = $request->input('password');
+                $ps2 = $request->input('password_confirmation');
+                $status = $request->input('status');
+                if ($ps1 != $ps2) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Passwords do not match');
+                }
                 $user = User::find($id);
                 $user->name = $request->input('name');
                 $user->email = $request->input('email');
                 $user->contact = $request->input('contact');
-                $user->status = $request->input('status');
+                if ($status) {
+                    $user->status = $status;
+                }
+                if ($ps1) {
+                    $user->password = Hash::make($ps1);
+                }
                 $user->save();
                 return redirect(url()->previous())->with('success', $user->name.' Updated Successfully!');
             break;
@@ -1859,6 +1870,15 @@ class EmployeeController extends Controller
 
 
             // Delete
+
+            case 'any_value':
+                return 'Works Perfect';
+                $emp = Employee::find($id);
+                $emp->del = 'yes';
+                $emp->save();
+                return redirect(url()->previous())->with('success', $emp->fname.'`s records deleted!');
+            break;
+
             case 'del_loan':
                 $emp = Employee::find($id);
                 $loan = Loan::where('employee_id', $id)->latest()->first();

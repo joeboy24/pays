@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\LeaveSetup;
 use App\Models\Employee;
+use App\Models\EmployeeExtRead;
 use App\Models\Salary;
 use App\Models\Bank;
 use App\Models\SalaryCat;
@@ -32,13 +33,18 @@ class HrpagesController extends Controller
         return view('dash.pay_leave')->with($patch);
     }
 
-    public function pay_birthdays(){
-        $bdays = Employee::where('dob', 'LIKE', '%'.date('-m-').'%')->paginate(10);
+    public function pay_retirement(){
+        // $yr = date('Y') - 60;
+        // $yr = $yr.'-01-03';
+        // return date('01-02-').$yr;
+        $retirements = EmployeeExtRead::where('del', 'no')->get();
+        // $bdays = Employee::where('created_at', '<=', '2023-07-03')->paginate(10);
+        // return $bdays;
         $patch = [
             'c' => 1,
-            'bdays' => $bdays
+            'retirements' => $retirements
         ];
-        return view('dash.pay_birthdays')->with($patch);
+        return view('dash.pay_retirement')->with($patch);
     }
 
     public function pay_add_emp(){

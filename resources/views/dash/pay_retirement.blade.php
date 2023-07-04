@@ -82,9 +82,9 @@
             </li>
 
             <li class="sidebar-item active">
-                <a href="/birthdays" class='sidebar-link'>
+                <a href="/retirement" class='sidebar-link'>
                     <i class="fa fa-gift"></i>
-                    <span>Birthdays</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
+                    <span>Retirement</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
                 </a>
             </li>
 
@@ -137,7 +137,7 @@
 @section('content')
 
     <div class="page-heading">
-        <h3><i class="fa fa-gift color1"></i>&nbsp;&nbsp;Birthdays</h3>
+        <h3><i class="fa fa-gift color1"></i>&nbsp;&nbsp;Retirement</h3>
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
@@ -147,7 +147,7 @@
         </form>
     </div>
 
-    {{ $bdays->links() }}
+    
 
     <div class="row">
         <div class="col-12 col-xl-12">
@@ -157,54 +157,52 @@
 
                     <!-- Birthday View -->
                     <div class="table-responsive">
-                        @if (count($bdays) > 0)
+                        @if (count($retirements) > 0)
                             <table class="table mb-0 table-lg">
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th>Name</th>
-                                        <th>Day</th>
-                                        <th>Action</th>
+                                        <th>Date&nbsp;of&nbsp;Birth</th>
+                                        <th>Position</th>
+                                        <th>Contact</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>   
                                 <tbody>
-                                    @foreach ($bdays as $lv)
-                                        
-                                        @if ($c % 2 == 1)
-                                            <tr class="bg9">
-                                        @else
-                                            <tr>
-                                        @endif
-                                            <td class="bday_icon"><i class="fa fa-gift"></i></td>
-                                            <td class="text-bold-500">{{ $lv->fname.' '.$lv->sname.' '.$lv->oname }}<br><p class="small_p">{{$lv->contact}}</p></td>
-                                            <td class="text-bold-500">@if ($lv->dob != '') {{date('D.. M, d Y', strtotime($lv->dob))}} @endif</td>
-                                            <td class="text-bold-500">
+                                    @foreach ($retirements as $rtire)
+                                        @if ($rtire->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y > 50)
+                                            @if ($c % 2 == 1)
+                                                <tr class="bg9">
+                                            @else
+                                                <tr>
+                                            @endif
+                                                <td class="bday_icon"><i class="fa fa-gift"></i></td>
+                                                <td class="text-bold-500">{{ $rtire->fname.' '.$rtire->sname.' '.$rtire->oname }}<br><p class="small_p">{{$rtire->contact}}</p></td>
+                                                <td class="text-bold-500">@if ($rtire->dob != '') {{date('D. M, d Y', strtotime($rtire->dob))}} @endif
+                                                    <p class="small_p">Age: {{date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y}}</p>
+                                                </td>
+                                                <td class="text-bold-500">{{ $rtire->cur_pos }}</td>
+                                                <td class="text-bold-500">{{ $rtire->contact }}</td>
+                                                {{-- <td class="text-bold-500">
 
-                                                <form action="{{ action('HrdashController@update', $lv->id) }}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_method" value="PUT">
-                                                    @csrf
-        
-        
-                                                    {{-- @if ($lv->status == 'inactive') --}}
-                                                        {{-- <td class="text-bold-500 align_right action_size">
-                                                            <button type="submit" name="update_action" value="restore_employee" class="my_trash" onclick="return confirm('Do you want to restore this record?')"><i class="fa fa-reply"></i></button>
-                                                        </td> --}}
-                                                    {{-- @else --}}
-                                                        {{-- <td class="text-bold-500 align_right action_size"> --}}
+                                                    <form action="{{ action('HrdashController@update', $rtire->id) }}" method="POST">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_method" value="PUT">
+                                                        @csrf
+            
                                                         <button type="button" name="update_action" value="send_wish" class="my_trash2 bg10 color8 genhover" onclick="return confirm('Do you wish to proceed to send birthday message?')"><i class="fa fa-clipboard"></i> &nbsp;Send Wish</button>
-                                                        {{-- </td> --}}
-                                                    {{-- @endif --}}
-                                                </form>
+                                                    </form>
 
-                                            </td>
-                                            {{-- <td class="text-bold-500">{{$lv->status}}</td> --}}
-                                        </tr>
+                                                </td> --}}
+                                                {{-- <td class="text-bold-500">{{$rtire->status}}</td> --}}
+                                            </tr>
+                                        @endif
 
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{ $bdays->links() }}
+                            
                         @else
                             <div class="alert alert-danger">
                                 No Records Found on Birthdays

@@ -57,9 +57,9 @@ class StaffController extends Controller
         $emp = auth()->user()->employee;
         $sal = Salary::find($id);
         
-        if ($emp->id != $sal->employee_id) {
-            return redirect(url()->previous())->with('error', 'Oops..! Access Denied');
-        }
+        // if ($emp->id != $sal->employee_id) {
+        //     return redirect(url()->previous())->with('error', 'Oops..! Access Denied');
+        // }
 
         // if (session('payslip')) {
         //     return view('dash.pay_slip');

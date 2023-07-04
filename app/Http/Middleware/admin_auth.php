@@ -20,7 +20,7 @@ class admin_auth
         if (Auth::check() && Auth::user()->status == 'Administrator') {
             return $next($request);
         }else {
-            return redirect(url()->previous())->with('warning', 'Oops..! Access Denied. Contact IT Administrator');
+            return redirect('/')->with('warning', 'Oops..! Access Denied. Contact IT Administrator');
             abort(403);
         }
     }

@@ -26,7 +26,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="#" class='sidebar-link'>
+                <a href="/staff-loans" class='sidebar-link'>
                     <i class="fa fa-suitcase"></i>
                     <span>Loan</span>
                 </a>
@@ -40,7 +40,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="#" class='sidebar-link'>
+                <a href="/mydashboard" class='sidebar-link'>
                     <i class="fa fa-credit-card-alt"></i>
                     <span>Pay Status</span><b class="menu_figure green_bg"><i class="fa fa-check"></i></b>
                 </a>
@@ -88,7 +88,9 @@
             
                 <div class="profile_img_cont">
                     <img src="/dashdir/images/faces/user3.png">
-                    <div class="profile_cover"></div>
+                    <div class="profile_cover">
+                        
+                    </div>
                 </div>
                 <h2>{{auth()->user()->employee->fname}}</h2>
                 <p class="gray">{{auth()->user()->employee->sname.' '.auth()->user()->employee->oname}}</p>
@@ -186,7 +188,7 @@
                     </div>
                 </a>
 
-                <a href="">
+                <a href="/staff-loans">
                     <div class="single_app">
                         <i class="fa fa-suitcase color3"></i>
                         <p class="">Loan</p>

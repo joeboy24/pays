@@ -85,9 +85,9 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="/birthdays" class='sidebar-link'>
+                <a href="/retirement" class='sidebar-link'>
                     <i class="fa fa-gift"></i>
-                    <span>Birthdays</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
+                    <span>Retirement</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
                 </a>
             </li>
 
@@ -157,7 +157,7 @@
             </div>
             <div class="bg1 color8">
                 <i class="fa fa-gift"></i>
-                <p>{{date('M')}}. Birthdays</p>
+                <p>{{date('Y')}} Retirements</p>
                 <h4>{{session('bday_count')}}</h4>
             </div>
             <div class="bg3 color8">
@@ -171,14 +171,14 @@
     <section class="menu_content">
         <a href="/view_employee"><button class="menu_btn"><i class="fa fa-address-card color5"></i><p>Employee Mgt</p></button></a>
         <a href="/leaves"><button class="menu_btn"><i class="fa fa-clipboard color2"></i><p>Leave Mgt</p></button></a>
-        <a href="/birthdays"><button class="menu_btn"><i class="fa fa-gift color1"></i><p>Birthdays</p></button></a>
+        <a href="/retirement"><button class="menu_btn"><i class="fa fa-gift color1"></i><p>Retirement</p></button></a>
         <a href="/taxation"><button class="menu_btn"><i class="fa fa-bar-chart color7"></i><p>Taxation</p></button></a>
         <a href="/salaries"><button class="menu_btn"><i class="fa fa-credit-card-alt"></i><p>Salaries</p></button></a>
         <a href="/banksummary"><button class="menu_btn"><i class="fa fa-bank color5"></i><p>Bank Summary</p></button></a>
         <a href="/loans"><button class="menu_btn"><i class="fa fa-suitcase color4"></i><p>Staff Loans</p></button></a>
         {{-- <button class="menu_btn"><i class="fa fa-cc-visa"></i><p>Payments</p></button></a> --}}
         <a href="/reports"><button class="menu_btn"><i class="fa fa-file-text color6"></i><p>Reports</p></button></a>
-        <a href="/settings"><button class="menu_btn"><i class="fa fa-gears color3"></i><p>Settings</p></button></a>
+        <a href="/adduser"><button class="menu_btn"><i class="fa fa-gears color3"></i><p>Settings</p></button></a>
     </section>
         
 

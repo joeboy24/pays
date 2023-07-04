@@ -85,9 +85,9 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="/birthdays" class='sidebar-link'>
+                <a href="/retirement" class='sidebar-link'>
                     <i class="fa fa-gift"></i>
-                    <span>Birthdays</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
+                    <span>Retirement</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
                 </a>
             </li>
 
@@ -179,9 +179,10 @@
                                 <select name="status">
                                   <option value="none">Select User/Administrator</option>
                                   {{-- <option value="User">User</option> --}}
-                                  <option value="sysuser">System User</option>
-                                  <option value="hradmin">HR Administrator</option>
-                                  <option value="financeadmin">Finance Administrator</option>
+                                  <option value="System">User</option>
+                                  <option value="Administrator">System Administrator</option>
+                                  <option value="HR">HR Administrator</option>
+                                  <option value="Finance">Finance Administrator</option>
                                   {{-- <option value="Administrator">Administrator</option> --}}
                                 </select>
                             </div>
@@ -250,9 +251,9 @@
                                                             <input type="hidden" name="_method" value="DELETE">
                                                             <input type="hidden" name="_method" value="PUT">
                                                             @csrf
-                                                            
-                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$user->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
-
+                                                            {{-- @if ($user->id == auth()->user()->id) --}}
+                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$user->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
+                                                            {{-- @endif --}}
                                                         </form>
 
                                                     </td>
@@ -313,18 +314,46 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    
-                                                                    <div class="col-md-12">
-                                                                        <div class="filter_div" id="region">
-                                                                            <i class="fa fa-clipboard"></i> &nbsp; Status
-                                                                            <select name="status">
-                                                                                <option value="{{ $user->status }}" selected>Same</option>
-                                                                                <option value="hradmin">HR Administrator</option>
-                                                                                <option value="financeadmin">Finance Administrator</option>
-                                                                                <option value="disabled">Disable Account</option>
-                                                                            </select>
+
+                                                                    @if ($user->id == auth()->user()->id)
+                                                                        <div class="col-md-12">
+                                                                            <label>Password</label>
+                                                                            <div class="form-group has-icon-left">
+                                                                                <div class="position-relative">
+                                                                                    <input name="password" type="password" class="form-control" placeholder="New Password" id="first-name-icon">
+                                                                                    <div class="form-control-icon">
+                                                                                        <i class="fa fa-unlock-alt"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        <div class="col-md-12">
+                                                                            <label>Confirm Password</label>
+                                                                            <div class="form-group has-icon-left">
+                                                                                <div class="position-relative">
+                                                                                    <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm New Password" id="first-name-icon">
+                                                                                    <div class="form-control-icon">
+                                                                                        <i class="fa fa-unlock-alt"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                    
+                                                                    @if ($user->id == auth()->user()->id || auth()->user()->status == 'Administrator')
+                                                                        <div class="col-md-12">
+                                                                            <div class="filter_div" id="region">
+                                                                                <i class="fa fa-clipboard"></i> &nbsp; Status
+                                                                                <select name="status">
+                                                                                    <option value="{{$user->status}}" selected>Same '{{$user->status}}'</option>
+                                                                                    <option value="System">User</option>
+                                                                                    <option value="Administrator">System Administrator</option>
+                                                                                    <option value="HR">HR Administrator</option>
+                                                                                    <option value="Finance">Finance Administrator</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
                                                                     
                                                                 </div> 
                                                                 <div class="modal-footer">
@@ -338,6 +367,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             @endif
                                         @endforeach
                                     </tbody>

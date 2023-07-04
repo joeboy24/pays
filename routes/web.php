@@ -44,7 +44,7 @@ Route::get('/view_employee', 'GeneralController@pay_employee_view');
 Route::get('/emp_report', 'DashpagesController@emp_report');
 // HR Pages
 Route::get('/leaves', 'HrpagesController@pay_leave');
-Route::get('/birthdays', 'HrpagesController@pay_birthdays');
+Route::get('/retirement', 'HrpagesController@pay_retirement');
 Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
@@ -70,6 +70,7 @@ Route::get('/mydashboard', 'StaffPagesController@index');
 Route::get('/myprofile', 'StaffPagesController@showProfile');
 Route::get('/validation', 'StaffPagesController@sal_validation');
 Route::get('/staff-leave', 'StaffPagesController@staff_leave');
+Route::get('/staff-loans', 'StaffPagesController@staff_loans');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');

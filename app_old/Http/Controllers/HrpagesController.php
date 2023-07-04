@@ -26,12 +26,12 @@ class HrpagesController extends Controller
         return view('dash.pay_leave')->with($patch);
     }
 
-    public function pay_birthdays(){
+    public function pay_retirement(){
         $bdays = Employee::where('dob', 'LIKE', '%'.date('-m-').'%')->paginate(10);
         $patch = [
             'c' => 1,
             'bdays' => $bdays
         ];
-        return view('dash.pay_birthdays')->with($patch);
+        return view('dash.pay_retirement')->with($patch);
     }
 }

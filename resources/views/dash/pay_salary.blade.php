@@ -82,9 +82,9 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="/birthdays" class='sidebar-link'>
+                <a href="/retirement" class='sidebar-link'>
                     <i class="fa fa-gift"></i>
-                    <span>Birthdays</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
+                    <span>Retirement</span><b class="menu_figure green_bg">{{session('bday_count')}}</b>
                 </a>
             </li>
 
@@ -142,7 +142,7 @@
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
             <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
-            <a href="/payslip_forwarding"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a>
+            <a href="/payslip_forwarding" onclick="return confirm('This action will forward payslip to employees` emails. Click Ok to proceed')"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a>
             <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-file-text color10"></i> JV</p></a>
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>

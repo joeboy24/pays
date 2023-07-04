@@ -168,10 +168,10 @@
         }
 
         .invBottomTbl tr {
-            /* line-height: 20px; */
+            line-height: 10px;
             padding: 0;
-        width: 100%;
-        overflow-x: auto;
+            width: 100%;
+            overflow-x: auto;
         }
 
         .invBottomTbl th {
@@ -334,7 +334,7 @@
 
         .header1 {
             width: 90%;
-            min-height: 260px;
+            min-height: 200px;
             margin: 0 auto;
             border-bottom: 1px solid #eee;
         }
@@ -368,7 +368,7 @@
         }
 
         .slip_tbl1 tr {
-            line-height: 27px;
+            line-height: 20px;
             font-weight: 300;
             font-size: 0.9em;
         }

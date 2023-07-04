@@ -9,6 +9,7 @@ use App\Models\Salary;
 use App\Models\Taxation;
 use App\Models\Region;
 use App\Models\Leave;
+use App\Models\DirectPay;
 use App\Models\Validation;
 use PDF;
 use Mail;
@@ -18,7 +19,7 @@ class StaffPagesController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'staff_auth']);
     } 
 
     public function index(){
@@ -52,7 +53,7 @@ class StaffPagesController extends Controller
         
         $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
         $pay_stubs = Salary::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
-        $leaves = Leave::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
+        $leaves = Leave::where('employee_id', $user->employee_id)->orderBy('id', 'DESC')->limit(3)->get();
         // return $coworkers;
 
         $sends = [
@@ -78,7 +79,7 @@ class StaffPagesController extends Controller
     {
         $user = auth()->user();
         $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
-        $leaves = Leave::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
+        $leaves = Leave::where('employee_id', $user->employee_id)->orderBy('id', 'DESC')->limit(3)->get();
         // return $coworkers;
 
         $sends = [
@@ -87,6 +88,23 @@ class StaffPagesController extends Controller
         ];
 
         return view('worker.staff_leave')->with($sends);
+    }
+
+    public function staff_loans()
+    {
+        $user = auth()->user();
+        // $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
+        $directpay = DirectPay::where('employee_id', $user->employee_id)->orderBy('id', 'DESC')->limit(3)->get();
+        $sum_sal_pays = Salary::where('employee_id', $user->employee_id)->get();
+        // return $coworkers;
+
+        $sends = [
+            'directpay' => $directpay,
+            'sal_sum' => $sum_sal_pays,
+            // 'coworkers' => $coworkers,
+        ];
+
+        return view('worker.staff_loans')->with($sends);
     }
 
     public function sal_validation(Request $request){
@@ -135,14 +153,26 @@ class StaffPagesController extends Controller
 
     public function sendMailWithPDF(Request $request)
     {
+        return view('pdf_mail');
+        $emp = Employee::find(347);
+        $sal = Salary::find(347);
+
+        Session::put('month', date('M Y', strtotime('01-'.$sal->month)));
+        Session::put('report_type', 'payslip');
+        Session::put('employee', $emp);
+        Session::put('payslip', $sal);
+
         $data["email"] = "mehear24@yahoo.com";
         $data["title"] = "Mail Check";
         $data["body"] = "This is a live send mail check 01";
 
         Session::put('trys', 'Just Trying 05');
         // return session('trys');
+        // $pdf = PDF::loadView('worker.staff_payslip', $data);
         $pdf = PDF::loadView('pdf_mail', $data);
 
+
+        return $pdf->download('Payslip_June-23.pdf');
         Mail::send('pdf_mail', $data, function ($message) use ($data, $pdf) {
             $message->to($data["email"], $data["email"])
                 ->subject($data["title"])

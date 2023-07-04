@@ -40,7 +40,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="#" class='sidebar-link'>
+                <a href="/mydashboard" class='sidebar-link'>
                     <i class="fa fa-credit-card-alt"></i>
                     <span>Pay Status</span><b class="menu_figure green_bg"><i class="fa fa-check"></i></b>
                 </a>

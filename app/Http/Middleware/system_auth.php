@@ -17,10 +17,10 @@ class system_auth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status == 'System') {
+        if (Auth::check() && Auth::user()->status == 'System' || Auth::user()->status == 'Administrator') {
             return $next($request);
         }else {
-            return redirect(url()->previous())->with('warning', 'Oops..! Access Denied. Contact IT Department');
+            return redirect('/')->with('warning', 'Oops..! Access Denied. Contact IT Department');
             abort(403);
         }
     }

@@ -41,14 +41,15 @@ class GeneralController extends Controller
         // }
 
 
-        $ext = EmployeeExtRead::find(1);
+        // $ext = EmployeeExtRead::find(1);
 
         // $dob = date('d-m-Y', strtotime($ext->dob));
-        // // $dt_diff = (strtotime(date('d-m-Y'))-strtotime($dob)) / (60 * 60 * 24);
-        // // return ($dt_diff / 30) / 12;
+        // // // $dt_diff = (strtotime(date('d-m-Y'))-strtotime($dob)) / (60 * 60 * 24);
+        // // // return ($dt_diff / 30) / 12;
 
         // // $age = date_diff(date_create($dob), date_create(date('d-m-Y')))->y;
-        // // return $age;
+        // $age = date_diff(date_create(date('d-m-Y', strtotime($ext->dob))), date_create(date('d-m-Y')))->y;
+        // return $age;
         
         // $date = new DateTime($dob);
         // $now = new DateTime(date('d-m-Y'));
@@ -56,11 +57,11 @@ class GeneralController extends Controller
         // return $ext->dob.' Age: '.$interval->y;
         // return date('M-Y', strtotime(date('Y-m')." -1 month"));
 
-        $salary = Salary::where('month', '07-2023')->get();
-        foreach ($salary as $key => $value) {
-            $premo = Salary::select(['net_aft_ded'])->where('employee_id', $salary[$key]['employee_id'])->where('month', '06-2023')->latest()->first();
-            return $premo->net_aft_ded;
-        }
+        // $salary = Salary::where('month', '07-2023')->get();
+        // foreach ($salary as $key => $value) {
+        //     $premo = Salary::select(['net_aft_ded'])->where('employee_id', $salary[$key]['employee_id'])->where('month', '06-2023')->latest()->first();
+        //     return $premo->net_aft_ded;
+        // }
 
         
         $system_users = User::where('del', 'no')->count();
@@ -86,6 +87,15 @@ class GeneralController extends Controller
 
 
 
+
+    public function show_admi_profile()
+    {
+        $emp = Employee::find(auth()->user()->employee_id);
+        $send = [
+            'emp' => $emp
+        ];
+        return view('worker.myprofile')->with($send);
+    }
 
     public function pay_employee_view(){
         if (auth()->user()->status == 'System') {

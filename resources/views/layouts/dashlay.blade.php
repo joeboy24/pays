@@ -80,6 +80,99 @@
                 </div>
             </footer> 
         </div>
+
+        <!-- Update User -->
+        <div class="modal fade" id="update_user" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">
+                            Edit User Here
+                        </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <form action="{{ action('EmployeeController@update', auth()->user()->id) }}" method="POST">
+                        <input type="hidden" name="_method" value="PUT">
+                        @csrf
+                        <div class="modal-body">
+                            
+                            <div class="col-md-12">
+                                <label>Username</label>
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input name="name" type="text" class="form-control" placeholder="Title" id="first-name-icon" value="{{ auth()->user()->name }}" required>
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-person"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label>Email</label>
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input name="email" type="email" class="form-control" placeholder="Email" id="first-name-icon" value="{{ auth()->user()->email }}" required>
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-envelope"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label>Contact</label>
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input name="contact" type="number" min="0" class="form-control" placeholder="Title" id="first-name-icon" value="{{ auth()->user()->contact }}" required>
+                                        <div class="form-control-icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+      
+                            <div class="col-md-12">
+                                <label>Password</label>
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input name="password" type="password" class="form-control" placeholder="New Password" id="first-name-icon">
+                                        <div class="form-control-icon">
+                                            <i class="fa fa-unlock-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Confirm Password</label>
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm New Password" id="first-name-icon">
+                                        <div class="form-control-icon">
+                                            <i class="fa fa-unlock-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div> 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="fa fa-times d-block d-sm-none"></i><span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <!--button id="success" class="btn btn-outline-success btn-lg btn-block" type="submit" name="update_action" value="update_user">Update</button-->
+                            <button type="submit" name="update_action" value="update_user" class="btn btn-primary me-1 mb-1">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <script src="/dashdir/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/dashdir/js/bootstrap.bundle.min.js"></script>

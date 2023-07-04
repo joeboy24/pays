@@ -14,8 +14,8 @@
         {{-- <link href="/maindir/css/bootstrap2.min.css" rel="stylesheet">
         <link href="/maindir/css/font-awesome.min.css" rel="stylesheet"> --}}
         <link rel="stylesheet" href="/maindir/css/bootstrap.css">
-        {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet"> --}}
-        {{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> --}}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
 
     <style>
@@ -168,10 +168,11 @@
         }
 
         .invBottomTbl tr {
-            /* line-height: 20px; */
+            line-height: 10px;
             padding: 0;
-        width: 100%;
-        overflow-x: auto;
+            margin: 0;
+            width: 100%;
+            overflow-x: auto;
         }
 
         .invBottomTbl th {
@@ -334,7 +335,7 @@
 
         .header1 {
             width: 90%;
-            min-height: 260px;
+            min-height: 200px;
             margin: 0 auto;
             border-bottom: 1px solid #eee;
         }
@@ -350,7 +351,7 @@
         }
 
         .qq {
-            width: 40%;
+            width: 30%;
             float: right;
             /* background: #4486e9 */
         }
@@ -368,7 +369,7 @@
         }
 
         .slip_tbl1 tr {
-            line-height: 27px;
+            line-height: 20px;
             font-weight: 300;
             font-size: 0.9em;
         }
@@ -437,6 +438,11 @@
             .header1, .header2 {
                 width: 100%;
             }
+
+            /* .my_focus td{
+                font-weight: 300;
+                font-size: 0.5em;
+            } */
         }
 
 
@@ -505,17 +511,14 @@
                     </div>
                     <div class="qq">
                         <img src="/maindir/images/qq1.png" alt="">
-                        {{-- <p>7345129</p> --}}
                     </div>
                 </div>
                 <p>&nbsp;</p>
 
                 <div class="header2">
-                    {{-- <table class="slip_tbl1"></table> --}}
                     <table class="invBottomTbl">
 
                         <thead>
-                            {{-- <th class="col-sm-6 pl no_count">#</th> --}}
                             <th class="pl"></th>
                             <th class="pl">&nbsp;</th>
                             <th class="pl">DEDUCTION</th>

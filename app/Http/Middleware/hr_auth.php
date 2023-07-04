@@ -20,7 +20,7 @@ class hr_auth
         if (Auth::check() && Auth::user()->status == 'HR') {
             return $next($request);
         }else {
-            return redirect(url()->previous())->with('warning', 'Oops..! Access Denied. Contact HR Administrator');
+            return redirect('/')->with('warning', 'Oops..! Access Denied. Contact HR Administrator');
             abort(403);
         }
     }

@@ -26,7 +26,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="#" class='sidebar-link'>
+                <a href="/staff-loans" class='sidebar-link'>
                     <i class="fa fa-suitcase"></i>
                     <span>Loan</span>
                 </a>
@@ -40,7 +40,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="#" class='sidebar-link'>
+                <a href="/mydashboard" class='sidebar-link'>
                     <i class="fa fa-credit-card-alt"></i>
                     <span>Pay Status</span><b class="menu_figure green_bg"><i class="fa fa-check"></i></b>
                 </a>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div id="ps_tbl3">
-                    @if (count($leaves) < 0)
+                    @if (count($leaves) > 0)
                         <table class="mytable mb-0 table-lg tbl_scroll">
                             <tbody>
                                 <tr>
@@ -132,7 +132,6 @@
                                                     <button type="submit" name="update_action" value="staff_del_leave" class="my_trash_small" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
                                                 @endif
                                             </td>
-
                                             <!-- Update Leave -->
                                             <div class="modal fade" id="edit_leave{{$lv->id}}" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -154,7 +153,6 @@
                                                             <div class="filter_div" id="orderby">
                                                                 <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Type
                                                                 <select name="leave_type" id="leave_type" onchange="others_check()">
-                                                                    {{-- <option value="{{$lv->leave_type}}">{{$lv->leave_type}}</option> --}}
                                                                     <option value="maternity">Maternity</option>
                                                                     <option value="casual" selected>Casual</option>
                                                                     <option value="annual">Annual</option>
@@ -179,18 +177,13 @@
 
                                                             <div class="filter_div" id="others">
                                                                 <i class="fa fa-calendar"></i>&nbsp;&nbsp; From
-                                                                <input type="date" id="lfrom{{$lv->id}}" name="from" onchange="datecount{{$lv->id}}()" required>
+                                                                <input type="date" id="lfrom{{$lv->id}}" name="from" onchange="datecount{{$lv->id}}()">
                                                             </div>
 
                                                             <div class="filter_div" id="others">
                                                                 <i class="fa fa-calendar"></i>&nbsp;&nbsp; To
-                                                                <input type="date" id="lto{{$lv->id}}" name="to" onchange="datecount{{$lv->id}}()" required>
+                                                                <input type="date" id="lto{{$lv->id}}" name="to" onchange="datecount{{$lv->id}}()">
                                                             </div>
-
-                                                            {{-- <div class="filter_div" id="others">
-                                                                <i class="fa fa-calendar-check-o"></i>&nbsp;&nbsp; Days
-                                                                <input type="number" min="0" id="days{{$lv->id}}" name="days" readonly>
-                                                            </div> --}}
                                                             
                                                             <div class="filter_div" id="orderby">
                                                                 <i class="fa fa-suitcase"></i>&nbsp;&nbsp; Select
@@ -209,13 +202,14 @@
                                                             <textarea class="mytextarea" name="leave_notes" id="" cols="30" rows="3">{{$lv->leave_notes}}</textarea>
                                                             
                                                             <div class="form-group modal_footer">
+                                                                {{-- <button type="submit" name="update_action" value="any_value">jkljkl</button> --}}
                                                                 <button type="submit" name="update_action" value="staff_update_leave" class="load_btn" onclick="return confirm('Are you sure you want to continue with leave update..?')">&nbsp;<i class="fa fa-share-square-o"></i>&nbsp; Apply &nbsp;</button>
                                                             </div>
                                                         </div>
 
                                                         <script>
                                                             function datecount{{$lv->id}}() {
-                                                                alert('Both are set..!')
+                                                                // alert('Both are set..!')
                                                                 // var startdate = document.getElementById('lfrom{{$lv->id}}').value;
                                                                 // var enddate = document.getElementById('lto{{$lv->id}}').value;
 

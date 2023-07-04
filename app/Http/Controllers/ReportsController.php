@@ -245,7 +245,7 @@ class ReportsController extends Controller
             'payslip' => $payslip,
             'month' => date('M Y', strtotime('01-'.$payslip->month))
         ];
-        return view('dash.pay_slip')->with($send);
+        return view('worker.pay_slip')->with($send);
     }
 
     /**

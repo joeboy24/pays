@@ -43,8 +43,8 @@
                     <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="user-menu d-flex">
                             <div class="user-name text-end me-3">
-                                <p class="mb-0 text-sm text-gray-300">Hello!</p>
-                                <h6 class="mb-0 text-gray-300">{{auth()->user()->name}}</h6>
+                                <p class="mb-0 text-sm">Hello!</p>
+                                <h6 class="mb-0">{{auth()->user()->name}}</h6>
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md"> 
@@ -58,16 +58,20 @@
                         <li>
                             <h6 class="dropdown-header">Welcome {{auth()->user()->name}}</h6>
                         </li>
-                        @if(auth()->user()->status != 'Administrator')
-                            <li><a class="dropdown-item" @if(auth()->user()->status == 'Lecturer') href="/lprofile" @elseif(auth()->user()->status == 'Student') href="/sprofile" @endif>
+                        {{-- @if(auth()->user()->status != 'Administrator') --}}
+                            <li><a class="dropdown-item" 
+                                @if(auth()->user()->status == 'Staff') href="/myprofile" 
+                                @else href="/admin-profile" 
+                                @endif>
                             <i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
-                        @endif
+                        {{-- @endif --}}
                         @if(auth()->user()->status == 'Administrator')
                              <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i>Settings</a></li>
                         @endif
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#update_user"><i class="icon-mid bi bi-gear me-2"></i>Change Password</a></li>
                         <li>
                             <a class="dropdown-item" href="/logout"><i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a>
                             
