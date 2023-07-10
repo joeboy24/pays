@@ -17,7 +17,7 @@ class hr_auth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status == 'HR') {
+        if (Auth::check() && Auth::user()->status == 'HR' || Auth::user()->status == 'Administrator') {
             return $next($request);
         }else {
             return redirect('/')->with('warning', 'Oops..! Access Denied. Contact HR Administrator');

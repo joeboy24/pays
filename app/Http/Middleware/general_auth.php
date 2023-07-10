@@ -20,6 +20,7 @@ class general_auth
         if (Auth::check() && Auth::user()->status != 'Staff') {
             return $next($request);
         }else {
+            return redirect('/mydashboard');
             return redirect(url()->previous())->with('warning', 'Oops..! Access Denied. Contact IT Administrator');
             abort(403);
         }

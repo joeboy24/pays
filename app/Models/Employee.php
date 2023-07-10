@@ -4,11 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions; 
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
+    protected static $logAttributes = [
+        'fname','sname','oname','dob','position','contact','region',
+        // 'email','dept','date_emp','cur_pos','ssn','salary','bank','branch','acc_no','sub_div','staff_loan','loan_bal'
+    ];
     protected $fillable = [
         'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id','region_id',
         'afis_no','fname','sname','oname','gender','dob','position','date_emp','cur_pos','ssn','salary',
@@ -51,6 +57,13 @@ class Employee extends Model
     // public function user(){
     //     return $this->belongsTo('App\Models\User');
     // }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['*'])->logOnlyDirty();
+        // Chain fluent methods for configuration options
+    }
 
     public function bank(){
         return $this->belongsTo('App\Models\Bank');

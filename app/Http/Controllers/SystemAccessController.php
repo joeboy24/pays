@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Department;
+use Spatie\Activitylog\Models\Activity;
 use Session;
 
 class SystemAccessController extends Controller
@@ -39,5 +40,15 @@ class SystemAccessController extends Controller
             'departments' => $dept,
         ];
         return view('dash.pay_department')->with($patch);
+    }
+
+    public function pay_activities(){
+
+        // $dept = Department::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
+        $patch = [
+            'c' => 1,
+            'activities' => Activity::where('log_name', '!=', '')->orderBy('id', 'DESC')->paginate(20),
+        ];
+        return view('dash.pay_activity')->with($patch);
     }
 }

@@ -115,7 +115,7 @@
                                             </td>
                                         @endif
                                         <td class="td_right"><p>{{$lv->hand_over}}</p></td>
-                                        <td class="td_right"><p>{{$lv->leave_notes}}</p></td>
+                                        <td class="td_right"><p>{{$lv->leave_notes}}</p><p class="gray_p">Leave Bal.: {{rand(100, 2)}} days</p></td>
                                         <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($lv->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($lv->end_date))}}</p></td>
                                         
 

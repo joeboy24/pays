@@ -353,7 +353,7 @@
                                                             
                                                             <div class="filter_div" id="">
                                                                 <i class="fa fa-building"></i>&nbsp;&nbsp; AFIS No.
-                                                                <input name="afis_no" type="text" class="form-control" placeholder="AFIS No." id="first-name-icon" value="{{ $emp->afis_no }}" required>
+                                                                <input name="afis_no" type="text" class="form-control" placeholder="AFIS No." id="first-name-icon" value="{{ $emp->afis_no }}">
                                                             </div>
                                                             
                                                             <div class="filter_div" id="">

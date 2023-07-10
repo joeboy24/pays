@@ -36,10 +36,13 @@ Route::get('/payslip_forwarding', 'FinancePagesController@mail_send');
 Route::get('/companysetup', 'SystemAccessController@pay_company');
 Route::get('/adduser', 'SystemAccessController@pay_adduser');
 Route::get('/add_dept', 'SystemAccessController@pay_add_dept');
+Route::get('/activity-log', 'SystemAccessController@pay_activities');
 // General Access
 Route::get('/', 'GeneralController@index');
+Route::get('/tests', 'GeneralController@pay_tests');
 Route::get('/reports', 'GeneralController@pay_reports');
 Route::get('/view_employee', 'GeneralController@pay_employee_view');
+Route::get('/admin-profile', 'GeneralController@show_admi_profile');
 
 Route::get('/emp_report', 'DashpagesController@emp_report');
 // HR Pages

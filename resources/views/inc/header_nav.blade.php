@@ -58,15 +58,14 @@
                         <li>
                             <h6 class="dropdown-header">Welcome {{auth()->user()->name}}</h6>
                         </li>
-                        {{-- @if(auth()->user()->status != 'Administrator') --}}
-                            <li><a class="dropdown-item" 
-                                @if(auth()->user()->status == 'Staff') href="/myprofile" 
-                                @else href="/admin-profile" 
-                                @endif>
-                            <i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
-                        {{-- @endif --}}
+                        <li><a class="dropdown-item" 
+                            @if(auth()->user()->status == 'Staff') href="/myprofile" 
+                            @else href="/admin-profile" 
+                            @endif>
+                        <i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
                         @if(auth()->user()->status == 'Administrator')
-                             <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i>Settings</a></li>
+                            <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="/activity-log"><i class="icon-mid bi bi-calendar-check me-2"></i> Activity Log</a></li>
                         @endif
                         <li>
                             <hr class="dropdown-divider">
