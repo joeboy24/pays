@@ -43,6 +43,8 @@ Route::get('/tests', 'GeneralController@pay_tests');
 Route::get('/reports', 'GeneralController@pay_reports');
 Route::get('/view_employee', 'GeneralController@pay_employee_view');
 Route::get('/admin-profile', 'GeneralController@show_admi_profile');
+Route::get('/otp-verification', 'OpenPagesController@verify_otp');
+Route::get('/account-block', 'OpenPagesController@account_blocked');
 
 Route::get('/emp_report', 'DashpagesController@emp_report');
 // HR Pages
@@ -51,7 +53,7 @@ Route::get('/retirement', 'HrpagesController@pay_retirement');
 Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
-Route::get('/add_employee', 'DashpagesController@pay_add_emp');
+Route::get('/add_employee', 'HrpagesController@pay_add_emp');
 
 Route::get('/pay_employee', 'GeneralController@pay_employee');  // Checkout
 // Finance Pages

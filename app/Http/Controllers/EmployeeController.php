@@ -30,6 +30,7 @@ use App\Models\LoanGrant;
 use App\Models\Validation;
 use App\Models\Journal;
 use Session;
+use Auth;
 
 class EmployeeController extends Controller
 {
@@ -1608,6 +1609,35 @@ class EmployeeController extends Controller
                     //throw $th;
                 }
                 return redirect(url()->previous())->with('success', 'Release records successfully validated for '. date('F, Y'));
+            break;
+
+            case 'verify_otp':
+
+                // return auth()->user()->temp_pass.' | '.$request->input('temp_pass');
+                if (auth()->user()->temp_pass == $request->input('temp_pass')) {
+                    Session::put('temp_pass', $request->input('temp_pass'));
+                    Session::put('check_otp_redirect', 'verified');
+                    Session::put('otp_try_count', 0);
+                    Session::put('otp_sms_count', 0);
+                    return view('auth.verify_otp');
+                    return redirect('/');
+                } else {
+                    // Increase count and disable at 3
+                    Session::put('otp_try_count', session('otp_try_count') + 1);
+                    if (session('otp_try_count') >= 3) {
+                        // Auth::logout();
+                        return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes');
+                        // return redirect('/logout')->with('error', 'Account disabled..! Try logging in after 5 minutes');
+                    }
+                    return redirect(url()->previous())->with('error', 'Oops..! Incorrect OTP. Account will be disabled after third try');
+                }
+                
+                // try {
+                //     return redirect('/');
+                // } catch (ValidationException $exception) {
+                //     return redirect(url()->previous())->with('Error', $exception->errors());
+                // }
+
             break;
 
         }

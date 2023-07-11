@@ -29,6 +29,7 @@
               <img class="logo_img1" src="/maindir/images/masloc.png" alt="">
               <img class="logo_img2" src="/maindir/images/coat2.png" alt=""> 
             </div> --}}
+            @include('inc.messages')
             <form action="{{ route('login') }}" method="POST">
               @csrf
               <input placeholder="Phone / Email" id="email" type="text" class="@error('email') is-invalid @enderror login_input" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

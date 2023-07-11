@@ -29,6 +29,7 @@ class User extends Authenticatable
         'contact',
         'password',
         'temp_pass',
+        'otp_time',
         'status',
         'pass_photo',
         'del', 
