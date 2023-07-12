@@ -44,13 +44,13 @@
             window.setTimeout(function(){
               window.location.href = "/";
               // window.location.href = "https://www.google.co.in";
-            }, 3000);
+            }, 2000);
           </script>
         @else
           <div class="otp_top">
             <img class="otp_logo" src="https://www.pngall.com/wp-content/uploads/4/Web-Security-Shield-PNG.png" alt="logo">
             <h4>Verification</h4>
-            <p>We will send you a OTP via SMS</p>
+            <p>We've sent you a OTP via SMS</p>
             @include('inc.messages')
           </div>
           <form action="{{ action('EmployeeController@store') }}" method="POST">
@@ -61,7 +61,10 @@
             <div class="login_btn_container">
               <button type="submit" name="store_action" value="verify_otp" class="login_btn3">Verify</button>
             </div>
-            <p class="cent_p">Didn't receive the verification SMS? <button class="my_trash_small bg8 color2" onclick="return alert('Oops..! Limited SMS bundle')">Resend OTP</button></p>
+            <p class="cent_p">Didn't receive the verification SMS? 
+              <a href="/otp-resend"><button type="button" name="store_action" value="send_new_otp" class="my_trash_small bg8 color2">Resend OTP</button></a>
+              <!--button class="my_trash_small bg8 color2" onclick="return alert('Oops..! Limited SMS bundle')">Resend OTP</button-->
+            </p>
             <p>&nbsp;</p>
           </form>
         @endif
@@ -78,7 +81,7 @@
 
           <script language="javascript" type="text/javascript">   
             // alert ('sent')
-            send_with_ajax("https://apps.mnotify.net/smsapi?key=uMl30OFBEGRUJXApCnmkgV9mb&to=0247873637&msg=Your OTP is <?php echo session('phold'); ?>&sender_id=MASLOCGH");
+            send_with_ajax("https://apps.mnotify.net/smsapi?key=uMl30OFBEGRUJXApCnmkgV9mb&to=<?php echo auth()->user()->contact; ?>&msg=Your OTP is <?php echo session('phold'); ?>&sender_id=MASLOCGH");
           </script>
         @endif
       </section>

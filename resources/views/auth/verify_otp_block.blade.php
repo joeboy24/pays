@@ -26,9 +26,10 @@
           <img class="otp_logo" src="https://www.pngall.com/wp-content/uploads/4/Web-Security-Shield-PNG.png" alt="logo">
           <h4>Verification</h4>
           <p>Account has been disabled</p>
-          <div class="alert alert-danger">
+          @include('inc.messages')
+          {{-- <div class="alert alert-danger">
               Try again after 5 minutes
-          </div>
+          </div> --}}
         </div>
         <form>
           @csrf
@@ -36,10 +37,10 @@
           <div class="login_btn_container">
             <a href="/otp-verification"><button type="button" class="login_btn3"><i class="fa fa-chevron-left"></i>&nbsp; Back</button></a>
           </div>
-          <p class="cent_p">Didn't receive the verification SMS? <button class="my_trash_small bg8 color2">Resend OTP</button></p>
+          <p class="cent_p">Didn't receive the verification SMS? <button type="button" class="my_trash_small bg8 color2">Resend OTP</button></p>
           <p>&nbsp;</p>
         </form>
-        
+
       </section>
 
     </div>

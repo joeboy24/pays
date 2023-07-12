@@ -45,6 +45,7 @@ Route::get('/view_employee', 'GeneralController@pay_employee_view');
 Route::get('/admin-profile', 'GeneralController@show_admi_profile');
 Route::get('/otp-verification', 'OpenPagesController@verify_otp');
 Route::get('/account-block', 'OpenPagesController@account_blocked');
+Route::get('/otp-resend', 'OpenPagesController@resend_otp');
 
 Route::get('/emp_report', 'DashpagesController@emp_report');
 // HR Pages

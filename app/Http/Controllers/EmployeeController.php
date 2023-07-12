@@ -1608,11 +1608,15 @@ class EmployeeController extends Controller
                 } catch (\Throwable $th) {
                     //throw $th;
                 }
-                return redirect(url()->previous())->with('success', 'Release records successfully validated for '. date('F, Y'));
+                return redirect(url()->previous())->with('success', 'Release records successfully validated for '.date('F, Y'));
             break;
 
             case 'verify_otp':
 
+                $start = auth()->user()->otp_time;
+                $end = date("Y-m-d h:i:s");
+                $dt_diff = round((strtotime($end)-strtotime($start)) / 60, 2);
+                // return $dt_diff;
                 // return auth()->user()->temp_pass.' | '.$request->input('temp_pass');
                 if (auth()->user()->temp_pass == $request->input('temp_pass')) {
                     Session::put('temp_pass', $request->input('temp_pass'));
@@ -1626,8 +1630,11 @@ class EmployeeController extends Controller
                     Session::put('otp_try_count', session('otp_try_count') + 1);
                     if (session('otp_try_count') >= 3) {
                         // Auth::logout();
-                        return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes');
+                        return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes.');
                         // return redirect('/logout')->with('error', 'Account disabled..! Try logging in after 5 minutes');
+                    }
+                    if ($dt_diff >= 1) {
+                        return redirect('/otp-verification')->with('error', 'Oops..! OTP verification timeout. Resend OTP');
                     }
                     return redirect(url()->previous())->with('error', 'Oops..! Incorrect OTP. Account will be disabled after third try');
                 }
@@ -1639,6 +1646,15 @@ class EmployeeController extends Controller
                 // }
 
             break;
+
+            // case 'send_new_otp':
+            //     Session::put('temp_pass', 'null');
+            //     Session::put('phold', '');
+            //    // Session::put('otp_sms_count', 0);
+            //     Session::put('otp_try_count', 0);
+            //     Session::put('check_otp_redirect', '');
+            //     return redirect(url()->previous())->with('warning', 'Input new OTP sent to '.substr(auth()->user()->contact, 0, 5).'*****');
+            // break;
 
         }
 
