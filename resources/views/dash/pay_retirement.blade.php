@@ -137,13 +137,29 @@
 @section('content')
 
     <div class="page-heading">
-        <h3><i class="fa fa-gift color1"></i>&nbsp;&nbsp;Retirement</h3>
+        <h3><i class="fa fa-calendar color1"></i>&nbsp;&nbsp;Retirement</h3>
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
-            {{-- <a data-bs-toggle="modal" data-bs-target="#leave_setup"><p class="view_daily_report">&nbsp;<i class="fa fa-gears color5"></i>&nbsp; Leave Setup</p></a>
-            <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
-            <p>&nbsp;</p>
+            {{-- <a data-bs-toggle="modal" data-bs-target="#leave_setup"><p class="view_daily_report">&nbsp;<i class="fa fa-gears color5"></i>&nbsp; Leave Setup</p></a> --}}
+            <a href="/retirement"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
+                    
+            {{-- <p>&nbsp;</p> --}}
+        </form>
+        <form action="{{ url('/retirement') }}">
+            @csrf
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="filter_div">
+                        <i class="fa fa-filter"></i> &nbsp; Filter
+                        <input placeholder="Type No. of Years Remaining (e.g 5)" type="number" name="date_filter" required>
+                    </div>
+                    <button type="submit" class="load_btn"><i class="fa fa-refresh"></i>&nbsp; Load</button>
+                </div>
+                {{-- <div class="col-md-2">
+                    <button type="submit" class="load_btn"><i class="fa fa-refresh"></i>&nbsp; Load</button>
+                </div> --}}
+            </div>
         </form>
     </div>
 
@@ -154,6 +170,7 @@
             @include('inc.messages') 
             <div class="card">
                 <div class="card-body">
+            <p class="small_p">Showing results for retirements due in <b>{{60-$yrs}}</b> years</p>
 
                     <!-- Birthday View -->
                     <div class="table-responsive">
@@ -171,13 +188,13 @@
                                 </thead>   
                                 <tbody>
                                     @foreach ($retirements as $rtire)
-                                        @if ($rtire->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y > 50)
+                                        @if ($rtire->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y > $yrs)
                                             @if ($c % 2 == 1)
                                                 <tr class="bg9">
                                             @else
                                                 <tr>
                                             @endif
-                                                <td class="bday_icon"><i class="fa fa-gift"></i></td>
+                                                <td class="bday_icon"><i class="fa fa-calendar-check-o"></i></td>
                                                 <td class="text-bold-500">{{ $rtire->fname.' '.$rtire->sname.' '.$rtire->oname }}<br><p class="small_p">{{$rtire->contact}}</p></td>
                                                 <td class="text-bold-500">@if ($rtire->dob != '') {{date('D. M, d Y', strtotime($rtire->dob))}} @endif
                                                     <p class="small_p">Age: {{date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y}}</p>
@@ -205,7 +222,7 @@
                             
                         @else
                             <div class="alert alert-danger">
-                                No Records Found on Birthdays
+                                No Retirement Records Found
                             </div>
                         @endif
                     </div>

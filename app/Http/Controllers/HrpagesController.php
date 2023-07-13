@@ -33,15 +33,24 @@ class HrpagesController extends Controller
         return view('dash.pay_leave')->with($patch);
     }
 
-    public function pay_retirement(){
+    public function pay_retirement(Request $request){
+
+        if ($request->input('date_filter')) {
+        //     $yr = date('Y', strtotime($request->input('date_filter')));
+            $yrs = 60 - $request->input('date_filter');
+        }else {
+            $yrs = 55;
+        }
+        // return $yrs;
         // $yr = date('Y') - 60;
         // $yr = $yr.'-01-03';
         // return date('01-02-').$yr;
-        $retirements = EmployeeExtRead::where('del', 'no')->get();
         // $bdays = Employee::where('created_at', '<=', '2023-07-03')->paginate(10);
         // return $bdays;
+        $retirements = EmployeeExtRead::where('del', 'no')->get();
         $patch = [
             'c' => 1,
+            'yrs' => $yrs,
             'retirements' => $retirements
         ];
         return view('dash.pay_retirement')->with($patch);
