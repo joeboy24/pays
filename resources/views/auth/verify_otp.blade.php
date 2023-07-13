@@ -47,6 +47,7 @@
             }, 2000);
           </script>
         @else
+          {{-- <p>SMS: {{session('otp_sms_count').' - '.session('otp_try_count')}} :Try</p> --}}
           <div class="otp_top">
             <img class="otp_logo" src="https://www.pngall.com/wp-content/uploads/4/Web-Security-Shield-PNG.png" alt="logo">
             <h4>Verification</h4>
@@ -63,7 +64,8 @@
             </div>
             <p class="cent_p">Didn't receive the verification SMS? 
               <a href="/otp-resend"><button type="button" name="store_action" value="send_new_otp" class="my_trash_small bg8 color2">Resend OTP</button></a>
-              <!--button class="my_trash_small bg8 color2" onclick="return alert('Oops..! Limited SMS bundle')">Resend OTP</button-->
+              <!--button type="submit" name="store_action" value="send_new_otp" class="my_trash_small bg8 color2">Resend OTP</button>
+              <button class="my_trash_small bg8 color2" onclick="return alert('Oops..! Limited SMS bundle')">Resend OTP</button-->
             </p>
             <p>&nbsp;</p>
           </form>

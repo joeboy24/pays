@@ -22,6 +22,7 @@
 
       <section class="login_content">
         
+        {{-- <p>SMS: {{session('otp_sms_count').' - '.session('otp_try_count')}} :Try</p> --}}
         <div class="otp_top">
           <img class="otp_logo" src="https://www.pngall.com/wp-content/uploads/4/Web-Security-Shield-PNG.png" alt="logo">
           <h4>Verification</h4>
@@ -34,10 +35,16 @@
         <form>
           @csrf
 
-          <div class="login_btn_container">
-            <a href="/otp-verification"><button type="button" class="login_btn3"><i class="fa fa-chevron-left"></i>&nbsp; Back</button></a>
-          </div>
-          <p class="cent_p">Didn't receive the verification SMS? <button type="button" class="my_trash_small bg8 color2">Resend OTP</button></p>
+            <div class="login_btn_container">
+              <a href="/otp-verification"><button type="button" class="login_btn3"><i class="fa fa-chevron-left"></i>&nbsp; Back</button></a>
+            </div>
+          {{-- @if (session('otp_sms_count') <= 3 || session('otp_try_count') <= 3)
+            <div class="login_btn_container">
+              <button type="button" class="login_btn3"><i class="fa fa-warning"></i>&nbsp; Check back later</button>
+            </div>
+          @else
+            <p class="cent_p">Didn't receive the verification SMS? <button type="button" class="my_trash_small bg8 color2">Resend OTP</button></p>
+          @endif --}}
           <p>&nbsp;</p>
         </form>
 

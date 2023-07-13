@@ -1622,19 +1622,18 @@ class EmployeeController extends Controller
                     Session::put('temp_pass', $request->input('temp_pass'));
                     Session::put('check_otp_redirect', 'verified');
                     Session::put('otp_try_count', 0);
-                    Session::put('otp_sms_count', 0);
-                    return view('auth.verify_otp');
+                    Session::put('otp_sms_count', 0); 
                     return redirect('/');
                 } else {
+                    if ($dt_diff >= 1) {
+                        return redirect('/otp-verification')->with('error', 'Oops..! OTP verification timeout. Resend OTP');
+                    }
                     // Increase count and disable at 3
                     Session::put('otp_try_count', session('otp_try_count') + 1);
                     if (session('otp_try_count') >= 3) {
                         // Auth::logout();
                         return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes.');
                         // return redirect('/logout')->with('error', 'Account disabled..! Try logging in after 5 minutes');
-                    }
-                    if ($dt_diff >= 1) {
-                        return redirect('/otp-verification')->with('error', 'Oops..! OTP verification timeout. Resend OTP');
                     }
                     return redirect(url()->previous())->with('error', 'Oops..! Incorrect OTP. Account will be disabled after third try');
                 }
@@ -1647,14 +1646,11 @@ class EmployeeController extends Controller
 
             break;
 
-            // case 'send_new_otp':
-            //     Session::put('temp_pass', 'null');
-            //     Session::put('phold', '');
-            //    // Session::put('otp_sms_count', 0);
-            //     Session::put('otp_try_count', 0);
-            //     Session::put('check_otp_redirect', '');
-            //     return redirect(url()->previous())->with('warning', 'Input new OTP sent to '.substr(auth()->user()->contact, 0, 5).'*****');
-            // break;
+            case 'send_new_otp':
+                return 89787987;
+                Session::put('otp_sms_count', 0);
+                return redirect('/otp-verification')->with('warning', 'Input new OTP sent to '.substr(auth()->user()->contact, 0, 5).'*****');
+            break;
 
         }
 
