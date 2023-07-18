@@ -31,6 +31,7 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){
+        // $this->middleware(['auth', 'general_auth']);
         $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
@@ -162,7 +163,7 @@ class GeneralController extends Controller
         // $users = User::where('status', '!=', 'Student')->get();
         $regions = Employee::select('region')->orderBy('region', 'ASC')->distinct('region')->get();
         $position = SalaryCat::orderBy('position', 'ASC')->get();
-        $employees = Employee::orderBy('fname', 'ASC')->paginate(20);
+        $employees = Employee::orderBy('id', 'DESC')->paginate(20);
         $patch = [
             'c' => 1,
             'regions' => $regions,

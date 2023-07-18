@@ -334,9 +334,9 @@
                                 <select name="bank" id="bank" onchange="bankcheck()">
                                     <option value="all" selected>Choose Bank</option>
                                     <option value="na">Not Available</option>
-                                    @foreach ($banks as $bk)
+                                    {{-- @foreach ($banks as $bk)
                                         <option value="{{$bk->bank_id}}">{{$bk->bank}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                     @foreach ($banks2 as $bk2)
                                         <option value="{{$bk2->id}}">{{$bk2->bank_abr}}</option>
                                     @endforeach

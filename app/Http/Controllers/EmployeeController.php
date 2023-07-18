@@ -1237,6 +1237,8 @@ class EmployeeController extends Controller
             break;
 
             case 'add_emp':
+                // $bank = $request->input('bankk');
+                // return $bank;
 
                 // return 789;
                 if ($request->input('rent_allow')) {
@@ -1330,6 +1332,7 @@ class EmployeeController extends Controller
                 }
 
                 $bank = $request->input('bank');
+                // return $bank;
                 if ($request->input('bank') == 'na') {
                     $bank = $request->input('bank2');
                     $bank_check = Bank::where('bank_abr', $bank)->orwhere('bank_fullname', $bank)->count();
@@ -1666,6 +1669,7 @@ class EmployeeController extends Controller
     {
         //
         $emp = Employee::find($id);
+        // return $emp->photo;
         $send = [
             'emp' => $emp
         ];

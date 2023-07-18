@@ -67,7 +67,7 @@ class FinancePagesController extends Controller
 
     public function pay_tax(){
         
-        $taxation = Taxation::where('month', date('m-Y'))->paginate(50);
+        $taxation = Taxation::where('month', date('m-Y'))->orderBy('id', 'DESC')->paginate(50);
         $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
         if ($allowoverview == '') {
             return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
@@ -94,7 +94,7 @@ class FinancePagesController extends Controller
             $salaries = $salaries->distinct()->orderBy('id', 'DESC')->paginate(50);
             // return $salaries;
         } else {
-            $salaries = Salary::where('month', date('m-Y'))->paginate(50);
+            $salaries = Salary::where('month', date('m-Y'))->orderBy('id', 'DESC')->paginate(50);
             // return count($salaries);
         }
 
