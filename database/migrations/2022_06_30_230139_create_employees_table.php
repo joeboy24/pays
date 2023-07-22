@@ -29,6 +29,7 @@ class CreateEmployeesTable extends Migration
             $table->string('fname', 50);
             $table->string('sname', 50); 
             $table->string('oname', 50)->nullable();
+            $table->string('mname', 50)->nullable();
             $table->string('gender', 50)->nullable();
             $table->string('dob', 50)->nullable();
             $table->string('position', 50)->nullable();
@@ -54,9 +55,10 @@ class CreateEmployeesTable extends Migration
             $table->string('loan_monthly_ded', 50)->default(0);
             $table->string('valid_comment', 100)->nullable();
 
-            $table->string('photo', 50)->default('noimage.png', 50);
-            $table->string('status', 50)->default('Active', 50); 
-            $table->string('del', 50)->default('no', 50);
+            $table->string('photo', 50)->default('noimage.png');
+            $table->string('status', 50)->default('Active'); 
+            $table->string('reg_mgr', 12)->default('no');
+            $table->string('del', 120)->default('no');
 
             // 'user_id', 'staff_id', 'afis_no', 'fullname', 'month', 'taxation_id', 'employee_id', 'position', 'salary', 'ssf', 'sal_aft_ssf', 'rent', 'prof', 'taxable_inc',
             // 'income_tax', 'net_aft_inc_tax', 'resp', 'risk', 'vma', 'ent', 'dom', 'intr', 'tnt', 'back_pay', 'net_bef_ded', 'staff_loan',

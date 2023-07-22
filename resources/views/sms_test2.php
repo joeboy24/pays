@@ -1,3 +1,10 @@
+<html>
+    <head></head>
+    <body>
+        <p>Hello World</p>
+    </body>
+</html>
+
 <?php 
 
     $curl = curl_init();

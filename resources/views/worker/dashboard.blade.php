@@ -243,7 +243,7 @@
                             <i class="fa fa-times"></i>
                         </button>
                     </div>
-                    <form action="{{ action('HrdashController@store') }}" method="POST">
+                    <form action="{{ action('HrdashController@store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="modal-body">
@@ -301,6 +301,11 @@
                                     @endforeach
                                 </select>
                             </div> 
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-upload"></i> &nbsp; Scan&nbsp;Copy
+                                <input type="file" name="file_scan" placeholder="Upload Scan Copy" required>
+                            </div>
 
                             <p class="small_p">&nbsp;</p>
                             <p class="small_p">Leave notes here</p>

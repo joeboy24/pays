@@ -180,6 +180,7 @@
                                             @endif
                                                 <td>{{$c++}}</td>
                                                 <td class="text-bold-500">{{ $lv->employee->fname.' '.$lv->employee->sname.' '.$lv->employee->oname }}<br>
+                                                    <button type="button" class="my_trash2 genhover" title="View scan" data-bs-toggle="modal" data-bs-target="#scan{{$lv->id}}"><i class="fa fa-file-text"></i></button>
                                                     @if ($lv->status == 'Approved')
                                                         <button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i> &nbsp;Approved</button>
                                                     @else
@@ -192,7 +193,7 @@
                                                 </td>
                                                 <td class="gray_p2">@if ($lv->start_date != '') {{date('D, M d, Y', strtotime($lv->start_date))}} @endif</td>
                                                 <td class="text-bold-500 align_right">
-                                                    @if ($lv->resume_date != '')
+                                                    @if (!empty($lv->resume_date))
                                                         <button type="button" class="my_trash2 bg10 color8"><i class="fa fa-ban"></i> &nbsp;Closed</button>
                                                     @else
                                                         <form action="{{ action('HrdashController@update', $lv->id) }}" method="POST">
@@ -210,6 +211,32 @@
                                                             @endif
                                                         </form>
                                                     @endif
+                                            
+                                                    <!-- Scan File -->
+                                                    <div class="modal fade" id="scan{{$lv->id}}" tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                                                            role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                        {{' Leave : '.$lv->leave_type.' / '.$lv->days.' days'}}
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-bs-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <i class="fa fa-times"></i>
+                                                                    </button>
+                                                                </div> 
+        
+                                                                <div class="modal-body">
+                                                                    <div class="scan_div">
+                                                                        <img src="/storage/classified/leaves/{{$lv->file_scan}}" class="scan_img" alt="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </td>
                                             </tr>
                                         {{-- @else

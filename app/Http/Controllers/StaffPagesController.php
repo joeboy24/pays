@@ -109,6 +109,10 @@ class StaffPagesController extends Controller
 
     public function sal_validation(Request $request){
 
+        if (auth()->user()->employee->reg_mgr != 'yes') {
+            return redirect('/')->with('error', 'Oops..! Access denied.');
+        }
+
         $src = $request->input('search_emp');
         $cvw = $request->input('change_view');
         $reg_id = auth()->user()->employee->region_id;

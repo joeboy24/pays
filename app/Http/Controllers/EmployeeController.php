@@ -1406,6 +1406,8 @@ class EmployeeController extends Controller
                             'sname' => $request->input('sname'),
                             'oname' => $request->input('oname'),
                             'dob' => $request->input('dob'),
+                            'mname' => $request->input('mname'),
+                            'gender' => $request->input('gender'),
                             'email' => $email,
                             'contact' => $contact,
                             // 'oname' => $oname,
@@ -1759,9 +1761,11 @@ class EmployeeController extends Controller
                     $emp->position = $emp->cur_pos;
                     $emp->cur_pos = $request->input('position');
                     $emp->region = $request->input('region');
+                    $emp->reg_mgr = $request->input('reg_mgr');
                     $emp->save();
                     return redirect(url()->previous())->with('success', $request->input('fname')."'s details successfully updated!");
                 } catch (\Throwable $th) {
+                    // throw $th;
                     return redirect(url()->previous())->with('error', 'Oops..! Something went wrong');
                 }
             break;

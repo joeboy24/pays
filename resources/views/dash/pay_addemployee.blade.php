@@ -212,6 +212,22 @@
                             </div>
                     
                             <div class="filter_div">
+                                <i class="fa fa-user"></i> &nbsp; Maiden Name
+                                <input type="text" name="mname" placeholder="Optional">
+                            </div>
+
+                            <div class="filter_div">
+                                <i class="fa fa-folder-open"></i> &nbsp; Gender
+                                <select name="sex">
+                                    <option value="all" selected>Choose Gender</option>
+                                    @foreach ($department as $dept)
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                    
+                            <div class="filter_div">
                                 <i class="fa fa-calendar"></i> &nbsp; Date of Birth
                                 <input type="date" name="dob" required>
                             </div>
@@ -372,21 +388,6 @@
                             </div>
                     
                             <div class="filter_div">
-                                <i class="fa fa-user"></i> &nbsp; M.Firstname
-                                <input type="text" name="mfname" placeholder="Maiden Firstname" required>
-                            </div>
-                    
-                            <div class="filter_div">
-                                <i class="fa fa-user"></i> &nbsp; M.Surname
-                                <input type="text" name="msname" placeholder="Maiden Surname" required>
-                            </div>
-                    
-                            <div class="filter_div">
-                                <i class="fa fa-user"></i> &nbsp; M.Othernames
-                                <input type="text" name="moname" placeholder="Maiden Othernames" required>
-                            </div>
-                    
-                            <div class="filter_div">
                                 <i class="fa fa-envelope"></i> &nbsp; Address
                                 <input type="text" name="addr" required>
                             </div>
@@ -408,7 +409,7 @@
                     
                             <div class="filter_div">
                                 <i class="fa fa-dot-circle-o"></i> &nbsp; Position
-                                <input type="text" name="lep_pos" placeholder="Last Emp. Place Contact" required>
+                                <input type="text" name="lep_pos" placeholder="Last Emp. Position" required>
                             </div>
                     
                             <div class="filter_div">

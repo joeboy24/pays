@@ -124,14 +124,41 @@
                                             <input type="hidden" name="_method" value="PUT">
                                             @csrf
                                             <td class="td_right align_right">
+                                                <button type="button" class="my_trash_small" title="View scan" data-bs-toggle="modal" data-bs-target="#scan{{$lv->id}}"><i class="fa fa-picture-o"></i></button>
                                                 @if ($lv->status == 'Approved')
                                                     <button type="button" class="my_trash_small"><i class="fa fa-ban"></i></button>
                                                 @else
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit_leave{{$lv->id}}" class="my_trash_small bg7"><i class="fa fa-pencil"></i></button>
+                                                    <button type="button" title="Edit" data-bs-toggle="modal" data-bs-target="#edit_leave{{$lv->id}}" class="my_trash_small bg7"><i class="fa fa-pencil"></i></button>
                                                     {{-- <button type="submit" name="update_action" value="staff_del_leave" class="my_trash_small bg7"onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-times"></i></button> --}}
-                                                    <button type="submit" name="update_action" value="staff_del_leave" class="my_trash_small" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
+                                                    <button type="submit" title="Delete" name="update_action" value="staff_del_leave" class="my_trash_small" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
                                                 @endif
                                             </td>
+                                            
+                                            <!-- Scan File -->
+                                            <div class="modal fade" id="scan{{$lv->id}}" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                {{' Leave : '.$lv->leave_type.' / '.$lv->days.' days'}}
+                                                            </h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </div> 
+
+                                                        <div class="modal-body">
+                                                            <div class="scan_div">
+                                                                <img src="/storage/classified/leaves/{{$lv->file_scan}}" class="scan_img" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <!-- Update Leave -->
                                             <div class="modal fade" id="edit_leave{{$lv->id}}" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -268,7 +295,7 @@
                             <i class="fa fa-times"></i>
                         </button>
                     </div>
-                    <form action="{{ action('HrdashController@store') }}" method="POST">
+                    <form action="{{ action('HrdashController@store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="modal-body">
@@ -319,6 +346,11 @@
                                     @endforeach
                                 </select>
                             </div> 
+                    
+                            <div class="filter_div">
+                                <i class="fa fa-upload"></i> &nbsp; Scan&nbsp;Copy
+                                <input type="file" name="file_scan" placeholder="Upload Scan Copy" required>
+                            </div>
 
                             <p class="small_p">&nbsp;</p>
                             <p class="small_p">Leave notes here</p>

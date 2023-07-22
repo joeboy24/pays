@@ -201,6 +201,7 @@
                                             </td>
                                             <td class="text-bold-500">{{ $emp->cur_pos }}
                                                 <p class="small_p">Dept.: {{ $emp->dept }}</p>
+                                                @if ($emp->reg_mgr == 'yes') <button type="button" class="my_trash2 blue_bg color8"><i class="fa fa-user-circle"></i>&nbsp; Regional Mgr.</button> @endif
                                             </td>
                                             <td class="text-bold-500">{{ number_format($emp->salary, 2) }}<br>
                                                 <a href="/reporting/{{$emp->id}}"><button type="button" class="my_trash2 green_bg color8 genhover"><i class="fa fa-print"></i>&nbsp; Pay Slip</button></a>
@@ -230,7 +231,7 @@
                                                         @if ($emp->status == 'inactive')
                                                             <button type="button" class="my_trash_small bg7" onclick="alert('You can only resume leave from the `Manage Leave` page')"><i class="fa fa-leaf"></i></button>
                                                         @else
-                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#leave{{$emp->id}}" class="my_trash_small"><i class="fa fa-leaf"></i></button>
+                                                            {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#leave{{$emp->id}}" class="my_trash_small"><i class="fa fa-leaf"></i></button> --}}
                                                         @endif
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$emp->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
                                                         <button type="submit" name="update_action" value="del_employee" class="my_trash_small" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
@@ -402,6 +403,19 @@
                                                                             <option>{{$mreg->reg_name}}</option>
                                                                         @endif
                                                                     @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="filter_div">
+                                                                <i class="fa fa-dot-circle-o"></i> &nbsp; Reg.Mgr.
+                                                                <select name="reg_mgr">
+                                                                    @if ($emp->reg_mgr == 'no')    
+                                                                        <option value="yes">Yes</option>
+                                                                        <option value="no" selected>No</option>
+                                                                    @else
+                                                                        <option value="yes" selected>Yes</option>
+                                                                        <option value="no">No</option>
+                                                                    @endif
                                                                 </select>
                                                             </div>
                                                             

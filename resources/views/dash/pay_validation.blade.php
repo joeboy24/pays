@@ -180,8 +180,8 @@
                             </form>
                             <form action="{{ action('EmployeeController@store') }}" method="POST">
                                 @csrf
-                                <button type="submit" name="store_action" value="val_withhold_all" class="my_trash2 blue_bg genhover color8" onclick="confirm('Are you sure you want to hold payment for these records?')">&nbsp;<i class="fa fa-warning"></i>&nbsp;Withhold All</button>
-                                <button type="submit" name="store_action" value="val_release_all" class="my_trash2 green_bg genhover color8" onclick="confirm('Are you sure you want to release payment for these records?')">&nbsp;<i class="fa fa-check"></i>&nbsp;Release All</button>
+                                <button type="submit" name="store_action" value="val_withhold_all" class="my_trash2 blue_bg genhover color8" onclick="return confirm('Are you sure you want to hold payment for these records?')">&nbsp;<i class="fa fa-warning"></i>&nbsp;Withhold All</button>
+                                <button type="submit" name="store_action" value="val_release_all" class="my_trash2 green_bg genhover color8" onclick="return confirm('Are you sure you want to release payment for these records?')">&nbsp;<i class="fa fa-check"></i>&nbsp;Release All</button>
                                 {{-- <a><button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i>&nbsp; Pay</button></a> --}}
                             </form>
 
@@ -229,13 +229,13 @@
 
                                                 <td class="text-bold-500 align_right action_size">
                                                     @if ($val->status == 'Pending')
-                                                        <button type="submit" name="update_action" value="confirm_val_withheld" class="my_trash2 blue_bg color8" onclick="return confirm('This action will hold payment for current and subsequent months, Are you sure you want to proceed?')"><i class="fa fa-warning"></i>&nbsp; Withhold</button>
+                                                        <button type="submit" name="update_action" value="confirm_val_withheld" class="my_trash2 blue_bg color8 genhover" onclick="return confirm('This action will hold payment for current and subsequent months, Are you sure you want to proceed?')"><i class="fa fa-warning"></i>&nbsp; Withhold</button>
                                                         <button type="submit" name="update_action" value="admi_restore_validation" class="my_trash2 color8 black_bg genhover" onclick="return confirm('Do you want to remove this record from withheld list?')"><i class="fa fa-reply"></i></button>
                                                     @elseif ($val->status == 'Pay')
                                                         <a><button type="button" class="my_trash2 green_bg color8"><i class="fa fa-check"></i>&nbsp; Pay</button></a>
                                                     @else
                                                         <a><button type="button" class="my_trash2 bg6 color8"><i class="fa fa-times"></i>&nbsp; Withheld</button></a>
-                                                        @if ($val->employee->status == 'inactive')
+                                                        @if ($val->employee->status == 'inactive' && date('01-m-Y') == $val->month)
                                                             <button type="submit" name="update_action" value="confirm_val_release" class="my_trash2 genhover blue_bg color8" onclick="return confirm('Are you sure you want to release payment for these record?')"><i class="fa fa-check"></i>&nbsp; Release</button>
                                                         @endif
                                                     @endif

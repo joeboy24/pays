@@ -25,6 +25,7 @@ class CreateLeavesTable extends Migration
             $table->string('days')->nullable();
             $table->string('hand_over')->nullable();
             $table->string('leave_notes')->nullable();
+            $table->string('file_scan')->default('nofile.png');
             $table->string('status')->default('Pending');
             $table->string('del')->default('no');
             $table->timestamps();

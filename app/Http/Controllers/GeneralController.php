@@ -31,8 +31,8 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){
-        // $this->middleware(['auth', 'general_auth']);
-        $this->middleware(['auth', 'load_auth', 'general_auth']);
+        $this->middleware(['auth', 'general_auth']);
+        // $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
     public function index(){
@@ -64,6 +64,12 @@ class GeneralController extends Controller
         //     $premo = Salary::select(['net_aft_ded'])->where('employee_id', $salary[$key]['employee_id'])->where('month', '06-2023')->latest()->first();
         //     return $premo->net_aft_ded;
         // }
+
+        // $salary = Salary::where('month', '07-2023')->get();
+        // foreach ($salary as $val) {
+        //     $val->delete();
+        // }
+        // return 'Done..!';
 
         
         $system_users = User::where('del', 'no')->count();

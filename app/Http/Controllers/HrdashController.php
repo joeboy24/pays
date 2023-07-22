@@ -104,6 +104,33 @@ class HrdashController extends Controller
                 if ($hand_over == 'none') {
                     return redirect(url()->previous())->with('error', 'Oops..! Select who you are handing over to');
                 }
+
+                // Upload Scanned Coppy
+                try {
+                    $this->validate($request, [
+                        'file_scan'  => 'max:2000|mimes:jpeg,jpg,png'
+                    ]);
+                    if($request->hasFile('file_scan')){
+                        //get filename with ext
+                        $filenameWithExt = $request->file('file_scan')->getClientOriginalName();
+                        //get filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        //get file ext
+                        $fileExt = $request->file('file_scan')->getClientOriginalExtension();
+                        //filename to store
+                        $filenameToStore = auth()->user()->employee->fname.date('dmyhi').'.'.$fileExt;
+                        //upload path
+                        $path = $request->file('file_scan')->storeAs('public/classified/leaves', $filenameToStore);
+                    }else{
+                    //     return 171819;
+                        $filenameToStore = 'nofile.png';
+                    }
+                    // return 'Scan Upload Successfull';
+                } catch (Exception $ex) {
+                    return $ex;
+                    return redirect(url()->previous())->with('error', 'Ooops..! File Error. Note: File size should be less than 2mb, Required file types are Jpeg, jpg, png');
+                }
+
                 // return $dt_diff;
                 // 'user_id','employee_id','leave_type','start_date','end_date','resume_date','days','hand_over','leave_notes','status'
                 try {
@@ -116,6 +143,7 @@ class HrdashController extends Controller
                         'end_date' => $end,
                         'hand_over' => $hand_over,
                         'leave_notes' => $request->input('leave_notes'),
+                        'file_scan' => $filenameToStore,
                         'days' => $days
                     ]);
                 } catch (\Throwable $th) {
