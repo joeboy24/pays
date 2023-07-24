@@ -31,8 +31,8 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){ 
-        // $this->middleware(['auth', 'general_auth']);
-        $this->middleware(['auth', 'load_auth', 'general_auth']);
+        $this->middleware(['auth', 'general_auth']);
+        // $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
     public function index(){
