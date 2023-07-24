@@ -235,6 +235,7 @@ class ReportsController extends Controller
     public function show($id)
     {
         //
+        // return $id;
         $payslip = Salary::where('employee_id', $id)->where('month', date('m-Y'))->latest()->first();
         if ($payslip) {}else{
             return redirect(url()->previous())->with('error', 'Oops..! '.date('F').' salary records not yet generated.');
