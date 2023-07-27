@@ -31,8 +31,8 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){
-        // $this->middleware(['auth', 'general_auth']);
-        $this->middleware(['auth', 'load_auth', 'general_auth']);
+        $this->middleware(['auth', 'general_auth']);
+        // $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
     public function index(){
@@ -65,7 +65,7 @@ class GeneralController extends Controller
         //     return $premo->net_aft_ded;
         // }
 
-        // $salary = Salary::where('month', '07-2023')->get();
+        // $salary = Taxation::where('month', '07-2023')->get();
         // foreach ($salary as $val) {
         //     $val->delete();
         // }

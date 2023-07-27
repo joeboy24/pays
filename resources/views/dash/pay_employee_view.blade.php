@@ -145,6 +145,7 @@
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
             {{-- <a href="/emp_report"><p class="print_report">&nbsp;<i class="fa fa-print"></i></p></a> --}}
             {{-- <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
+            <a href="/bulksms"><p class="view_daily_report">&nbsp;<i class="fa fa-envelope color5"></i>&nbsp; SMS</p></a>
             <a href="/view_employee"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
         </form>
  
@@ -204,7 +205,9 @@
                                                 @if ($emp->reg_mgr == 'yes') <button type="button" class="my_trash2 blue_bg color8"><i class="fa fa-user-circle"></i>&nbsp; Regional Mgr.</button> @endif
                                             </td>
                                             <td class="text-bold-500">{{ number_format($emp->salary, 2) }}<br>
-                                                <a href="/reporting/{{$emp->id}}"><button type="button" class="my_trash2 green_bg color8 genhover"><i class="fa fa-print"></i>&nbsp; Pay Slip</button></a>
+                                                @if ($emp->del != 'yes')
+                                                    <a href="/reporting/{{$emp->id}}"><button type="button" class="my_trash2 green_bg color8 genhover"><i class="fa fa-print"></i>&nbsp; Pay Slip</button></a>
+                                                @endif
                                             </td>
                                             {{-- <td class="text-bold-500">{{ $emp->contact }}</td> --}}
                                             <td class="text-bold-500">{{ $emp->status }}<br>
@@ -228,10 +231,11 @@
                                                     <td class="text-bold-500 align_right action_size">
                                                         {{-- <button type="submit" name="update_action" value="del_employee" class="my_trash"><i class="fa fa-folder-open"></i></button> --}}
                                                         {{-- <button type="submit" value="add_leave" class="my_trash2 green_bg color8 genhover"><i class="fa fa-print"></i>&nbsp; Leave</button> --}}
+                                                        <button type="submit" name="update_action" value="add_sms_contact" class="my_trash_small" onclick="return confirm('Click Ok to add {{$emp->fname}}`s contact to SMS list?')"><i class="fa fa-user-plus"></i></button>
                                                         @if ($emp->status == 'inactive')
-                                                            <button type="button" class="my_trash_small bg7" onclick="alert('You can only resume leave from the `Manage Leave` page')"><i class="fa fa-leaf"></i></button>
+                                                            {{-- <button type="button" class="my_trash_small bg7" onclick="alert('You can only resume leave from the `Manage Leave` page')"><i class="fa fa-leaf"></i></button> --}}
                                                         @else
-                                                            {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#leave{{$emp->id}}" class="my_trash_small"><i class="fa fa-leaf"></i></button> --}}
+                                                        {{-- <button type="button" data-bs-toggle="modal" data-bs-target="#leave{{$emp->id}}" class="my_trash_small"><i class="fa fa-leaf"></i></button> --}}
                                                         @endif
                                                         <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$emp->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
                                                         <button type="submit" name="update_action" value="del_employee" class="my_trash_small" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i></button>
@@ -407,10 +411,11 @@
                                                             </div>
 
                                                             <div class="filter_div">
-                                                                <i class="fa fa-dot-circle-o"></i> &nbsp; Reg.Mgr.
+                                                                <i class="fa fa-dot-circle-o"></i> &nbsp; Access
                                                                 <select name="reg_mgr">
                                                                     @if ($emp->reg_mgr == 'no')    
-                                                                        <option value="yes">Yes</option>
+                                                                        <option value="yes">Regional Mgr.</option>
+                                                                        <option value="FA" selected>Finance Mgr.</option>
                                                                         <option value="no" selected>No</option>
                                                                     @else
                                                                         <option value="yes" selected>Yes</option>

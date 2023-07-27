@@ -32,16 +32,6 @@ class SystemAccessController extends Controller
         return view('dash.pay_adduser')->with($patch);
     }
 
-    public function pay_add_dept(){
-
-        $dept = Department::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
-        $patch = [
-            'c' => 1,
-            'departments' => $dept,
-        ];
-        return view('dash.pay_department')->with($patch);
-    }
-
     public function pay_activities(){
 
         // $dept = Department::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);

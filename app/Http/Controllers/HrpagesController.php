@@ -11,7 +11,9 @@ use App\Models\Salary;
 use App\Models\Bank;
 use App\Models\SalaryCat;
 use App\Models\Department;
+use App\Models\Allowance;
 use App\Models\AllowanceList;
+use App\Models\AllowanceOverview;
 use App\Models\Region;
 use Session;
 
@@ -47,7 +49,7 @@ class HrpagesController extends Controller
         // return date('01-02-').$yr;
         // $bdays = Employee::where('created_at', '<=', '2023-07-03')->paginate(10);
         // return $bdays;
-        $retirements = EmployeeExtRead::where('del', 'no')->get();
+        $retirements = Employee::where('del', 'no')->get();
         $patch = [
             'c' => 1,
             'yrs' => $yrs,
@@ -89,5 +91,89 @@ class HrpagesController extends Controller
             'sub_div' => $sub_div,
         ];
         return view('dash.pay_addemployee')->with($patch);
+    }
+
+    public function pay_sal_cat(){
+
+        $bs = 500;
+        $emps = Employee::select(['position', 'sub_div'])->distinct('position')->get();
+        for ($i=0; $i < count($emps); $i++) { 
+            // foreach ($emps as $emp) {
+            if ($i % 4 == 0) {
+                $bs = $bs * 1.1;
+            }
+            
+            $salcat = SalaryCat::firstOrCreate([
+                'user_id' => auth()->user()->id,
+                'title' => $emps[$i]->sub_div,
+                'position' => $emps[$i]->position,
+                'basic_sal' => $bs,
+            ]);
+        }
+        $ttsalarycat = SalaryCat::select('title')->orderBy('title', 'ASC')->distinct('title')->get();
+        $possalarycat = SalaryCat::select('position')->distinct('position')->orderBy('position', 'ASC')->get();
+        $salarycat = SalaryCat::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
+        $patch = [
+            'c' => 1,
+            'salarycat' => $salarycat,
+            'ttsalarycat' => $ttsalarycat,
+            'possalarycat' => $possalarycat,
+        ];
+        return view('dash.pay_salary_cat')->with($patch);
+    }
+
+    public function pay_allowance_mgt(){
+
+        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
+        if ($allowoverview == '') {
+            return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
+        }
+
+        $allow = AllowanceList::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
+        $patch = [
+            'c' => 1,
+            'allowance' => $allow,
+        ];
+        return view('dash.pay_allowancemgt')->with($patch);
+    }
+
+    public function pay_add_dept(){
+
+        $dept = Department::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
+        $patch = [
+            'c' => 1,
+            'departments' => $dept,
+        ];
+        return view('dash.pay_department')->with($patch);
+    }
+
+    public function pay_allowance(Request $request){
+
+        $src = $request->input('search_alw');
+
+        // if ($src) {
+        //     // return 1;
+        //     $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
+        //    // return $src;
+        //     $allowances = Allowance::query();
+        //     foreach($employees as $txt){
+        //         $allowances->orWhere('fname', $txt->fname);
+        //     }
+        //     $allowances = $allowances->distinct()->orderBy('fname', 'ASC')->paginate(20);
+
+        // } else {
+        //     $allowances = Allowance::orderBy('fname', 'ASC')->paginate(20);
+        // }
+        // // return $allowances;
+
+        $allowances = Allowance::where('fname', 'LIKE', '%'.$src.'%')->orderBy('fname', 'ASC')->paginate(20);
+        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
+        $patch = [
+            'new_name' => '',
+            'allowances' => $allowances,
+            'new_allows' => AllowanceList::all(),
+            'allowoverview' => $allowoverview
+        ];
+        return view('dash.pay_allowance')->with($patch);
     }
 }

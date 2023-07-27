@@ -179,9 +179,10 @@
                                 <select name="status">
                                   <option value="none">Select User/Administrator</option>
                                   {{-- <option value="User">User</option> --}}
-                                  <option value="System">User</option>
+                                  <option value="System">System User</option>
                                   <option value="Administrator">System Administrator</option>
                                   <option value="HR">HR Administrator</option>
+                                  <option value="AU">Audit Administrator</option>
                                   <option value="Finance">Finance Administrator</option>
                                   {{-- <option value="Administrator">Administrator</option> --}}
                                 </select>

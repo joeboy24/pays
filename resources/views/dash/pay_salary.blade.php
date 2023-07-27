@@ -167,6 +167,10 @@
             <div class="card">
                 <div class="card-body">
 
+                    @if (count($alw_update) > 0 || count($emp_update) > 0)
+                        <a href="/finace_notice"><p class="warning_action"><i class="fa fa-warning"></i>&nbsp; New Entries/Updates Made... Click to View &nbsp; <i class="fa fa-caret-right"></i></p></a>
+                    @endif
+
                     <!-- Allowances View -->
                     <div class="table-responsive">
                         @if (count($salaries) > 0)

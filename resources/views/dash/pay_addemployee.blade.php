@@ -219,11 +219,9 @@
                             <div class="filter_div">
                                 <i class="fa fa-folder-open"></i> &nbsp; Gender
                                 <select name="sex">
-                                    <option value="all" selected>Choose Gender</option>
-                                    @foreach ($department as $dept)
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                    @endforeach
+                                    <option value="all" selected>Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
                                 </select>
                             </div>
                     

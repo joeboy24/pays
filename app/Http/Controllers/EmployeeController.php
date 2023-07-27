@@ -29,6 +29,8 @@ use App\Models\DirectPay;
 use App\Models\LoanGrant;
 use App\Models\Validation;
 use App\Models\Journal;
+use App\Models\SMS;
+use App\Models\SmsHistory;
 use Session;
 use Auth;
 
@@ -1138,7 +1140,7 @@ class EmployeeController extends Controller
             case 'add_dept':
                 
                 try {
-                    $loanset = Department::firstOrCreate([
+                    $dept_insert = Department::firstOrCreate([
                         'user_id' => auth()->user()->id,
                         'dept_name' => $request->input('dept_name'),
                     ]);
@@ -1657,6 +1659,67 @@ class EmployeeController extends Controller
                 return redirect('/otp-verification')->with('warning', 'Input new OTP sent to '.substr(auth()->user()->contact, 0, 5).'*****');
             break;
 
+            case 'clear_sms_contacts':
+                // return 112;
+                
+                $smss = SMS::where('user_id', auth()->user()->id)->get();
+                foreach ($smss as $sms) {
+                    $sms->delete();
+                }
+                return redirect(url()->previous());
+
+            break;
+
+            case 'send_sms':
+                $sms_hold = '';
+                $msg = $request->input('message');
+                $sms_act = $request->input('sms_action');
+                $smss = SMS::where('user_id', auth()->user()->id)->get();
+                if ($sms_act == 'Selected Contacts' && count($smss) == 0) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Select contacts from `View/Edit Data` page to add to queue');
+                }
+                if ($msg == '') {
+                    return redirect(url()->previous())->with('error', 'Oops..! Type message to proceed');
+                }
+                Session::put('smss', $smss);
+                Session::put('send01', 1);
+                try {
+                    // 'user_id','message','sent_to'
+                    $send_sms = SmsHistory::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'message' => $msg,
+                    ]);
+                    foreach ($smss as $sms) {
+                        $sms_hold = $sms->contact.','.$sms_hold;
+                    }
+                    $send_sms->sent_to = $sms_hold;
+                    $send_sms->save();
+                    // return $sms_hold;
+
+                } catch (\Throwable $th) {
+                    throw $th;
+                        return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                foreach ($smss as $sms) {
+                    $sms->delete();
+                }
+                // Kindly be informed that bla bla bla....
+                $patch = [
+                    // 'c' => 1,
+                    'c' => 1,
+                    'msg' => $msg,
+                    'sms_det' => $send_sms,
+                    'sms' => SMS::all(),
+                    'sms_history' => SmsHistory::all(),
+                    'department' => Department::all(),
+                    'success' => 'Message successfully sent to all contacts in queue',
+                ];
+                return view('dash.pay_bulksms')->with($patch);
+                return redirect('/bulksms')->with($patch);
+                return view('dash.sendsms')->with('success', 'Message successfully sent to all contacts in queue');
+
+            break;
+
         }
 
     }
@@ -1917,6 +1980,48 @@ class EmployeeController extends Controller
                 return redirect(url()->previous())->with('success', $allow->name.' Updated Successfully!');
             break;
 
+            case 'add_sms_contact':
+                // return $id;
+                
+                $emp = Employee::find($id);
+                if (empty($emp->contact)) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Update '.$emp->fname.'`s contact details to proceed');
+                }
+                try {
+                    $add_sms = SMS::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'employee_id' => $id,
+                        'contact' => $emp->contact,
+                    ]);
+                } catch (\Throwable $th) {
+                    throw $th;
+                        return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect(url()->previous())->with('success', $emp->fname.'`s contact successfully added to SMS queue');
+
+            break;
+
+            case 'add_rtire_note':
+                // return $id;
+                
+                $emp = Employee::find($id);
+                if (empty($emp->contact)) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Update '.$emp->fname.'`s contact details to proceed');
+                }
+                try {
+                    $add_sms = SMS::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'employee_id' => $id,
+                        'contact' => $emp->contact,
+                    ]);
+                } catch (\Throwable $th) {
+                    throw $th;
+                        return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect('/bulksms')->with('success', $emp->fname.'`s contact added. Type message to send');
+
+            break;
+
 
 
             // Delete
@@ -2026,6 +2131,12 @@ class EmployeeController extends Controller
                 $emp->status = 'active';
                 $emp->save();
                 return redirect(url()->previous())->with('success', $val->employee->fname.'`s details Successfully Restored!');
+            break;
+
+            case 'remove_sms_contact':
+                $val = SMS::find($id);
+                $val->delete();
+                return redirect(url()->previous())->with('success', 'Contact Deleted');
             break;
 
 

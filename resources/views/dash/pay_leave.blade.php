@@ -151,7 +151,7 @@
     {{ $leaves->links() }}
 
     <div class="row">
-        <div class="col-12 col-xl-10">
+        <div class="col-12 col-xl-12">
             @include('inc.messages') 
             <div class="card">
                 <div class="card-body">

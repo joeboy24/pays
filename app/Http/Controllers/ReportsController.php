@@ -237,7 +237,9 @@ class ReportsController extends Controller
         //
         // return $id;
         $payslip = Salary::where('employee_id', $id)->where('month', date('m-Y'))->latest()->first();
-        if ($payslip) {}else{
+        if ($payslip) {
+            // return $payslip;
+        }else{
             return redirect(url()->previous())->with('error', 'Oops..! '.date('F').' salary records not yet generated.');
         }
         $send = [
@@ -246,7 +248,7 @@ class ReportsController extends Controller
             'payslip' => $payslip,
             'month' => date('M Y', strtotime('01-'.$payslip->month))
         ];
-        return view('worker.pay_slip')->with($send);
+        return view('dash.pay_slip')->with($send);
     }
 
     /**

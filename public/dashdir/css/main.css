@@ -1058,6 +1058,29 @@
     letter-spacing: 2px;
 }
 
+.sms_message {
+    width: calc(100% - 1px);
+    outline: none;
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 5px 0;
+}
+
+.warning_action {
+    margin: 15px 0;
+    padding: 15px 25px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    color: #b98100;
+    background: #ffd06126;
+    border: 1px solid #ffb300;
+}
+
+.warning_action:hover {
+    opacity: 0.8;
+}
+
 
 
 

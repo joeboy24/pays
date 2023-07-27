@@ -35,36 +35,6 @@ class FinancePagesController extends Controller
         $this->middleware(['auth', 'finance_auth']);
     } 
 
-    public function pay_allowance(Request $request){
-
-        $src = $request->input('search_alw');
-
-        // if ($src) {
-        //     // return 1;
-        //     $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
-        //    // return $src;
-        //     $allowances = Allowance::query();
-        //     foreach($employees as $txt){
-        //         $allowances->orWhere('fname', $txt->fname);
-        //     }
-        //     $allowances = $allowances->distinct()->orderBy('fname', 'ASC')->paginate(20);
-
-        // } else {
-        //     $allowances = Allowance::orderBy('fname', 'ASC')->paginate(20);
-        // }
-        // // return $allowances;
-
-        $allowances = Allowance::where('fname', 'LIKE', '%'.$src.'%')->orderBy('fname', 'ASC')->paginate(20);
-        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
-        $patch = [
-            'new_name' => '',
-            'allowances' => $allowances,
-            'new_allows' => AllowanceList::all(),
-            'allowoverview' => $allowoverview
-        ];
-        return view('dash.pay_allowance')->with($patch);
-    }
-
     public function pay_tax(){
         
         $taxation = Taxation::where('month', date('m-Y'))->orderBy('id', 'DESC')->paginate(50);
@@ -76,6 +46,8 @@ class FinancePagesController extends Controller
             'c' => 1,
             'taxation' => $taxation,
             'tottax' => Taxation::where('month', date('m-Y'))->get(),
+            'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
             'allowoverview' => $allowoverview
         ];
         return view('dash.pay_taxation')->with($patch);
@@ -106,6 +78,8 @@ class FinancePagesController extends Controller
             'c' => 1,
             'salaries' => $salaries,
             'totsal' => Salary::where('month', date('m-Y'))->get(),
+            'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
             'new_allows' => AllowanceList::all(),
             'allowoverview' => $allowoverview
         ];
@@ -119,6 +93,7 @@ class FinancePagesController extends Controller
         $patch = [
             'jv' => $jv,
         ];
+        // pay_list_updates
         return view('dash.pay_salary_jv')->with($patch);
     }
 
@@ -165,50 +140,6 @@ class FinancePagesController extends Controller
             'employees' => $employees
         ];
         return view('dash.pay_loans')->with($patch);
-    }
-
-    public function pay_sal_cat(){
-
-        $bs = 500;
-        $emps = Employee::select(['position', 'sub_div'])->distinct('position')->get();
-        for ($i=0; $i < count($emps); $i++) { 
-            // foreach ($emps as $emp) {
-            if ($i % 4 == 0) {
-                $bs = $bs * 1.1;
-            }
-            
-            $salcat = SalaryCat::firstOrCreate([
-                'user_id' => auth()->user()->id,
-                'title' => $emps[$i]->sub_div,
-                'position' => $emps[$i]->position,
-                'basic_sal' => $bs,
-            ]);
-        }
-        $ttsalarycat = SalaryCat::select('title')->orderBy('title', 'ASC')->distinct('title')->get();
-        $possalarycat = SalaryCat::select('position')->distinct('position')->orderBy('position', 'ASC')->get();
-        $salarycat = SalaryCat::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
-        $patch = [
-            'c' => 1,
-            'salarycat' => $salarycat,
-            'ttsalarycat' => $ttsalarycat,
-            'possalarycat' => $possalarycat,
-        ];
-        return view('dash.pay_salary_cat')->with($patch);
-    }
-
-    public function pay_allowance_mgt(){
-
-        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
-        if ($allowoverview == '') {
-            return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
-        }
-
-        $allow = AllowanceList::where('del', 'no')->orderBy('id', 'DESC')->paginate(20);
-        $patch = [
-            'c' => 1,
-            'allowance' => $allow,
-        ];
-        return view('dash.pay_allowancemgt')->with($patch);
     }
 
     public function pay_allowexp(){
@@ -287,5 +218,25 @@ class FinancePagesController extends Controller
         return redirect(url()->previous())->with('success', 'Mail forwarding successful');
         // return session('ctt');
         dd('Mail sent successfully');
+    }
+
+    public function pay_data_update(){
+
+        $regions = Employee::select('region')->orderBy('region', 'ASC')->distinct('region')->get();
+        $position = SalaryCat::orderBy('position', 'ASC')->get();
+        $employees = Employee::orderBy('id', 'DESC')->paginate(20);
+        // $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
+        $patch = [
+            'c' => 1,
+            'x' => 1,
+            'regions' => $regions,
+            'main_regions' => Region::all(),
+            'position' => $position,
+            'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            'new_allows' => AllowanceList::all()
+        ];
+        return view('dash.pay_list_updates')->with($patch);
+        // pay_list_updates
     }
 }

@@ -695,6 +695,26 @@
     color: rgb(35, 137, 255);
 }
 
+.load_btn_inv {
+    border: 1px solid rgb(35, 137, 255);
+    text-transform: uppercase;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    height: 33px;
+    color: rgb(35, 137, 255);
+    min-width: 100px;
+    border-radius: 5px;
+    background: none;
+    margin-bottom: 5px;
+}
+
+.load_btn_inv:hover {
+    /* margin-bottom: 5px; */
+    border: 1px solid rgb(142, 195, 255);
+    background: rgb(142, 195, 255);
+    color: #fff;
+}
+
 .print_btn {
     border: none;
     height: 37px;
@@ -757,7 +777,7 @@
     /* background: turquoise; */
 }
 
-.view_daily_report:hover {
+.view_daily_report:hover, .sms_contact_view:hover {
     background: none;
     /* border: 1px solid #fff; */
     color: #000;
@@ -1184,7 +1204,7 @@
 .bday_icon i {
     font-size: 1em;
     line-height: 20px;
-    color: rgb(255, 0, 106);
+    /* color: rgb(255, 0, 106); */
     background: #fff;
     padding: 7px 10px;
     border-radius: 5px;
@@ -1282,6 +1302,22 @@
 
 .scan_img {
     width: 100%;
+}
+
+.sms_contact_view {
+    /* max-width: 200px; */
+    color: rgb(133, 133, 133);
+    float: left;
+    height: 25px;
+    text-transform: uppercase;
+
+    font-size: 0.73em;
+    padding: 3px 10px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    margin: 5px 5px 0 0;
+    border: 0.5px solid #aaa;
+    /* background: turquoise; */
 }
 
 

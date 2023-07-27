@@ -142,14 +142,13 @@
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
             {{-- <a data-bs-toggle="modal" data-bs-target="#leave_setup"><p class="view_daily_report">&nbsp;<i class="fa fa-gears color5"></i>&nbsp; Leave Setup</p></a> --}}
+            <a href="/bulksms"><p class="view_daily_report">&nbsp;<i class="fa fa-envelope color5"></i>&nbsp; SMS</p></a>
             <a href="/retirement"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
-                    
-            {{-- <p>&nbsp;</p> --}}
         </form>
         <form action="{{ url('/retirement') }}">
             @csrf
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="filter_div">
                         <i class="fa fa-filter"></i> &nbsp; Filter
                         <input placeholder="Type No. of Years Remaining (e.g 5)" type="number" name="date_filter" required>
@@ -170,7 +169,7 @@
             @include('inc.messages') 
             <div class="card">
                 <div class="card-body">
-            <p class="small_p">Showing results for retirements due in <b>{{60-$yrs}}</b> years</p>
+                    <p class="small_p">Showing results for retirements due in <b>{{60-$yrs}}</b> years</p>
 
                     <!-- Birthday View -->
                     <div class="table-responsive">
@@ -182,7 +181,7 @@
                                         <th>Name</th>
                                         <th>Date&nbsp;of&nbsp;Birth</th>
                                         <th>Position</th>
-                                        <th>Contact</th>
+                                        <th class="align_right">Action</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>   
@@ -194,13 +193,30 @@
                                             @else
                                                 <tr>
                                             @endif
-                                                <td class="bday_icon"><i class="fa fa-calendar-check-o"></i></td>
+                                                <td class="bday_icon">
+                                                    @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->dob)) / (60 * 60 * 24) / 30) <= 6)
+                                                        <i class="fa fa-calendar-check-o color4"></i>
+                                                    @else
+                                                        <i class="fa fa-calendar-check-o color1"></i>
+                                                    @endif
+                                                </td>
                                                 <td class="text-bold-500">{{ $rtire->fname.' '.$rtire->sname.' '.$rtire->oname }}<br><p class="small_p">{{$rtire->contact}}</p></td>
                                                 <td class="text-bold-500">@if ($rtire->dob != '') {{date('D. M, d Y', strtotime($rtire->dob))}} @endif
                                                     <p class="small_p">Age: {{date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y}}</p>
                                                 </td>
                                                 <td class="text-bold-500">{{ $rtire->cur_pos }}</td>
-                                                <td class="text-bold-500">{{ $rtire->contact }}</td>
+                                                <td class="text-bold-500 align_right">
+                                                    @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->dob)) / (60 * 60 * 24) / 30) <= 6)
+                                                        <form action="{{ action('EmployeeController@update', $rtire->id) }}" method="POST">
+                                                            <input type="hidden" name="_method" value="PUT">
+                                                            @csrf
+                                                            <button type="submit" name="update_action" value="add_sms_contact" class="my_trash2 color10 genhover" onclick="return confirm('Click Ok to add {{$rtire->fname}}`s contact to SMS list?')"><i class="fa fa-user-plus"></i></button>
+                                                            <button type="submit" name="update_action" value="add_rtire_note" class="my_trash2 green_bg color8 genhover"><i class="fa fa-send"></i>&nbsp; Notify</button>
+                                                        </form>
+                                                    @else
+                                                        <button type="button" class="my_trash2 color10"><i class="fa fa-ban"></i></button>
+                                                    @endif
+                                                </td>
                                                 {{-- <td class="text-bold-500">
 
                                                     <form action="{{ action('HrdashController@update', $rtire->id) }}" method="POST">

@@ -11,6 +11,9 @@ use App\Models\Region;
 use App\Models\Leave;
 use App\Models\DirectPay;
 use App\Models\Validation;
+use App\Models\Department;
+use App\Models\SMS;
+use App\Models\SmsHistory;
 use PDF;
 use Mail;
 use Session;
@@ -185,6 +188,23 @@ class StaffPagesController extends Controller
 
         // echo "email send successfully !!";
         dd('Mail sent successfully');
+    }
+
+    public function bulk_sms()
+    {
+
+        // return $msg;
+
+        Session::put('send01', 0);
+        $sends = [
+            'c' => 1,
+            'sms' => SMS::all(),
+            'sms_history' => SmsHistory::all(),
+            'department' => Department::all(),
+            // 'coworkers' => $coworkers,
+        ];
+
+        return view('dash.pay_bulksms')->with($sends);
     }
 
 }

@@ -35,7 +35,6 @@ Route::get('/payslip_forwarding', 'FinancePagesController@mail_send');
 // System Access
 Route::get('/companysetup', 'SystemAccessController@pay_company');
 Route::get('/adduser', 'SystemAccessController@pay_adduser');
-Route::get('/add_dept', 'SystemAccessController@pay_add_dept');
 Route::get('/activity-log', 'SystemAccessController@pay_activities');
 // General Access
 Route::get('/', 'GeneralController@index');
@@ -56,19 +55,22 @@ Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
 Route::get('/add_employee', 'HrpagesController@pay_add_emp');
+Route::get('/allowance', 'HrpagesController@pay_allowance');
+
+Route::get('/add_dept', 'HrpagesController@pay_add_dept');
+Route::get('/sal_cat', 'HrpagesController@pay_sal_cat');
+Route::get('/allowance_mgt', 'HrpagesController@pay_allowance_mgt');
 
 Route::get('/pay_employee', 'GeneralController@pay_employee');  // Checkout
 // Finance Pages
-Route::get('/allowance', 'FinancePagesController@pay_allowance');
 Route::get('/taxation', 'FinancePagesController@pay_tax');
 Route::get('/salaries', 'FinancePagesController@pay_sal');
 Route::get('/payroll_jv', 'FinancePagesController@pay_sal_jv');
 Route::get('/banksummary', 'FinancePagesController@pay_banksummary');
 Route::get('/loans', 'FinancePagesController@pay_loan');
-Route::get('/sal_cat', 'FinancePagesController@pay_sal_cat');
-Route::get('/allowance_mgt', 'FinancePagesController@pay_allowance_mgt');
 Route::get('/allowance_exp', 'FinancePagesController@pay_allowexp');
 Route::get('/alawa', 'FinancePagesController@alawa');
+Route::get('/finace_notice', 'FinancePagesController@pay_data_update');
 // Regional Mgr.
 Route::get('/staff-validation', 'DashpagesController@staff_validation');
 // Staff Pages
@@ -78,6 +80,7 @@ Route::get('/myprofile', 'StaffPagesController@showProfile');
 Route::get('/validation', 'StaffPagesController@sal_validation');
 Route::get('/staff-leave', 'StaffPagesController@staff_leave');
 Route::get('/staff-loans', 'StaffPagesController@staff_loans');
+Route::get('/bulksms', 'StaffPagesController@bulk_sms');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');

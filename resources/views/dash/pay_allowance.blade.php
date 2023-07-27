@@ -240,11 +240,11 @@
                                                          <button type="submit" name="update_action" value="remove_ent" class="allow_btn bg4" onclick="return confirm('Do you want to disable Entertainment Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Entertainment</button>
                                                      @endif
  
-                                                    <!-- Domenstic Allowance -->
+                                                    <!-- Domestic Allowance -->
                                                      @if ($alw->dom == 'no') 
-                                                         <button type="submit" name="update_action" value="set_dom" class="allow_btn color1" onclick="return confirm('Do you want to enable Domenstic Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Domenstic</button>
+                                                         <button type="submit" name="update_action" value="set_dom" class="allow_btn color1" onclick="return confirm('Do you want to enable Domestic Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Domestic</button>
                                                      @else
-                                                         <button type="submit" name="update_action" value="remove_dom" class="allow_btn bg4" onclick="return confirm('Do you want to disable Domenstic Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Domenstic</button>
+                                                         <button type="submit" name="update_action" value="remove_dom" class="allow_btn bg4" onclick="return confirm('Do you want to disable Domestic Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Domestic</button>
                                                      @endif
 
                                                     <!-- Internet Allowance -->
