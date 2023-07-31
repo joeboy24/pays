@@ -148,7 +148,7 @@
             <a data-bs-toggle="modal" data-bs-target="#allow_overview"><p class="view_daily_report">&nbsp;<i class="fa fa-file-text color5"></i>&nbsp; Allowance/SSNIT Overview</p></a>
             {{-- <button type="submit" name="store_action" value="insert_allowances" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
             <a href="/allowance_exp"><p class="print_report">&nbsp;<i class="fa fa-warning"></i>&nbsp; EXP</p></a>
-            <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
+            <a href="/allowance"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
         </form>
 
         <div class="row">

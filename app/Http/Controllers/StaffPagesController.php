@@ -190,21 +190,4 @@ class StaffPagesController extends Controller
         dd('Mail sent successfully');
     }
 
-    public function bulk_sms()
-    {
-
-        // return $msg;
-
-        Session::put('send01', 0);
-        $sends = [
-            'c' => 1,
-            'sms' => SMS::all(),
-            'sms_history' => SmsHistory::all(),
-            'department' => Department::all(),
-            // 'coworkers' => $coworkers,
-        ];
-
-        return view('dash.pay_bulksms')->with($sends);
-    }
-
 }

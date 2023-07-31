@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployeeExtReadsTable extends Migration
+class CreateExtend2sTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEmployeeExtReadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee_ext_reads', function (Blueprint $table) {
+        Schema::create('extend2s', function (Blueprint $table) {
             $table->id();
             $table->string('user_id', 12);
 
@@ -25,10 +25,11 @@ class CreateEmployeeExtReadsTable extends Migration
             $table->string('dob', 50)->nullable();
             $table->string('date_emp', 50)->nullable();
             $table->string('gender', 50)->nullable();
-            $table->string('prev_place', 50)->nullable();
-            $table->string('cur_pos', 50)->nullable();
-            $table->string('qual', 50)->nullable();
-            $table->string('grade', 50)->nullable();
+            $table->string('prev_place', 100)->nullable();
+            $table->string('pos', 100)->nullable();
+            $table->string('cur_pos', 100)->nullable();
+            $table->string('qual', 100)->nullable();
+            $table->string('grade', 100)->nullable();
             $table->string('level', 50)->nullable();
             $table->string('step', 50)->nullable();
             $table->string('ssnit_no', 50)->nullable();
@@ -49,6 +50,6 @@ class CreateEmployeeExtReadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_ext_reads');
+        Schema::dropIfExists('extend2s');
     }
 }

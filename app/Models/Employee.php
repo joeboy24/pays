@@ -16,10 +16,10 @@ class Employee extends Model
         // 'email','dept','date_emp','cur_pos','ssn','salary','bank','branch','acc_no','sub_div','staff_loan','loan_bal'
     ];
     protected $fillable = [
-        'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id','region_id',
-        'afis_no','fname','sname','oname','mname','gender','dob','position','date_emp','cur_pos','ssn','salary',
+        'user_id','department_id','allowance_id','salarycat_id','salary_id','bank_id','loan_id','staff_id','region_id','extend_id',
+        'afis_no','fullname','fname','sname','oname','mname','gender','dob','position','date_emp','cur_pos','ssn','salary',
         'contact','ssf','2tier_ssf','email','dept','region','bank','branch','acc_no','sub_div',
-        'staff_loan','loan_date_started','loan_bal','loan_monthly_ded','valid_comment','photo','status','del'
+        'std_loan','staff_loan','loan_date_started','loan_bal','loan_monthly_ded','valid_comment','photo','status','del'
 
         // 'biometric_reg_no',
         // 'year',
@@ -111,6 +111,10 @@ class Employee extends Model
 
     public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function extend(){
+        return $this->belongsTo('App\Models\Extend');
     }
 
 }

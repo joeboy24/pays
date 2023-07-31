@@ -187,51 +187,52 @@
                                 </thead>   
                                 <tbody>
                                     @foreach ($retirements as $rtire)
-                                        @if ($rtire->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y > $yrs)
-                                            @if ($c % 2 == 1)
-                                                <tr class="bg9">
-                                            @else
-                                                <tr>
-                                            @endif
-                                                <td class="bday_icon">
-                                                    @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->dob)) / (60 * 60 * 24) / 30) <= 6)
-                                                        <i class="fa fa-calendar-check-o color4"></i>
-                                                    @else
-                                                        <i class="fa fa-calendar-check-o color1"></i>
-                                                    @endif
-                                                </td>
-                                                <td class="text-bold-500">{{ $rtire->fname.' '.$rtire->sname.' '.$rtire->oname }}<br><p class="small_p">{{$rtire->contact}}</p></td>
-                                                <td class="text-bold-500">@if ($rtire->dob != '') {{date('D. M, d Y', strtotime($rtire->dob))}} @endif
-                                                    <p class="small_p">Age: {{date_diff(date_create(date('d-m-Y', strtotime($rtire->dob))), date_create(date('d-m-Y')))->y}}</p>
-                                                </td>
-                                                <td class="text-bold-500">{{ $rtire->cur_pos }}</td>
-                                                <td class="text-bold-500 align_right">
-                                                    @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->dob)) / (60 * 60 * 24) / 30) <= 6)
-                                                        <form action="{{ action('EmployeeController@update', $rtire->id) }}" method="POST">
+                                        @if ($rtire->extend_id)
+                                            @if ($rtire->extend->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->extend->dob))), date_create(date('d-m-Y')))->y > $yrs)
+                                                @if ($c % 2 == 1)
+                                                    <tr class="bg9">
+                                                @else
+                                                    <tr>
+                                                @endif
+                                                    <td class="bday_icon">
+                                                        @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->extend->dob)) / (60 * 60 * 24) / 30) <= 6)
+                                                            <i class="fa fa-calendar-check-o color4"></i>
+                                                        @else
+                                                            <i class="fa fa-calendar-check-o color1"></i>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-bold-500">{{ $rtire->fname.' '.$rtire->sname.' '.$rtire->oname }}<br><p class="small_p">{{$rtire->contact}}</p></td>
+                                                    <td class="text-bold-500">@if ($rtire->extend->dob != '') {{date('D. M, d Y', strtotime($rtire->extend->dob))}} @endif
+                                                        <p class="small_p">Age: {{date_diff(date_create(date('d-m-Y', strtotime($rtire->extend->dob))), date_create(date('d-m-Y')))->y}}</p>
+                                                    </td>
+                                                    <td class="text-bold-500">{{ $rtire->cur_pos }}</td>
+                                                    <td class="text-bold-500 align_right">
+                                                        @if (number_format(720 - (strtotime(date('d-m-Y'))-strtotime($rtire->extend->dob)) / (60 * 60 * 24) / 30) <= 6)
+                                                            <form action="{{ action('EmployeeController@update', $rtire->id) }}" method="POST">
+                                                                <input type="hidden" name="_method" value="PUT">
+                                                                @csrf
+                                                                <button type="submit" name="update_action" value="add_sms_contact" class="my_trash2 color10 genhover" onclick="return confirm('Click Ok to add {{$rtire->fname}}`s contact to SMS list?')"><i class="fa fa-user-plus"></i></button>
+                                                                <button type="submit" name="update_action" value="add_rtire_note" class="my_trash2 green_bg color8 genhover"><i class="fa fa-send"></i>&nbsp; Notify</button>
+                                                            </form>
+                                                        @else
+                                                            <button type="button" class="my_trash2 color10"><i class="fa fa-ban"></i></button>
+                                                        @endif
+                                                    </td>
+                                                    {{-- <td class="text-bold-500">
+
+                                                        <form action="{{ action('HrdashController@update', $rtire->id) }}" method="POST">
+                                                            <input type="hidden" name="_method" value="DELETE">
                                                             <input type="hidden" name="_method" value="PUT">
                                                             @csrf
-                                                            <button type="submit" name="update_action" value="add_sms_contact" class="my_trash2 color10 genhover" onclick="return confirm('Click Ok to add {{$rtire->fname}}`s contact to SMS list?')"><i class="fa fa-user-plus"></i></button>
-                                                            <button type="submit" name="update_action" value="add_rtire_note" class="my_trash2 green_bg color8 genhover"><i class="fa fa-send"></i>&nbsp; Notify</button>
+                
+                                                            <button type="button" name="update_action" value="send_wish" class="my_trash2 bg10 color8 genhover" onclick="return confirm('Do you wish to proceed to send birthday message?')"><i class="fa fa-clipboard"></i> &nbsp;Send Wish</button>
                                                         </form>
-                                                    @else
-                                                        <button type="button" class="my_trash2 color10"><i class="fa fa-ban"></i></button>
-                                                    @endif
-                                                </td>
-                                                {{-- <td class="text-bold-500">
 
-                                                    <form action="{{ action('HrdashController@update', $rtire->id) }}" method="POST">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_method" value="PUT">
-                                                        @csrf
-            
-                                                        <button type="button" name="update_action" value="send_wish" class="my_trash2 bg10 color8 genhover" onclick="return confirm('Do you wish to proceed to send birthday message?')"><i class="fa fa-clipboard"></i> &nbsp;Send Wish</button>
-                                                    </form>
-
-                                                </td> --}}
-                                                {{-- <td class="text-bold-500">{{$rtire->status}}</td> --}}
-                                            </tr>
+                                                    </td> --}}
+                                                    {{-- <td class="text-bold-500">{{$rtire->status}}</td> --}}
+                                                </tr>
+                                            @endif
                                         @endif
-
                                     @endforeach
                                 </tbody>
                             </table>

@@ -14,6 +14,7 @@ use App\Models\AllowanceOverview;
 use App\Models\TaxationRead;
 use App\Models\Taxation;
 use App\Models\Salary;
+use App\Models\Saledit;
 use App\Models\Bank;
 use App\Models\Loan;
 use App\Models\LoanSetup;
@@ -57,7 +58,7 @@ class FinancePagesController extends Controller
         $src = $request->input('search_emp');
         if ($src) {
             // return 1;
-            $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
+            $employees = Employee::where('fullname', 'LIKE', '%'.$src.'%')->orwhere('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
             // return $src;
             $salaries = Salary::query();
             foreach($employees as $txt){
@@ -74,16 +75,40 @@ class FinancePagesController extends Controller
         if ($allowoverview == '') {
             return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
         }
+
         $patch = [
             'c' => 1,
             'salaries' => $salaries,
             'totsal' => Salary::where('month', date('m-Y'))->get(),
+            // 'saledits' => Saledit::where('month', date('m-Y'))->get(),
+            'saledits2' => Saledit::where('month', date('m-Y', strtotime(date('Y-m')." -1 month")))->get(),
             'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
             'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
             'new_allows' => AllowanceList::all(),
             'allowoverview' => $allowoverview
         ];
         return view('dash.pay_salary')->with($patch);
+    }
+
+    public function pay_sal_changes(){
+        $saledits = Saledit::where('month', date('m-Y'))->orderBy('id', 'DESC')->paginate(50);
+        $saledits2 = Saledit::where('month', date('m-Y', strtotime(date('Y-m')." -1 month")))->orderBy('id', 'DESC')->paginate(50);
+
+        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
+        if ($allowoverview == '') {
+            return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
+        }
+        $patch = [
+            'c' => 1,
+            'saledits' => $saledits,
+            'saledits2' => $saledits2,
+            // 'totsal' => Saledit::where('month', date('m-Y'))->get(),
+            // 'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            // 'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            // 'new_allows' => AllowanceList::all(),
+            'allowoverview' => $allowoverview
+        ];
+        return view('dash.pay_sal_changes')->with($patch);
     }
 
     public function pay_sal_jv(){
@@ -117,7 +142,7 @@ class FinancePagesController extends Controller
 
         $src = $request->input('search_emp');
         if ($src) {
-            $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->paginate(20);
+            $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->paginate(20);
         } else {
             $employees = Employee::orderBy('fname', 'ASC')->paginate(20);
         }
@@ -140,23 +165,6 @@ class FinancePagesController extends Controller
             'employees' => $employees
         ];
         return view('dash.pay_loans')->with($patch);
-    }
-
-    public function pay_allowexp(){
-
-        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
-        if ($allowoverview == '') {
-            return redirect(url()->previous())->with('warning', 'Oops..! Define Allowance Percentages to proceed -> Employee / Allowances / Allowance/SSNIT Overview');
-        }
-
-        $allowexp = Allowexp::where('del', 'no')->orderBy('updated_at', 'DESC')->get();
-        $patch = [
-            'c' => 1,
-            'allowexp' => $allowexp,
-            'new_allows' => AllowanceList::all(),
-            'employees' => Employee::where('del', 'no')->orderBy('fname', 'ASC')->get(),
-        ];
-        return view('dash.pay_allowexp')->with($patch);
     }
 
     public function alawa(Request $request){

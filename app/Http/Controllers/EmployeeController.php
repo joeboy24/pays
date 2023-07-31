@@ -31,6 +31,7 @@ use App\Models\Validation;
 use App\Models\Journal;
 use App\Models\SMS;
 use App\Models\SmsHistory;
+use App\Models\Saledit;
 use Session;
 use Auth;
 
@@ -55,13 +56,7 @@ class EmployeeController extends Controller
         //     $pos->cur_pos = $pos->position;
         //     $pos->save();
         // }
-        // return "Yh";
-
-        // if (session('check') != 'employee') {}else{
-        //     $check = $request->input('check');
-        //     Session::put('check', $check);
-        //     $check = session('check');
-        // }
+        // return "Done";
 
         // if ($check == 'employee') {
             
@@ -460,6 +455,10 @@ class EmployeeController extends Controller
 
             case 'add_allow_ssnit':
                 // return 777;
+                $alw_del = AllowanceOverview::all();
+                foreach ($alw_del as $item) {
+                    $item->delete();
+                }
                 if ($request->input('new1')) {
                     $new1 = $request->input('new1');
                 } else {
@@ -564,6 +563,7 @@ class EmployeeController extends Controller
 
                 if ($employees) {
                     foreach ($employees as $emp) {
+                        $saledit = Saledit::where('month', date('m-Y'))->where('employee_id', $emp->id)->latest()->first();
                         $alx = Allowexp::where('employee_id', $emp->id)->where('del', 'no')->latest()->first();
                         if ($alx) {
                             // return 'Yh';
@@ -571,11 +571,13 @@ class EmployeeController extends Controller
                             $rent = $alo->rent;
                             $prof = $alo->prof;
                             $ssf = $alo->ssf;
+                            $ssf1 = $alo->ssf1;
                         }else{
                             $alo = AllowanceOverview::where('del', 'no')->latest()->first();
                             $rent = $alo->rent;
                             $prof = $alo->prof;
                             $ssf = $alo->ssf;
+                            $ssf1 = $alo->ssf1;
                         }
                         if ($emp->allowance->rent == 'no') {
                             $rent = 0;
@@ -664,7 +666,10 @@ class EmployeeController extends Controller
                             $next5 = 0;
                         } elseif ($emp->salary > 16461 && $emp->salary <= 20000) {
                             $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                        } elseif ($emp->salary > 20000) {
+                            $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
                         }
+                        // return $tax_pay;
 
                         // Salary Workings
                         $sal_aft_ssf = $emp->salary - $send_ssf;
@@ -778,11 +783,18 @@ class EmployeeController extends Controller
                         // Updated
 
                         $back_pay = 0;
-                        $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
+                        $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
+                        // $staff_loan = $emp->staff_loan;
+                        // $net_aft_ded = $net_bef_ded - $staff_loan;
+                        // $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
+                        // $tot_ded = $send_ssf + $income_tax + $staff_loan;
+                        $std_loan = $emp->std_loan;
                         $staff_loan = $emp->staff_loan;
-                        $net_aft_ded = $net_bef_ded - $staff_loan;
+                        $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
+                        // $ssf_emp_cont = ($ssf1 / 100) * $emp->salary;
                         $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
-                        $tot_ded = $send_ssf + $income_tax + $staff_loan;
+                        $tot_ded = $send_ssf + $income_tax + $staff_loan + $std_loan;
+                        $gross_sal = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
                         
 
                         $where = [
@@ -791,143 +803,236 @@ class EmployeeController extends Controller
                         ];
                         $taxation_check = Taxation::where($where)->first();
                         $sal_check = Salary::where($where)->first();
+                        $saledit = Saledit::where($where)->first();
                         
                         // $send_ssf = number_format($send_ssf, 2);
                         // return $send_ssf;
-                        try {
-                            if ($taxation_check) {
-                                $tx = Taxation::find($taxation_check->id);
-                                // $tx->month = date('m-Y');
-                                // $tx->employee_id = $emp->id;
-                                // $tx->cur_pos = 'No Position';
-                                $tx->salary = $emp->salary;
-                                $tx->rent = $send_rent;
-                                $tx->prof = $send_prof;
-                                $tx->tot_income = $total_income;
-                                $tx->ssf = $send_ssf;
-                                $tx->taxable_inc = $taxable_inc;
-                                $tx->tax_pay = $tax_pay;
-                                $tx->first1 = $first1;
-                                $tx->next1 = $next1;
-                                $tx->next2 = $next2;
-                                $tx->next3 = $next3;
-                                $tx->next4 = $next4;
-                                $tx->next5 = $next5;
-                                $tx->net_amount = $taxable_inc - $tax_pay;
-                                $tx->save();
+                        // if ($saledit) {} else {
+                            try {
 
-                                // Calc & Insert in Salary as well
-                                $sl = Salary::find($sal_check->id);
-                                // $sl->user_id = $xyz;
-                                // $sl->month = $xyz;
-                                // $sl->employee_id = $xyz;
-                                // $sl->cur_pos = $xyz;
-                                $sl->salary = $emp->salary;
-                                $sl->ssf = $send_ssf;
-                                $sl->sal_aft_ssf = $sal_aft_ssf;
-                                $sl->rent = $send_rent;
-                                $sl->prof = $send_prof;
-                                $sl->taxable_inc = $sal_taxable_inc;
-                                $sl->income_tax = $income_tax;
-                                $sl->net_aft_inc_tax = $net_aft_inc_tax;
-                                $sl->resp = $resp;
-                                $sl->risk = $risk;
-                                $sl->vma = $vma;
-                                $sl->ent = $ent;
-                                $sl->dom = $dom;
-                                $sl->intr = $intr;
-                                $sl->tnt = $tnt;
-                                $sl->cola = $cola;
-                                $sl->new1 = $new1;
-                                $sl->new2 = $new2;
-                                $sl->new3 = $new3;
-                                $sl->new4 = $new4;
-                                $sl->new5 = $new5;
-                                $sl->back_pay = $back_pay;
-                                $sl->net_bef_ded = $net_bef_ded;
-                                $sl->staff_loan = $staff_loan;
-                                $sl->net_aft_ded = $net_aft_ded;
-                                $sl->ssf_emp_cont = $ssf_emp_cont;
-                                $sl->tot_ded = $tot_ded;
-                                $sl->ssn = $emp->ssn;
-                                $sl->email = $emp->email;
-                                $sl->dept = $emp->dept;
-                                $sl->region = $emp->region;
-                                $sl->bank = $emp->bank;
-                                $sl->branch = $emp->branch;
-                                $sl->acc_no = $emp->acc_no;
-                                $sl->save();
-                                // return $new1.' - '.$new2.' - '.$new3.' - '.$new4.' - '.$new5;
-                            } else {
-                                $tx = Taxation::firstOrCreate([
-                                    'user_id' => auth()->user()->id,
-                                    'month' => date('m-Y'),
-                                    'employee_id' => $emp->id,
-                                    'position' => $emp->cur_pos,
-                                    'salary' => $emp->salary,
-                                    'rent' => $send_rent,
-                                    'prof' => $send_prof,
-                                    'tot_income' => $total_income,
-                                    'ssf' => $send_ssf,
-                                    'taxable_inc' => $taxable_inc,
-                                    'tax_pay' => $tax_pay,
-                                    'first1' => $first1,
-                                    'next1' => $next1,
-                                    'next2' => $next2,
-                                    'next3' => $next3,
-                                    'next4' => $next4,
-                                    'next5' => $next5,
-                                    'net_amount' => $taxable_inc - $tax_pay,
-                                ]);
+                                if ($taxation_check) {
+                                    // return 1;
+                                    if ($saledit && $saledit->status == 'used') {
+                                        // Copy Calc from Saledit to Update Salary
+                                        $sl = Salary::find($sal_check->id);
+                                        $sl->ssf = $saledit->ssf;
+                                        $sl->sal_aft_ssf = $saledit->sal_aft_ssf;
+                                        $sl->rent = $saledit->rent;
+                                        $sl->prof = $saledit->prof;
+                                        $sl->taxable_inc = $saledit->taxable_inc;
+                                        $sl->income_tax = $saledit->income_tax;
+                                        $sl->net_aft_inc_tax = $saledit->net_aft_inc_tax;
+                                        $sl->resp = $saledit->resp;
+                                        $sl->risk = $saledit->risk;
+                                        $sl->vma = $saledit->vma;
+                                        $sl->ent = $saledit->ent;
+                                        $sl->dom = $saledit->dom;
+                                        $sl->intr = $saledit->intr;
+                                        $sl->tnt = $saledit->tnt;
+                                        $sl->cola = $saledit->cola;
+                                        $sl->new1 = $saledit->new1;
+                                        $sl->new2 = $saledit->new2;
+                                        $sl->new3 = $saledit->new3;
+                                        $sl->new4 = $saledit->new4;
+                                        $sl->new5 = $saledit->new5;
+                                        $sl->back_pay = $saledit->back_pay;
+                                        $sl->net_bef_ded = $saledit->net_bef_ded;
+                                        $sl->std_loan = $saledit->std_loan;
+                                        $sl->staff_loan = $saledit->staff_loan;
+                                        $sl->net_aft_ded = $saledit->net_aft_ded;
+                                        $sl->ssf_emp_cont = $saledit->ssf_emp_cont;
+                                        $sl->gross_sal = $saledit->gross_sal;
+                                        $sl->tot_ded = $saledit->tot_ded;
+                                        $sl->save();
+                                    } else {
+                                        $tx = Taxation::find($taxation_check->id);
+                                        // $tx->month = date('m-Y');
+                                        // $tx->employee_id = $emp->id;
+                                        // $tx->cur_pos = 'No Position';
+                                        $tx->salary = $emp->salary;
+                                        $tx->rent = $send_rent;
+                                        $tx->prof = $send_prof;
+                                        $tx->tot_income = $total_income;
+                                        $tx->ssf = $send_ssf;
+                                        $tx->taxable_inc = $taxable_inc;
+                                        $tx->tax_pay = $tax_pay;
+                                        $tx->first1 = $first1;
+                                        $tx->next1 = $next1;
+                                        $tx->next2 = $next2;
+                                        $tx->next3 = $next3;
+                                        $tx->next4 = $next4;
+                                        $tx->next5 = $next5;
+                                        $tx->net_amount = $taxable_inc - $tax_pay;
+                                        $tx->save();
 
-                                // Calc & Insert in Salary as well
-                                $sl = Salary::firstOrCreate([
-                                    'user_id' => auth()->user()->id,
-                                    'month' => date('m-Y'),
-                                    'taxation_id' => $tx->id,
-                                    'employee_id' => $emp->id,
-                                    'position' => $emp->cur_pos,
-                                    'salary' => $emp->salary,
-                                    'ssf' => $send_ssf,
-                                    'sal_aft_ssf' => $sal_aft_ssf,
-                                    'rent' => $send_rent,
-                                    'prof' => $send_prof,
-                                    'taxable_inc' => $sal_taxable_inc,
-                                    'income_tax' => $income_tax,
-                                    'net_aft_inc_tax' => $net_aft_inc_tax,
-                                    'resp' => $resp,
-                                    'risk' => $risk,
-                                    'vma' => $vma,
-                                    'ent' => $ent,
-                                    'dom' => $dom,
-                                    'intr' => $intr,
-                                    'tnt' => $tnt,
-                                    'new1' => $new1,
-                                    'new2' => $new2,
-                                    'new3' => $new3,
-                                    'new4' => $new4,
-                                    'new5' => $new5,
-                                    'back_pay' => $back_pay,
-                                    'net_bef_ded' => $net_bef_ded,
-                                    'staff_loan' => $staff_loan,
-                                    'net_aft_ded' => $net_aft_ded,
-                                    'ssf_emp_cont' => $ssf_emp_cont,
-                                    'tot_ded' => $tot_ded,
-                                    'ssn' => $emp->ssn,
-                                    'email' => $emp->email,
-                                    'dept' => $emp->dept,
-                                    'region' => $emp->region,
-                                    'bank' => $emp->bank,
-                                    'branch' => $emp->branch,
-                                    'acc_no' => $emp->acc_no,
-                                ]);
+                                        // Calc & Insert in Salary as well
+                                        $sl = Salary::find($sal_check->id);
+                                        // $sl->user_id = $xyz;
+                                        // $sl->month = $xyz;
+                                        // $sl->employee_id = $xyz;
+                                        // $sl->cur_pos = $xyz;
+                                        $sl->salary = $emp->salary;
+                                        $sl->ssf = $send_ssf;
+                                        $sl->sal_aft_ssf = $sal_aft_ssf;
+                                        $sl->rent = $send_rent;
+                                        $sl->prof = $send_prof;
+                                        $sl->taxable_inc = $sal_taxable_inc;
+                                        $sl->income_tax = $income_tax;
+                                        $sl->net_aft_inc_tax = $net_aft_inc_tax;
+                                        $sl->resp = $resp;
+                                        $sl->risk = $risk;
+                                        $sl->vma = $vma;
+                                        $sl->ent = $ent;
+                                        $sl->dom = $dom;
+                                        $sl->intr = $intr;
+                                        $sl->tnt = $tnt;
+                                        $sl->cola = $cola;
+                                        $sl->new1 = $new1;
+                                        $sl->new2 = $new2;
+                                        $sl->new3 = $new3;
+                                        $sl->new4 = $new4;
+                                        $sl->new5 = $new5;
+                                        $sl->back_pay = $back_pay;
+                                        $sl->net_bef_ded = $net_bef_ded;
+                                        $sl->std_loan = $std_loan;
+                                        $sl->staff_loan = $staff_loan;
+                                        $sl->net_aft_ded = $net_aft_ded;
+                                        $sl->ssf_emp_cont = $ssf_emp_cont;
+                                        $sl->gross_sal = $gross_sal;
+                                        $sl->tot_ded = $tot_ded;
+                                        $sl->ssn = $emp->ssn;
+                                        $sl->email = $emp->email;
+                                        $sl->dept = $emp->dept;
+                                        $sl->region = $emp->region;
+                                        $sl->bank = $emp->bank;
+                                        $sl->branch = $emp->branch;
+                                        $sl->acc_no = $emp->acc_no;
+                                        $sl->save();
+
+                                    }
+                                    // return $new1.' - '.$new2.' - '.$new3.' - '.$new4.' - '.$new5;
+                                } else {
+                                    $tx = Taxation::firstOrCreate([
+                                        'user_id' => auth()->user()->id,
+                                        'month' => date('m-Y'),
+                                        'employee_id' => $emp->id,
+                                        'position' => $emp->cur_pos,
+                                        'salary' => $emp->salary,
+                                        'rent' => $send_rent,
+                                        'prof' => $send_prof,
+                                        'tot_income' => $total_income,
+                                        'ssf' => $send_ssf,
+                                        'taxable_inc' => $taxable_inc,
+                                        'tax_pay' => $tax_pay,
+                                        'first1' => $first1,
+                                        'next1' => $next1,
+                                        'next2' => $next2,
+                                        'next3' => $next3,
+                                        'next4' => $next4,
+                                        'next5' => $next5,
+                                        'net_amount' => $taxable_inc - $tax_pay,
+                                    ]);
+
+                                    if ($saledit && $saledit->status == 'used') {
+                                        // return 3;
+                                        // Copy Calc from Saledit to Update Salary
+                                        $sl = Salary::firstOrCreate([
+                                            'user_id' => auth()->user()->id,
+                                            'month' => date('m-Y'),
+                                            'taxation_id' => $tx->id,
+                                            'employee_id' => $emp->id,
+                                            'position' => $emp->cur_pos,
+                                            'salary' => $emp->salary,
+                                            'ssf' => $saledit->ssf,
+                                            'sal_aft_ssf' => $saledit->sal_aft_ssf,
+                                            'rent' => $saledit->rent,
+                                            'prof' => $saledit->prof,
+                                            'taxable_inc' => $saledit->taxable_inc,
+                                            'income_tax' => $saledit->income_tax,
+                                            'net_aft_inc_tax' => $saledit->net_aft_inc_tax,
+                                            'resp' => $saledit->resp,
+                                            'risk' => $saledit->risk,
+                                            'vma' => $saledit->vma,
+                                            'ent' => $saledit->ent,
+                                            'dom' => $saledit->dom,
+                                            'intr' => $saledit->intr,
+                                            'tnt' => $saledit->tnt,
+                                            'cola' => $saledit->cola,
+                                            'new1' => $saledit->new1,
+                                            'new2' => $saledit->new2,
+                                            'new3' => $saledit->new3,
+                                            'new4' => $saledit->new4,
+                                            'new5' => $saledit->new5,
+                                            'back_pay' => $saledit->back_pay,
+                                            'net_bef_ded' => $saledit->net_bef_ded,
+                                            'std_loan' => $saledit->std_loan,
+                                            'staff_loan' => $saledit->staff_loan,
+                                            'net_aft_ded' => $saledit->net_aft_ded,
+                                            'ssf_emp_cont' => $saledit->ssf_emp_cont,
+                                            'gross_sal' => $saledit->gross_sal,
+                                            'tot_ded' => $saledit->tot_ded,
+                                            'ssn' => $saledit->ssn,
+                                            'email' => $emp->email,
+                                            'dept' => $emp->dept,
+                                            'region' => $emp->region,
+                                            'bank' => $emp->bank,
+                                            'branch' => $emp->branch,
+                                            'acc_no' => $emp->acc_no,
+                                        ]);
+                                    }else{
+                                        // return 4;
+                                        // Calc & Insert in Salary as well
+                                        $sl = Salary::firstOrCreate([
+                                            'user_id' => auth()->user()->id,
+                                            'month' => date('m-Y'),
+                                            'taxation_id' => $tx->id,
+                                            'employee_id' => $emp->id,
+                                            'position' => $emp->cur_pos,
+                                            'salary' => $emp->salary,
+                                            'ssf' => $send_ssf,
+                                            'sal_aft_ssf' => $sal_aft_ssf,
+                                            'rent' => $send_rent,
+                                            'prof' => $send_prof,
+                                            'taxable_inc' => $sal_taxable_inc,
+                                            'income_tax' => $income_tax,
+                                            'net_aft_inc_tax' => $net_aft_inc_tax,
+                                            'resp' => $resp,
+                                            'risk' => $risk,
+                                            'vma' => $vma,
+                                            'ent' => $ent,
+                                            'dom' => $dom,
+                                            'intr' => $intr,
+                                            'tnt' => $tnt,
+                                            'cola' => $cola,
+                                            'new1' => $new1,
+                                            'new2' => $new2,
+                                            'new3' => $new3,
+                                            'new4' => $new4,
+                                            'new5' => $new5,
+                                            'back_pay' => $back_pay,
+                                            'net_bef_ded' => $net_bef_ded,
+                                            'std_loan' => $std_loan,
+                                            'staff_loan' => $staff_loan,
+                                            'net_aft_ded' => $net_aft_ded,
+                                            'ssf_emp_cont' => $ssf_emp_cont,
+                                            'gross_sal' => $gross_sal,
+                                            'tot_ded' => $tot_ded,
+                                            'ssn' => $emp->ssn,
+                                            'email' => $emp->email,
+                                            'dept' => $emp->dept,
+                                            'region' => $emp->region,
+                                            'bank' => $emp->bank,
+                                            'branch' => $emp->branch,
+                                            'acc_no' => $emp->acc_no,
+                                        ]);
+                                    }
+                                }
+                                
+                            } catch (\Throwable $th) {
+                                throw $th;
+                            return redirect(url()->previous())->with('error', 'Oops..! An error occured');
                             }
-                            
-                            
-                        } catch (\Throwable $th) {
-                            throw $th;
-                        return redirect(url()->previous())->with('error', 'Oops..! An error occured');
-                        }
+                        // }
                     }
                 }
 
@@ -938,7 +1043,7 @@ class EmployeeController extends Controller
                 if ($jv_check) {
                     $jv_check->gross = $sals->sum('salary');
                     
-                    $jv_check->gross = $sals->sum('salary');
+                    $jv_check->gross = $sals->sum('gross_sal');
                     $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
                     $jv_check->fuel_alw = $sals->sum('tnt');
                     $jv_check->back_pay = $sals->sum('back_pay');
@@ -946,16 +1051,17 @@ class EmployeeController extends Controller
                     $jv_check->total_paye = $sals->sum('income_tax');
                     // $jv_check->advances = '';
                     // $jv_check->veh_loan = '';
+                    $jv_check->std_loan = $sals->sum('std_loan');
                     $jv_check->staff_loan = $sals->sum('staff_loan');
                     $jv_check->net_pay = $sals->sum('net_aft_ded');
                     $jv_check->debit = $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
                     $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
-                
+                    $jv_check->save();
                 } else {
                     $jv_insert = Journal::firstOrCreate([
                         'user_id' => auth()->user()->id,
                         'month' => date('m-Y'),
-                        'gross' => $sals->sum('salary'),
+                        'gross' => $sals->sum('gross_sal'),
                         'ssf_emp' => $sals->sum('ssf_emp_cont'),
                         'fuel_alw' => $sals->sum('tnt'),
                         'back_pay' => $sals->sum('back_pay'),
@@ -963,6 +1069,7 @@ class EmployeeController extends Controller
                         'total_paye' => $sals->sum('income_tax'),
                         // 'advances' => '',
                         // 'veh_loan' => '',
+                        'std_loan' => $sals->sum('std_loan'),
                         'staff_loan' => $sals->sum('staff_loan'),
                         'net_pay' => $sals->sum('net_aft_ded'),
                         'debit' => $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
@@ -1687,7 +1794,7 @@ class EmployeeController extends Controller
                     // 'user_id','message','sent_to'
                     $send_sms = SmsHistory::firstOrCreate([
                         'user_id' => auth()->user()->id,
-                        'message' => $msg,
+                        'message' => str_replace('*FULLNAME*, ','',$msg),
                     ]);
                     foreach ($smss as $sms) {
                         $sms_hold = $sms->contact.','.$sms_hold;
@@ -1767,6 +1874,295 @@ class EmployeeController extends Controller
 
 
             // Update
+
+            case 'pin_sms':
+                $smh = SmsHistory::find($id);
+                $smh->pin = 'yes';
+                $smh->save();
+                return redirect(url()->previous())->with('success', 'Template pin successfull');
+            break;
+
+            case 'unpin_sms':
+                $smh = SmsHistory::find($id);
+                $smh->pin = 'no';
+                $smh->save();
+                return redirect(url()->previous())->with('success', 'Template has been unpined');
+            break;
+
+            case 'edit_sal':
+                // return 'KKOops..!';
+                $sal = Salary::find($id);
+                $sl = Saledit::where('month', date('m-Y'))->where('employee_id', $sal->employee_id)->latest()->first();
+                // return $sl;
+
+                $rent = $request->input('rent');
+                $prof = $request->input('prof');
+                // $request->input('taxable_inc') $sal_taxable_inc;
+                // $request->input('income_tax') $income_tax;
+                // $request->input('net_aft_inc_tax') $net_aft_inc_tax;
+                $resp = $request->input('resp');
+                $risk = $request->input('risk');
+                $vma = $request->input('vma');
+                $ent = $request->input('ent');
+                $dom = $request->input('dom');
+                $intr = $request->input('intr');
+                $tnt = $request->input('tnt');
+                $cola = $request->input('cola');
+                if ($request->input('new1')) {
+                    $new1 = $request->input('new1');
+                }else {
+                    $new1 = 0;
+                }
+                if ($request->input('new2')) {
+                    $new2 = $request->input('new2');
+                }else {
+                    $new2 = 0;
+                }
+                if ($request->input('new3')) {
+                    $new3 = $request->input('new3');
+                }else {
+                    $new3 = 0;
+                }
+                if ($request->input('new4')) {
+                    $new4 = $request->input('new4');
+                }else {
+                    $new4 = 0;
+                }
+                if ($request->input('new5')) {
+                    $new5 = $request->input('new5');
+                }else {
+                    $new5 = 0;
+                }
+                $back_pay = $request->input('back_pay');
+                $std_loan = $request->input('std_loan');
+                $staff_loan = $request->input('staff_loan');
+                $inc_tax = $request->input('income_tax');
+                // $std_loan = $emp->std_loan;
+                // $staff_loan = $emp->staff_loan;
+                
+
+                // Salary Workings
+                $sal_taxable_inc = $sal->sal_aft_ssf + $rent + $prof;
+                $net_aft_inc_tax = $sal_taxable_inc - $inc_tax;
+                $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
+                $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
+                $tot_ded = $sal->ssf + $inc_tax + $std_loan + $staff_loan;
+                $gross_sal = $sal->sal_aft_ssf + $rent + $prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
+                
+                try {
+
+                    if ($sl) {
+                        $sl->rent = $rent;
+                        $sl->prof = $prof;
+                        $sl->taxable_inc = $sal_taxable_inc;
+                        $sl->income_tax = $inc_tax;
+                        $sl->net_aft_inc_tax = $net_aft_inc_tax;
+                        $sl->resp = $resp;
+                        $sl->risk = $risk;
+                        $sl->vma = $vma;
+                        $sl->ent = $ent;
+                        $sl->dom = $dom;
+                        $sl->intr = $intr;
+                        $sl->tnt = $tnt;
+                        $sl->cola = $cola;
+                        $sl->new1 = $new1;
+                        $sl->new2 = $new2;
+                        $sl->new3 = $new3;
+                        $sl->new4 = $new4;
+                        $sl->new5 = $new5;
+                        $sl->back_pay = $back_pay;
+                        $sl->net_bef_ded = $net_bef_ded;
+                        $sl->std_loan = $std_loan;
+                        $sl->staff_loan = $staff_loan;
+                        $sl->net_aft_ded = $net_aft_ded;
+                        // $sl->ssf_emp_cont = $ssf_emp_cont;
+                        $sl->gross_sal = $gross_sal;
+                        $sl->tot_ded = $tot_ded;
+                        $sl->save();
+                    } else {
+                        $sl = Saledit::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'month' => date('m-Y'),
+                            'taxation_id' => $sal->taxation_id,
+                            'employee_id' => $sal->employee_id,
+                            'position' => $sal->position,
+                            'salary' => $sal->salary,
+                            'ssf' => $sal->ssf,
+                            'sal_aft_ssf' => $sal->sal_aft_ssf,
+                            'rent' => $rent,
+                            'prof' => $prof,
+                            'taxable_inc' => $sal_taxable_inc,
+                            'income_tax' => $inc_tax,
+                            'net_aft_inc_tax' => $net_aft_inc_tax,
+                            'resp' => $resp,
+                            'risk' => $risk,
+                            'vma' => $vma,
+                            'ent' => $ent,
+                            'dom' => $dom,
+                            'intr' => $intr,
+                            'tnt' => $tnt,
+                            'new1' => $new1,
+                            'new2' => $new2,
+                            'new3' => $new3,
+                            'new4' => $new4,
+                            'new5' => $new5,
+                            'back_pay' => $back_pay,
+                            'net_bef_ded' => $net_bef_ded,
+                            'std_loan' => $std_loan,
+                            'staff_loan' => $staff_loan,
+                            'net_aft_ded' => $net_aft_ded,
+                            'ssf_emp_cont' => $sal->ssf_emp_cont,
+                            'gross_sal' => $gross_sal,
+                            'tot_ded' => $tot_ded,
+                            'ssn' => $sal->ssn,
+                            'email' => $sal->email,
+                            'dept' => $sal->dept,
+                            'region' => $sal->region,
+                            'bank' => $sal->bank,
+                            'branch' => $sal->branch,
+                            'acc_no' => $sal->acc_no,
+                        ]);
+                        $sl->status = 'used';
+                        $sl->save();
+                    }
+
+
+                    // Update Salary with neww values
+                    $sal->rent = $rent;
+                    $sal->prof = $prof;
+                    $sal->taxable_inc = $sal_taxable_inc;
+                    $sal->income_tax = $inc_tax;
+                    $sal->net_aft_inc_tax = $net_aft_inc_tax;
+                    $sal->resp = $resp;
+                    $sal->risk = $risk;
+                    $sal->vma = $vma;
+                    $sal->ent = $ent;
+                    $sal->dom = $dom;
+                    $sal->intr = $intr;
+                    $sal->tnt = $tnt;
+                    $sal->cola = $cola;
+                    $sal->new1 = $new1;
+                    $sal->new2 = $new2;
+                    $sal->new3 = $new3;
+                    $sal->new4 = $new4;
+                    $sal->new5 = $new5;
+                    $sal->back_pay = $back_pay;
+                    $sal->net_bef_ded = $net_bef_ded;
+                    $sal->std_loan = $std_loan;
+                    $sal->staff_loan = $staff_loan;
+                    $sal->net_aft_ded = $net_aft_ded;
+                    // $sal->ssf_emp_cont = $ssf_emp_cont;
+                    $sal->gross_sal = $gross_sal;
+                    $sal->tot_ded = $tot_ded;
+                    $sal->save();
+
+
+                    // Update Journals with new values
+                    $sals = Salary::where('month', date('m-Y'))->get();
+                    $jv_check = Journal::where('month', date('m-Y'))->first();
+                    if ($jv_check) {
+                        $jv_check->gross = $sals->sum('salary');
+                        
+                        $jv_check->gross = $sals->sum('gross_sal');
+                        $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
+                        $jv_check->fuel_alw = $sals->sum('tnt');
+                        $jv_check->back_pay = $sals->sum('back_pay');
+                        $jv_check->total_ssf = $sals->sum('ssf_emp_cont') + $sals->sum('ssf');
+                        $jv_check->total_paye = $sals->sum('income_tax');
+                        // $jv_check->advances = '';
+                        // $jv_check->veh_loan = '';
+                        $jv_check->std_loan = $sals->sum('std_loan');
+                        $jv_check->staff_loan = $sals->sum('staff_loan');
+                        $jv_check->net_pay = $sals->sum('net_aft_ded');
+                        $jv_check->debit = $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+                        $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+                        $jv_check->save();
+                    } else {
+                        $jv_insert = Journal::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'month' => date('m-Y'),
+                            'gross' => $sals->sum('gross_sal'),
+                            'ssf_emp' => $sals->sum('ssf_emp_cont'),
+                            'fuel_alw' => $sals->sum('tnt'),
+                            'back_pay' => $sals->sum('back_pay'),
+                            'total_ssf' => $sals->sum('ssf_emp_cont') + $sals->sum('ssf'),
+                            'total_paye' => $sals->sum('income_tax'),
+                            // 'advances' => '',
+                            // 'veh_loan' => '',
+                            'std_loan' => $sals->sum('std_loan'),
+                            'staff_loan' => $sals->sum('staff_loan'),
+                            'net_pay' => $sals->sum('net_aft_ded'),
+                            'debit' => $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
+                            'credit' => $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
+                        ]);
+                    }
+                
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect(url()->previous())->with('success', $sal->employee->fname.'`s record changes successfully saved');
+                
+            break;
+
+            case 'up_saledit_status':
+                $slt = Saledit::find($id);
+                // return $slt->employee->fname;
+                $slt->status = 'applied';
+                $slt->save();
+
+                // $where = ['month' => date('m-Y'), 'employee_id' => $emp->id];
+                // $saledit = Saledit::where($where)->first();
+
+                // Copy Calc from Saledit to Update Salary
+                $new_slt = Saledit::firstOrCreate([
+                    'user_id' => auth()->user()->id,
+                    'month' => date('m-Y'),
+                    'taxation_id' => $slt->taxation_id,
+                    'employee_id' => $slt->employee_id,
+                    'position' => $slt->position,
+                    'salary' => $slt->salary,
+                    'ssf' => $slt->ssf,
+                    'sal_aft_ssf' => $slt->sal_aft_ssf,
+                    'rent' => $slt->rent,
+                    'prof' => $slt->prof,
+                    'taxable_inc' => $slt->taxable_inc,
+                    'income_tax' => $slt->income_tax,
+                    'net_aft_inc_tax' => $slt->net_aft_inc_tax,
+                    'resp' => $slt->resp,
+                    'risk' => $slt->risk,
+                    'vma' => $slt->vma,
+                    'ent' => $slt->ent,
+                    'dom' => $slt->dom,
+                    'intr' => $slt->intr,
+                    'tnt' => $slt->tnt,
+                    'cola' => $slt->cola,
+                    'new1' => $slt->new1,
+                    'new2' => $slt->new2,
+                    'new3' => $slt->new3,
+                    'new4' => $slt->new4,
+                    'new5' => $slt->new5,
+                    'back_pay' => $slt->back_pay,
+                    'net_bef_ded' => $slt->net_bef_ded,
+                    'std_loan' => $slt->std_loan,
+                    'staff_loan' => $slt->staff_loan,
+                    'net_aft_ded' => $slt->net_aft_ded,
+                    'ssf_emp_cont' => $slt->ssf_emp_cont,
+                    'gross_sal' => $slt->gross_sal,
+                    'tot_ded' => $slt->tot_ded,
+                    'ssn' => $slt->ssn,
+                    'email' => $slt->email,
+                    'dept' => $slt->dept,
+                    'region' => $slt->region,
+                    'bank' => $slt->bank,
+                    'branch' => $slt->branch,
+                    'acc_no' => $slt->acc_no,
+                ]);
+                $new_slt->status = 'used';
+                $new_slt->save();
+                return redirect(url()->previous())->with('success', date('M-Y', strtotime(date('Y-m')." -1 month")).' salary record changes for '.$slt->employee->fname.' has been successfully applied to '.date('M-Y').' records');
+            break;
+
             case 'abc':
                 return 12;
             break;
@@ -2445,9 +2841,9 @@ class EmployeeController extends Controller
                 $alx->intr = $request->input('intr');
                 $alx->tnt = $request->input('tnt');
                 $alx->cola = $request->input('cola');
-                // $alx->ssf = $request->input('ssf');
-                // $alx->ssf1 = $request->input('ssf1');
-                // $alx->ssf2 = $request->input('ssf2');
+                $alx->ssf = $request->input('ssf');
+                $alx->ssf1 = $request->input('ssf1');
+                $alx->ssf2 = $request->input('ssf2');
                 $alx->new1 = $new1;
                 $alx->new2 = $new2;
                 $alx->new3 = $new3;

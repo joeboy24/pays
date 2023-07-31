@@ -244,9 +244,13 @@
                               <td class="faint_td">Fullname</td>
                               <td>: &nbsp; {{ $emp->fname.' '.$emp->sname.' '.$emp->oname }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                               <td class="faint_td">AFIS No.</td>
                               <td>: &nbsp; {{ $emp->afis_no }}</td>
+                            </tr> --}}
+                            <tr>
+                              <td class="faint_td">Staff ID.</td>
+                              <td>: &nbsp; {{ $emp->extend->staff_id }}</td>
                             </tr>
                             <tr>
                               <td class="faint_td">SSNIT</td>
@@ -322,10 +326,10 @@
                           <th>Other Details</th>
                           {{-- </th>.......................................</th> --}}
                         </thead>
-                        <tbody>
+                        <tbody> 
                           <tr>
                             <td class="faint_td2">Qualification</td>
-                            <td>: &nbsp; Null Qualification Qualification</td>
+                            <td>: &nbsp; {{$emp->extend->qual}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">Classification</td>
@@ -333,7 +337,7 @@
                           </tr>
                           <tr>
                             <td class="faint_td2">Grade</td>
-                            <td>: &nbsp; Null</td>
+                            <td>: &nbsp; {{$emp->extend->grade}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">Marital Status</td>
@@ -345,19 +349,19 @@
                           </tr>
                           <tr>
                             <td class="faint_td2">Date of Birth</td>
-                            <td>: &nbsp; {{date('F d, Y', strtotime($emp->dob))}}</td>
+                            <td>: &nbsp; {{date('F d, Y', strtotime($emp->extend->dob))}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">Gender</td>
-                            <td>: &nbsp; null</td>
+                            <td>: &nbsp; {{$emp->extend->gender}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">contact</td>
-                            <td>: &nbsp; null</td>
+                            <td>: &nbsp; {{$emp->extend->contact}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">Email</td>
-                            <td>: &nbsp; Null</td>
+                            <td>: &nbsp; {{$emp->extend->email}}</td>
                           </tr>
                           <tr>
                             <td class="faint_td2">Passport</td>

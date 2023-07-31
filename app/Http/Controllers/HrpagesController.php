@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\LeaveSetup;
 use App\Models\Employee;
-use App\Models\EmployeeExtRead;
+use App\Models\Extend;
 use App\Models\Salary;
 use App\Models\Bank;
 use App\Models\SalaryCat;
@@ -50,6 +50,7 @@ class HrpagesController extends Controller
         // $bdays = Employee::where('created_at', '<=', '2023-07-03')->paginate(10);
         // return $bdays;
         $retirements = Employee::where('del', 'no')->get();
+        // return $retirements[0]->extend->dob;
         $patch = [
             'c' => 1,
             'yrs' => $yrs,
@@ -145,35 +146,5 @@ class HrpagesController extends Controller
             'departments' => $dept,
         ];
         return view('dash.pay_department')->with($patch);
-    }
-
-    public function pay_allowance(Request $request){
-
-        $src = $request->input('search_alw');
-
-        // if ($src) {
-        //     // return 1;
-        //     $employees = Employee::where('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
-        //    // return $src;
-        //     $allowances = Allowance::query();
-        //     foreach($employees as $txt){
-        //         $allowances->orWhere('fname', $txt->fname);
-        //     }
-        //     $allowances = $allowances->distinct()->orderBy('fname', 'ASC')->paginate(20);
-
-        // } else {
-        //     $allowances = Allowance::orderBy('fname', 'ASC')->paginate(20);
-        // }
-        // // return $allowances;
-
-        $allowances = Allowance::where('fname', 'LIKE', '%'.$src.'%')->orderBy('fname', 'ASC')->paginate(20);
-        $allowoverview = AllowanceOverview::where('del', 'no')->latest()->first();
-        $patch = [
-            'new_name' => '',
-            'allowances' => $allowances,
-            'new_allows' => AllowanceList::all(),
-            'allowoverview' => $allowoverview
-        ];
-        return view('dash.pay_allowance')->with($patch);
     }
 }

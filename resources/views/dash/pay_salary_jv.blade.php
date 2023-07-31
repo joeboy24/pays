@@ -202,9 +202,9 @@
                                         <td class="td_right">{{number_format($jv->gross, 2)}}</td>
                                     </tr>
                                     <tr>
-                                        <td class="td_right">Advances</td>
+                                        <td class="td_right">Student Loan</td>
                                         <td class="td_right"></td>
-                                        <td class="td_right">-</td>
+                                        <td class="td_right">{{number_format($jv->std_loan, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td class="td_right">Vehicle Loan</td>

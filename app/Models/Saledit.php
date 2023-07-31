@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Salary extends Model
+class Saledit extends Model
 {
     use HasFactory;
 
@@ -21,5 +21,4 @@ class Salary extends Model
     public function taxation(){
         return $this->belongsTo('App\Models\Taxation');
     }
-    
 }

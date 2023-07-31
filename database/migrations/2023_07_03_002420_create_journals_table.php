@@ -26,6 +26,7 @@ class CreateJournalsTable extends Migration
             $table->string('total_paye', 24)->nullable();
             $table->string('advances', 24)->nullable();
             $table->string('veh_loan', 24)->nullable();
+            $table->string('std_loan', 24)->nullable();
             $table->string('staff_loan', 24)->nullable();
             $table->string('net_pay', 24)->nullable();
             $table->string('debit', 24)->nullable();

@@ -142,7 +142,8 @@
             @csrf
             <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
             <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
-            <a href="/payslip_forwarding" onclick="return confirm('This action will forward payslip to employees` emails. Click Ok to proceed')"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a>
+            {{-- <a href="/payslip_forwarding" onclick="return confirm('This action will forward payslip to employees` emails. Click Ok to proceed')"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a> --}}
+            <a href="/sal_changes"><p class="view_daily_report genhover"><i class="fa fa-warning color6"></i> Changes</p></a>
             <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-file-text color10"></i> JV</p></a>
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>
@@ -178,7 +179,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Employee Name</th>
+                                        <th class="name_width">Employee Name</th>
                                         <th>Position</th>
                                         <th>Basic Salary</th>
                                         <th>Month</th>
@@ -253,9 +254,11 @@
                                         @endforeach --}}
                                         <th>Back Pay</th>
                                         <th>Net Salary Before Deduction</th>
+                                        <th class="staffloancol">Student Loan</th>
                                         <th class="staffloancol">Staff Loan</th>
                                         <th class="netcol">Net Salary After Deduction</th>
                                         <th>13%/12.5% SSF EMPLOYERS CONT.</th>
+                                        <th>Gross Salary</th>
                                         <th>Total Deductions</th>
                                         <th>SOCIAL SECURITY NUMBER</th>
                                         <th>Email</th>
@@ -275,7 +278,33 @@
                                             <tr>
                                         @endif
                                             <td>{{$c++}}</td>
-                                            <td class="text-bold-500">{{ $slr->employee->fname.' '.$slr->employee->sname.' '.$slr->employee->oname }}</td>
+                                            <td class="text-bold-500 name_width">{{ $slr->employee->fname.' '.$slr->employee->sname.' '.$slr->employee->oname }}
+                                                @if (count($saledits2) > 0)
+                                                    @foreach ($saledits2 as $edt)
+                                                        @if ($edt->employee_id == $slr->employee_id && $edt->status != 'applied')
+                                                            <form action="{{ action('EmployeeController@update', $edt->id) }}" method="POST">
+                                                                <input type="hidden" name="_method" value="PUT">
+                                                                <input type="hidden" value="{{$avl = 'yes'}}">
+                                                                @csrf
+                                                                <button type="submit" name="update_action" value="up_saledit_status"
+                                                                    class="my_trash2 green_bg color8 genhover"><i class="fa fa-repeat"></i>
+                                                                    &nbsp;{{date('M', strtotime(date('Y-m')." -1 month"))}}
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <input type="hidden" value="{{$avl = 'no'}}">
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                <form action="{{ action('EmployeeController@update', $slr->id) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="PUT">
+                                                    @csrf
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit_sal{{$slr->id}}" 
+                                                        class="my_trash2 blue_bg color8 genhover"><i class="fa fa-pencil"></i>
+                                                        &nbsp;Edit
+                                                    </button>
+                                                </form>
+                                            </td>
                                             <td class="text-bold-500">{{$slr->position}}</td>
                                             <td class="text-bold-500">{{number_format($slr->salary, 2)}}</td>
                                             <td class="text-bold-500">{{date('F Y', strtotime('30-'.$slr->month))}}</td>
@@ -306,9 +335,11 @@
 
                                             <td class="text-bold-500">{{number_format($slr->back_pay, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->net_bef_ded, 2)}}</td>
+                                            <td class="text-bold-500 staffloancol">{{number_format($slr->std_loan, 2)}}</td>
                                             <td class="text-bold-500 staffloancol">{{number_format($slr->staff_loan, 2)}}</td>
                                             <td class="text-bold-500 netcol">{{number_format($slr->net_aft_ded, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->ssf_emp_cont, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($slr->gross_sal, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->tot_ded, 2)}}</td>
                                             <td class="text-bold-500">{{$slr->ssn}}</td>
                                             <td class="text-bold-500">{{$slr->email}}</td>
@@ -319,6 +350,129 @@
                                             <td class="text-bold-500">{{$slr->branch}}</td>
                                             <td class="text-bold-500">{{$slr->acc_no}}</td>
                                         </tr>
+
+
+                                        <!-- Edit-Sal Modal -->
+                                        <div class="modal fade" id="edit_sal{{$slr->id}}" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalRequestLabel">Edit {{$slr->employee->fname.'`s'}} salary records </h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ action('EmployeeController@update', $slr->id) }}" method="POST">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_method" value="PUT">
+                                                        @csrf
+
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp; Income&nbsp;Tax
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->income_tax}}" @endif min="0" placeholder="Income Tax eg. 2125.22" name="income_tax" required>
+                                                        </div>
+
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-home"></i>&nbsp;&nbsp; Rent
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->rent}}" @endif min="0" placeholder="Rent Allowance eg. 15" name="rent" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-check-square"></i>&nbsp;&nbsp;&nbsp; Prof.
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->prof}}" @endif min="0" name="prof" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-briefcase"></i>&nbsp;&nbsp; Resp.
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->resp}}" @endif min="0" name="resp" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;&nbsp;Risk
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->risk}}" @endif min="0" name="risk" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-car"></i>&nbsp;&nbsp;&nbsp;VMA
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->vma}}" @endif min="0" name="vma" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-headphones"></i>&nbsp;&nbsp;&nbsp;&nbsp;Ent.
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->ent}}" @endif min="0" name="ent" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-bed"></i>&nbsp;&nbsp;&nbsp;Dom.
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->dom}}" @endif min="0" name="dom" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Cola
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->cola}}" @endif min="0" name="cola" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ut (GhC)
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->intr}}" @endif min="0" name="intr" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-taxi"></i>&nbsp;&nbsp;&nbsp;T&T (GhC)
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->tnt}}" @endif min="0" name="tnt" required>
+                                                        </div>
+                                                
+                                                        @if (count($new_allows) > 0)
+                                                            <p class="small_p">&nbsp; New Allowances</p>
+                                                            @foreach ($new_allows as $new_alw)
+                                                                <div class="filter_div">
+                                                                    <input type="hidden" value="{{$new_val = 'new'.$new_alw->id}}">
+                                                                    <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;{{ substr($new_alw->allow_name, 0, 5) }}... @if ($new_alw->allow_amt!=0) (Ghc) @endif
+                                                                    <input type="number" step="any" @if ($slr!='')value="{{$slr->$new_val}}" @endif min="0" @if ($new_alw->allow_perc!=0) @endif name="{{'new'.$new_alw->id}}" required>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Back Pay
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->back_pay}}" @endif min="0" name="back_pay" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Std. Loan
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->std_loan}}" @endif min="0" name="std_loan" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Staff Loan
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->staff_loan}}" @endif min="0" name="staff_loan" required>
+                                                        </div>
+
+                                                        <p class="">&nbsp;</p>
+                                                
+                                                        {{-- <div class="filter_div">
+                                                            <i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;SSF
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->ssf}}" @endif min="0" name="ssf" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;SSF 1T
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->ssf1}}" @endif min="0" name="ssf1" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;SSF 2T
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->ssf2}}" @endif min="0" name="ssf2" required>
+                                                        </div> --}}
+                                                        
+                                                        <div class="form-group modal_footer">
+                                                            <button type="submit" name="update_action" value="edit_sal" class="load_btn" onclick="return confirm('Are you sure you want to update this record?')"><i class="fa fa-check"></i>&nbsp; Save Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                
+                                            </div>
+                                            </div>
+                                        </div>
 
                                     @endforeach
 
@@ -355,9 +509,11 @@
 
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('back_pay'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('net_bef_ded'), 2)}}</b></td>
+                                        <td class="text-bold-500 staffloancol"><b>{{number_format($totsal->sum('std_loan'), 2)}}</b></td>
                                         <td class="text-bold-500 staffloancol"><b>{{number_format($totsal->sum('staff_loan'), 2)}}</b></td>
                                         <td class="text-bold-500 netcol"><b>{{number_format($totsal->sum('net_aft_ded'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('ssf_emp_cont'), 2)}}</b></td>
+                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('gross_sal'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('tot_ded'), 2)}}</b></td>
                                         <td></td>
                                         <td></td>

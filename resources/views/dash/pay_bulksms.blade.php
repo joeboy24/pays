@@ -157,6 +157,17 @@
             @endif
             <form action="{{ action('EmployeeController@store') }}" method="POST">
                 @csrf
+
+                <div class="filter_div">
+                    <i class="fa fa-question-circle-o"></i> &nbsp; Precedent
+                    <select id="precedent" name="precedent" onchange="replacePrecedent()">
+                        <option selected>Hi *FULLNAME* </option>
+                        <option>Dear *FULLNAME* </option>
+                        <option>Hello *FULLNAME* </option>
+                        <option>Welcome *FULLNAME* </option>
+                        <option>None</option>
+                    </select>
+                </div>
                 <div class="filter_div">
                     <i class="fa fa-envelope-o"></i> &nbsp; Send&nbsp;To
                     <select name="sms_action">
@@ -173,9 +184,10 @@
                     </select>
                 </div>
 
-                <textarea class="sms_message" name="message" id="" cols="30" rows="4" placeholder="Type Here"></textarea>
+                <textarea id="txtmsg" class="sms_message" name="message" id="" cols="30" rows="4" placeholder="Type Here"></textarea>
 
                 <div class="form-group modal_footer">
+                    {{-- <button id="checks" type="button" class="load_btn"><i class="fa fa-send"></i>&nbsp; Check</button> --}}
                     <button type="submit" name="store_action" value="send_sms" class="load_btn"><i class="fa fa-send"></i>&nbsp; Send</button>
                     <button type="submit" name="store_action" value="clear_sms_contacts" class="load_btn_inv"
                         onclick="return confirm('This action will clear queued contacts. Click `OK` to proceed')"><i class="fa fa-refresh" ></i>&nbsp; Clear
@@ -208,34 +220,131 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Message</th>
-                                        <th>Sent To</th>
-                                        {{-- <th>Status</th> --}}
                                         <th class="align_right">Actions</th>
                                     </tr>
                                 </thead>   
                                 <tbody>
                                     @foreach ($sms_history as $smh)
-                                        @if ($c % 2 == 1)
-                                            <tr class="bg9">
-                                        @else
-                                            <tr>
-                                        @endif
-                                            <td class="text-bold-500"><p class="small_p">Sent By:</p>{{$smh->user->name}}</td>
-                                            <td class="text-bold-500">{{$smh->message}} <p class="small_p">Status: {{$smh->status}}</p></td>
-                                            <td class="text-bold-500">{{$smh->sent_to}}</td>
-
-                                            <form action="{{ action('EmployeeController@update', $smh->id) }}" method="POST">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_method" value="PUT">
-                                                @csrf
-
-                                                <td class="text-bold-500 align_right">
-                                                    <button type="submit" name="update_action" value="" class="my_trash2 genhover" onclick="return confirm('Do you want to pin this record?')"><i class="fa fa-thumb-tack"></i></button>
-                                                    <button type="submit" name="update_action" value="" class="my_trash2 genhover bg3 color8" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-check"></i>&nbsp;Use&nbsp;Template</button>
+                                        @if ($smh->pin == 'yes')
+                                            @if ($c % 2 == 1)
+                                                <tr class="bg9">
+                                            @else
+                                                <tr>
+                                            @endif
+                                                <td class="text-bold-500"><p class="small_p">Sent By:</p>{{$smh->user->name}}</td>
+                                                <td class="text-bold-500">{{$smh->message}} <p class="small_p">Status: {{$smh->status}}</p>
+                                                    <p class="gray_p">&nbsp;</p><p class="gray_p">Sent To:</p>
+                                                    @if (count(explode(',', $smh->sent_to)) > 7)
+                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                {{explode(',', $smh->sent_to)[$i]}}
+                                                            </button>
+                                                        @endfor
+                                                        <button data-bs-toggle="modal" data-bs-target="#view_more{{$smh->id}}" type="button" class="sms_contact_view">&nbsp;View More...</button>
+                                                    @else
+                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                {{explode(',', $smh->sent_to)[$i]}}
+                                                            </button>
+                                                        @endfor
+                                                    @endif
                                                 </td>
-                                            </form>
 
-                                        </tr>
+                                                <form action="{{ action('EmployeeController@update', $smh->id) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_method" value="PUT">
+                                                    @csrf
+
+                                                    <td class="text-bold-500 align_right">
+                                                        <button type="submit" name="update_action" value="unpin_sms" class="my_trash2 bg7 genhover" onclick="return confirm('Do you want to unpin this record?')"><i class="fa fa-thumb-tack"></i></button>
+                                                        <button type="button" class="my_trash2 genhover bg3 color8" onclick="UseAsTemplate{{$smh->id}}()"><i class="fa fa-check"></i>&nbsp;Use&nbsp;Template</button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+
+                                    @foreach ($sms_history as $smh)
+                                        @if ($smh->pin == 'no')
+                                            @if ($c % 2 == 1)
+                                                <tr class="bg9">
+                                            @else
+                                                <tr>
+                                            @endif
+                                                <td class="text-bold-500"><p class="small_p">Sent By:</p>{{$smh->user->name}}</td>
+                                                <td class="text-bold-500">{{$smh->message}} <p class="small_p">Status: {{$smh->status}}</p>
+                                                    <p class="gray_p">&nbsp;</p><p class="gray_p">Sent To:</p>
+                                                    @if (count(explode(',', $smh->sent_to)) > 7)
+                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                {{explode(',', $smh->sent_to)[$i]}}
+                                                            </button>
+                                                        @endfor
+                                                        <button data-bs-toggle="modal" data-bs-target="#view_more{{$smh->id}}" type="button" class="sms_contact_view">&nbsp;View More...</button>
+                                                    @else
+                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                {{explode(',', $smh->sent_to)[$i]}}
+                                                            </button>
+                                                        @endfor
+                                                    @endif
+                                                </td>
+
+                                                <form action="{{ action('EmployeeController@update', $smh->id) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_method" value="PUT">
+                                                    @csrf
+
+                                                    <td class="text-bold-500 align_right">
+                                                        <button type="submit" name="update_action" value="pin_sms" class="my_trash2 genhover" onclick="return confirm('Do you want to pin this record?')"><i class="fa fa-thumb-tack"></i></button>
+                                                        <button type="button" class="my_trash2 genhover bg3 color8" onclick="UseAsTemplate{{$smh->id}}()"><i class="fa fa-check"></i>&nbsp;Use&nbsp;Template</button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        @endif
+                                        <script>
+                                            function UseAsTemplate{{$smh->id}}() {
+                                                precedent = document.getElementById('precedent').value;
+                                                if (precedent == 'None') {
+                                                    sessionStorage.setItem('msg_template', '{{$smh->message}}');
+                                                    document.getElementById('txtmsg').value = '{{$smh->message}}';
+                                                } else {
+                                                    sessionStorage.setItem('msg_template', ', {{$smh->message}}');
+                                                    document.getElementById('txtmsg').value = precedent + ', {{$smh->message}}';
+                                                }
+                                            }
+                                        </script>
+
+                                        <!-- View More Modal -->
+                                        <div class="modal fade" id="view_more{{$smh->id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                                                role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                            All Receipients
+                                                        </h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ action('EmployeeController@store') }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+
+                                                            @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                                <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                    {{explode(',', $smh->sent_to)[$i]}}
+                                                                </button>
+                                                            @endfor
+                                                            
+                                                        </div> 
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     @endforeach
                                 </tbody>
@@ -251,6 +360,36 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            // Set msg_template to '' on load || on page refresh
+            sessionStorage.setItem('msg_template', '');
+
+            function replacePrecedent() {
+                // alert('Yh');
+                precedent = document.getElementById('precedent').value;
+                txtmsg = sessionStorage.getItem('msg_template');
+                document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
+                if (precedent == 'None') {
+                    document.getElementById('txtmsg').value = txtmsg;
+                } else {
+                    document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
+                }
+            }
+            // function checRuns() {
+            //     var text = document.getElementById("text-goodbye").value;
+            //     setTextarea(text);
+            // }
+
+            // function setTextarea(text) {
+            //     document.getElementById("myTextarea").value = text;
+            // }
+
+            // document.queryselector("#checks")
+            //     .addEventListener("click", function() {    
+            //     alert("User has clicked on the button!");
+            // });
+        </script>
         
         @if (session('send01') == 1)
             @foreach (session('smss') as $item)
@@ -265,7 +404,11 @@
 
             <script language="javascript" type="text/javascript">   
                 // alert ('sent')
-                send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to=<?php echo $item->contact; ?>&msg=Dear <?php echo $item->employee->fname.' '.$item->employee->sname; ?>, <?php echo $msg; ?>&sender_id=MASLOCGH");
+                msg = '{{$msg}}';
+                contact = '{{$item->contact}}';
+                cname = '{{$item->employee->fullname}}';
+                cmsg = msg.replace('*FULLNAME*', cname);
+                send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to="+contact+"&msg="+cmsg+"&sender_id=MASLOCGH");
             </script>
             @endforeach
         @endif

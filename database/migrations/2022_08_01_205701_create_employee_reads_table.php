@@ -44,11 +44,14 @@ class CreateEmployeeReadsTable extends Migration
             $table->string('dom', 50)->nullable();
             $table->string('intr', 50)->nullable();
             $table->string('tnt', 50)->nullable();
+            $table->string('cola', 50)->nullable();
             $table->string('back_pay', 50)->nullable();
             $table->string('net_bef_ded', 50)->nullable();
+            $table->string('std_loan', 50)->default(0);
             $table->string('staff_loan', 50)->default(0);
             $table->string('net_aft_ded', 50)->nullable();
             $table->string('ssf_emp_cont', 50)->nullable();
+            $table->string('gross_sal', 50)->default(0);
             $table->string('tot_ded', 50)->nullable();
             $table->string('ssn', 50)->nullable();
             $table->string('email', 50)->nullable();

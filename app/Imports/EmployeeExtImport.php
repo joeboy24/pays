@@ -4,7 +4,7 @@ namespace App\Imports;
   
 use App\Models\User;
 use App\Models\SalaryCat;
-use App\Models\EmployeeExtRead;
+use App\Models\Extend2;
 use App\Models\TaxationRead;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -23,7 +23,7 @@ class EmployeeExtImport implements ToModel, WithStartRow, WithCalculatedFormulas
 
     public function startRow(): int
     {
-        return 2;
+        return 4;
     }
     
     public function model(array $row)
@@ -36,23 +36,25 @@ class EmployeeExtImport implements ToModel, WithStartRow, WithCalculatedFormulas
         // 'last_emp_place','lep_add','lep_phone','lep_pos','father','father_status','mother_status',
         // 'spouse','spouse_status','nok','nok_contact','del'
         
-        return new EmployeeExtRead([
+        return new Extend2([
             'user_id' => auth()->user()->id,
-            'staff_id' => $row[0],
-            'tin' => $row[1],
-            'fname' => $row[2],
-            'dob' => str_replace("/","-",$row[3]),
-            'date_emp' => str_replace("/","-",$row[5]),
-            'gender' => $row[6],
-            'prev_place' => $row[7],
-            'cur_pos' => $row[8],
-            'qual' => $row[9],
-            'grade' => $row[10],
-            'level' => $row[11],
-            'step' => $row[12],
-            'ssnit_no' => $row[13],
-            'contact' => $row[14],
-            'email' => $row[15],
+            'staff_id' => $row[2],
+            // 'tin' => $row[1],
+            'fname' => $row[3],
+            'dob' => str_replace("/","-",$row[18]),
+            'date_emp' => str_replace("/","-",$row[19]),
+            'gender' => $row[7],
+            'prev_place' => $row[8],
+            'pos' => $row[9],
+            'cur_pos' => $row[10],
+            'program' => $row[11],
+            'qual' => $row[12],
+            'grade' => $row[13],
+            'level' => $row[14],
+            'step' => $row[15],
+            'ssnit_no' => $row[16],
+            'contact' => $row[17],
+            // 'email' => $row[17],
         ]);
 
     }

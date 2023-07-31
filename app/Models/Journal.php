@@ -10,7 +10,7 @@ class Journal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye','advances','veh_loan','staff_loan','net_pay','debit','credit','status','del'
+        'user_id','month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye','advances','veh_loan','std_loan','staff_loan','net_pay','debit','credit','status','del'
     ];
 
 }

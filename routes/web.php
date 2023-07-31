@@ -38,6 +38,7 @@ Route::get('/adduser', 'SystemAccessController@pay_adduser');
 Route::get('/activity-log', 'SystemAccessController@pay_activities');
 // General Access
 Route::get('/', 'GeneralController@index');
+Route::get('/runs', 'GeneralController@runs');
 Route::get('/tests', 'GeneralController@pay_tests');
 Route::get('/reports', 'GeneralController@pay_reports');
 Route::get('/view_employee', 'GeneralController@pay_employee_view');
@@ -46,6 +47,9 @@ Route::get('/otp-verification', 'OpenPagesController@verify_otp');
 Route::get('/account-block', 'OpenPagesController@account_blocked');
 Route::get('/otp-pre-resend', 'OpenPagesController@otp_pre_resend');
 Route::get('/otp-resend', 'OpenPagesController@resend_otp');
+Route::get('/allowance', 'GeneralController@pay_allowance');
+Route::get('/allowance_exp', 'GeneralController@pay_allowexp');
+Route::get('/bulksms', 'GeneralController@bulk_sms');
 
 Route::get('/emp_report', 'DashpagesController@emp_report');
 // HR Pages
@@ -55,7 +59,6 @@ Route::resource('/employee', 'EmployeeController');
 Route::resource('/reporting', 'ReportsController');
 Route::resource('/hrdash', 'HrdashController');
 Route::get('/add_employee', 'HrpagesController@pay_add_emp');
-Route::get('/allowance', 'HrpagesController@pay_allowance');
 
 Route::get('/add_dept', 'HrpagesController@pay_add_dept');
 Route::get('/sal_cat', 'HrpagesController@pay_sal_cat');
@@ -65,10 +68,10 @@ Route::get('/pay_employee', 'GeneralController@pay_employee');  // Checkout
 // Finance Pages
 Route::get('/taxation', 'FinancePagesController@pay_tax');
 Route::get('/salaries', 'FinancePagesController@pay_sal');
+Route::get('/sal_changes', 'FinancePagesController@pay_sal_changes');
 Route::get('/payroll_jv', 'FinancePagesController@pay_sal_jv');
 Route::get('/banksummary', 'FinancePagesController@pay_banksummary');
 Route::get('/loans', 'FinancePagesController@pay_loan');
-Route::get('/allowance_exp', 'FinancePagesController@pay_allowexp');
 Route::get('/alawa', 'FinancePagesController@alawa');
 Route::get('/finace_notice', 'FinancePagesController@pay_data_update');
 // Regional Mgr.
@@ -80,7 +83,6 @@ Route::get('/myprofile', 'StaffPagesController@showProfile');
 Route::get('/validation', 'StaffPagesController@sal_validation');
 Route::get('/staff-leave', 'StaffPagesController@staff_leave');
 Route::get('/staff-loans', 'StaffPagesController@staff_loans');
-Route::get('/bulksms', 'StaffPagesController@bulk_sms');
 // Exports
 Route::get('/taxexport', 'ExportsController@pay_tax_export');
 Route::get('/salexport', 'ExportsController@pay_sal_export');

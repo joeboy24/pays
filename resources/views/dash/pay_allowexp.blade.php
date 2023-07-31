@@ -299,6 +299,23 @@
                                                             <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;Cola 
                                                             <input type="number" step="any" @if ($alx!='')value="{{$alx->cola}}" @endif min="0" max="100" name="tnt" required>
                                                         </div> --}}
+
+                                                        <p class="">&nbsp;</p>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;SSF
+                                                            <input type="number" step="any" @if ($alx!='')value="{{$alx->ssf}}" @endif min="0" max="100" name="ssf" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;SSF 1T
+                                                            <input type="number" step="any" @if ($alx!='')value="{{$alx->ssf1}}" @endif min="0" max="100" name="ssf1" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;SSF 2T
+                                                            <input type="number" step="any" @if ($alx!='')value="{{$alx->ssf2}}" @endif min="0" max="100" name="ssf2" required>
+                                                        </div>
                                                         
                                                         <div class="form-group modal_footer">
                                                             <button type="submit" name="update_action" value="up_allowexp" class="load_btn" onclick="return confirm('Are you sure you want to update record!?')"><i class="fa fa-save"></i>&nbsp; Update</button>

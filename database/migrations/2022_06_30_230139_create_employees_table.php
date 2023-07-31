@@ -24,8 +24,10 @@ class CreateEmployeesTable extends Migration
             $table->string('loan_id', 24)->nullable();
             $table->string('staff_id', 24)->nullable();
             $table->string('region_id', 24)->nullable();
+            $table->string('extend_id', 24)->nullable();
             $table->string('afis_no', 24)->nullable();
 
+            $table->string('fullname', 150);
             $table->string('fname', 50);
             $table->string('sname', 50); 
             $table->string('oname', 50)->nullable();
@@ -48,6 +50,7 @@ class CreateEmployeesTable extends Migration
             $table->string('branch', 50)->nullable();
             $table->string('acc_no', 50)->nullable();
             $table->string('sub_div', 50)->nullable();
+            $table->string('std_loan', 50)->default(0);
             $table->string('staff_loan', 50)->default(0);
 
             $table->string('loan_date_started', 50)->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalariesTable extends Migration
+class CreateSaleditsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSalariesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salaries', function (Blueprint $table) {
+        Schema::create('saledits', function (Blueprint $table) {
             $table->id();
             $table->string('user_id', 50);
             $table->string('month', 50);
@@ -59,7 +59,7 @@ class CreateSalariesTable extends Migration
             $table->string('acc_no', 50)->nullable();
             $table->string('status', 50)->default('no'); 
             // $table->string('net_amount', 50);
-            $table->string('del', 24)->default('no', 50);
+            $table->string('del', 50)->default('no', 50);
             $table->timestamps();
         });
     }
@@ -71,6 +71,6 @@ class CreateSalariesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salaries', 50);
+        Schema::dropIfExists('saledits');
     }
 }
