@@ -218,14 +218,13 @@
 
     <div class="row">
         <div class="col-12 col-xl-12">
-            @include('inc.messages') 
             <div class="card">
                 <div class="card-body">
                     <p class="warning_action"><i class="fa fa-warning"></i>&nbsp; Showing Updates on Allowances </p>
                     
-                    <!-- Employee View -->
+                    <!-- Allowance View -->
                     <div class="table-responsive">
-                        @if (count($emp_update) > 0)
+                        @if (count($alw_update) > 0)
                             <table class="table mb-0 table-lg">
                                 <thead>
                                     <tr>
@@ -244,7 +243,7 @@
                                                 <input type="hidden" name="_method" value="PUT">
                                                 @csrf
 
-                                                <td class="text-bold-500">
+                                                {{-- <td class="text-bold-500">
                                                     <input type="hidden" id="allow_tf{{$alw->id}}" name="allow_tf{{$alw->id}}">
                                                     <!-- Rent Allowance -->
                                                     @if ($alw->rent == 'no')
@@ -282,18 +281,18 @@
                                                     @endif
 
                                                     <!-- Entertainment Allowance -->
-                                                     @if ($alw->ent == 'no') 
-                                                         <button type="button" value="set_ent" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Entertainment</button>
-                                                     @else
-                                                         <button type="button" value="remove_ent" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Entertainment</button>
-                                                     @endif
+                                                    @if ($alw->ent == 'no') 
+                                                        <button type="button" value="set_ent" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Entertainment</button>
+                                                    @else
+                                                        <button type="button" value="remove_ent" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Entertainment</button>
+                                                    @endif
  
                                                     <!-- Domestic Allowance -->
-                                                     @if ($alw->dom == 'no') 
-                                                         <button type="button" value="set_dom" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Domestic</button>
-                                                     @else
-                                                         <button type="button" value="remove_dom" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Domestic</button>
-                                                     @endif
+                                                    @if ($alw->dom == 'no') 
+                                                        <button type="button" value="set_dom" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Domestic</button>
+                                                    @else
+                                                        <button type="button" value="remove_dom" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Domestic</button>
+                                                    @endif
 
                                                     <!-- Internet Allowance -->
                                                     @if ($alw->intr == 'no' || $alw->intr == 0) 
@@ -354,9 +353,160 @@
                                                                 <button type="button" value="{{'remove_new'.$y}}" class="allow_btn bg4"{{$new_allows[$y-1]->allow_name}} for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; {{substr($new_allows[$y-1]->allow_name, 0, 10)}}...</button>
                                                             @endif
                                                         @endfor
+                                                    @endif
+                                                </td> --}}
+
+                                                <td class="text-bold-500">
+                                                    <input type="hidden" id="allow_tf{{$alw->id}}" name="allow_tf{{$alw->id}}">
+                                                    <!-- Rent Allowance -->
+                                                    @if ($alw->rent == 'no')
+                                                        <button type="submit" name="update_action" value="set_rent" class="allow_btn color1" onclick="return confirm('Do you want to enable Rent Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Rent</button>
+                                                        {{-- <button type="button" name="update_action" value="set_rent" class="allow_btn color1" onclick="textfill{{$alw->id}}()"><i class="fa fa-check"></i>&nbsp; Rent</button> --}}
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_rent" class="allow_btn bg4" onclick="return confirm('Do you want to disable Rent Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Rent</button>
+                                                        {{-- <button type="button" name="update_action" value="remove_rent" class="allow_btn bg4" onclick="textfill2{{$alw->id}}()"><i class="fa fa-times"></i>&nbsp; Rent</button> --}}
+                                                    @endif
+
+                                                    <!-- Professional Allowance -->
+                                                    @if ($alw->prof == 'no') 
+                                                        <button type="submit" name="update_action" value="set_prof" class="allow_btn color1" onclick="return confirm('Do you want to enable Professional Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Profession</button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_prof" class="allow_btn bg4" onclick="return confirm('Do you want to disable Professional Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Profession</button>
+                                                    @endif
+
+                                                    <!-- Resposible Allowance -->
+                                                    @if ($alw->resp == 'no') 
+                                                        <button type="submit" name="update_action" value="set_resp" class="allow_btn color1" onclick="return confirm('Do you want to enable Responsible Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Responsible</button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_resp" class="allow_btn bg4" onclick="return confirm('Do you want to disable Responsible Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Responsible</button>
+                                                    @endif
+
+                                                    <!-- Risk Allowance -->
+                                                    @if ($alw->risk == 'no') 
+                                                        <button type="submit" name="update_action" value="set_risk" class="allow_btn color1" onclick="return confirm('Do you want to enable Risk Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Risk</button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_risk" class="allow_btn bg4" onclick="return confirm('Do you want to disable Risk Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Risk</button>
+                                                    @endif
+
+                                                    <!-- VMA Allowance -->
+                                                    @if ($alw->vma == 'no') 
+                                                        <button type="submit" name="update_action" value="set_vma" class="allow_btn color1" onclick="return confirm('Do you want to enable VMA Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; VMA</button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_vma" class="allow_btn bg4" onclick="return confirm('Do you want to disable VMA Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; VMA</button>
+                                                    @endif
+
+                                                    <!-- Entertainment Allowance -->
+                                                     @if ($alw->ent == 'no') 
+                                                         <button type="submit" name="update_action" value="set_ent" class="allow_btn color1" onclick="return confirm('Do you want to enable Entertainment Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Entertainment</button>
+                                                     @else
+                                                         <button type="submit" name="update_action" value="remove_ent" class="allow_btn bg4" onclick="return confirm('Do you want to disable Entertainment Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Entertainment</button>
+                                                     @endif
+ 
+                                                    <!-- Domestic Allowance -->
+                                                     @if ($alw->dom == 'no') 
+                                                         <button type="submit" name="update_action" value="set_dom" class="allow_btn color1" onclick="return confirm('Do you want to enable Domestic Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Domestic</button>
+                                                     @else
+                                                         <button type="submit" name="update_action" value="remove_dom" class="allow_btn bg4" onclick="return confirm('Do you want to disable Domestic Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Domestic</button>
+                                                     @endif
+
+                                                    <!-- Internet Allowance -->
+                                                    @if ($alw->intr == 'no' || $alw->intr == 0) 
+                                                        {{-- <button type="submit" name="update_action" value="set_intr" class="allow_btn color1" onclick="return confirm('Do you want to enable Internet & Other Utilities Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Int. & Util.</button> --}}
+                                                        <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Int. & Util.</button></a>
+                                                    @else
+                                                        {{-- <button type="submit" name="update_action" value="remove_intr" class="allow_btn bg4" onclick="return confirm('Do you want to disable Internet & Other Utilities Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Int. & Util.</button> --}}
+                                                        <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Int. & Util.</button></a>
+                                                    @endif
+  
+                                                    <!-- TnT Allowance -->
+                                                    @if ($alw->tnt == 'no' || $alw->tnt == 0) 
+                                                        {{-- <button type="submit" name="update_action" value="set_tnt" class="allow_btn color1" onclick="return confirm('Do you want to enable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; T & T</button> --}}
+                                                        <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; T & T</button></a>
+                                                    @else
+                                                        {{-- <button type="submit" name="update_action" value="remove_tnt" class="allow_btn bg4" onclick="return confirm('Do you want to disable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; T & T</button> --}}
+                                                        <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; T & T</button></a>
+                                                    @endif
+
+                                                    <!-- Filter Modal2 -->
+                                                    <div class="modal fade" id="tnt_intr{{$alw->id}}" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modalRequestLabel">Edit T & T / Internet and Others</h5>
+                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="filter_div">
+                                                                    <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ut (GhC)
+                                                                    <input type="number" step="any" @if ($alw->intr!='') value="{{$alw->intr}}" @endif min="0" name="intr" required>
+                                                                </div>
+                                                        
+                                                                <div class="filter_div">
+                                                                    <i class="fa fa-taxi"></i>&nbsp;&nbsp;&nbsp;T&T (GhC)
+                                                                    <input type="number" step="any" @if ($alw->tnt!='') value="{{$alw->tnt}}" @endif min="0" name="tnt" required>
+                                                                </div>
+                                                        
+                                                                <div class="filter_div">
+                                                                    <i class="fa fa-taxi"></i>&nbsp;&nbsp;&nbsp;Back Pay (GhC)
+                                                                    <input type="number" step="any" @if ($alw->back_pay!='') value="{{$alw->back_pay}}" @endif min="0" name="back_pay" required>
+                                                                </div>
+                                            
+                                                                <div class="form-group modal_footer">
+                                                                    <button type="submit" name="update_action" value="set_tnt_intr" class="load_btn" onclick="return confirm('Are you sure you want to update these records!?')"><i class="fa fa-save"></i>&nbsp; Update</button>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Cola Allowance -->
+                                                    @if ($alw->cola == 'no') 
+                                                        <button type="submit" name="update_action" value="set_cola" class="allow_btn color1" onclick="return confirm('Do you want to enable Cola Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Cola</button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="remove_cola" class="allow_btn bg4" onclick="return confirm('Do you want to disable Cola Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Cola</button>
+                                                    @endif
+  
+                                                    @if (auth()->user()->status == 'Fianace' || auth()->user()->status == 'Administrator')
+                                                        <!-- TnT Allowance -->
+                                                        @if ($alw->back_pay == 'no' || $alw->back_pay == 0) 
+                                                            {{-- <button type="submit" name="update_action" value="set_tnt" class="allow_btn color1" onclick="return confirm('Do you want to enable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; T & T</button> --}}
+                                                            <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Back Pay</button></a>
+                                                        @else
+                                                            {{-- <button type="submit" name="update_action" value="remove_tnt" class="allow_btn bg4" onclick="return confirm('Do you want to disable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; T & T</button> --}}
+                                                            <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Back Pay</button></a>
+                                                        @endif
+                                                    @endif
+                                                    
+                                                    <!-- New Allowances -->
+                                                    @if (count($new_allows) > 0)
+                                                        @for ($y = 1; $y <= count($new_allows); $y++)
+                                                            <input type="hidden" value="{{$val = 'new'.$y}}">
+                                                            @if ($alw->$val == 'no') 
+                                                                <button type="submit" name="update_action" value="{{'set_new'.$y}}" class="allow_btn color1" onclick="return confirm('Do you want to enable {{$new_allows[$y-1]->allow_name}} for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; {{substr($new_allows[$y-1]->allow_name, 0, 10)}}...</button>
+                                                            @else
+                                                                <button type="submit" name="update_action" value="{{'remove_new'.$y}}" class="allow_btn bg4" onclick="return confirm('Do you want to disable {{$new_allows[$y-1]->allow_name}} for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; {{substr($new_allows[$y-1]->allow_name, 0, 10)}}...</button>
+                                                            @endif
+                                                        @endfor
                                                         {{-- @foreach ($new_allow as $na)
                                                         @endforeach --}}
                                                     @endif
+
+                                                    <script>
+                                                        function textfill{{$alw->id}}() {
+                                                            document.getElementById("allow_tf{{$alw->id}}").value = "rent{{$alw->id}}";
+                                                            document.getElementById("state_tf").value = "enable{{$alw->id}}";
+                                                            // document.getElementById('from').style.display = "block";
+                                                            return confirm('{{$alw->id}} Do you want to enable Rent Allowance {{$alw->fname}}?');
+                                                        }
+
+                                                        function textfill2{{$alw->id}}() {
+                                                            document.getElementById("allow_tf{{$alw->id}}").value = "2rent{{$alw->id}}";
+                                                            document.getElementById("state_tf").value = "enable{{$alw->id}}";
+                                                            // document.getElementById('from').style.display = "block";
+                                                            return confirm('Are you sure you want to disable Rent Allowance for {{$alw->fname}}?');
+                                                        }
+                                                    </script>
                                                 </td>
 
                                             </form>

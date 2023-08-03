@@ -276,12 +276,17 @@
                                                             <div class="modal-body">
                                                                 <div class="filter_div">
                                                                     <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ut (GhC)
-                                                                    <input type="number" step="any" @if ($alw->intr!='')value="{{$alw->intr}}" @endif min="0" name="intr" required>
+                                                                    <input type="number" step="any" @if ($alw->intr!='') value="{{$alw->intr}}" @endif min="0" name="intr" required>
                                                                 </div>
                                                         
                                                                 <div class="filter_div">
                                                                     <i class="fa fa-taxi"></i>&nbsp;&nbsp;&nbsp;T&T (GhC)
-                                                                    <input type="number" step="any" @if ($alw->tnt!='')value="{{$alw->tnt}}" @endif min="0" name="tnt" required>
+                                                                    <input type="number" step="any" @if ($alw->tnt!='') value="{{$alw->tnt}}" @endif min="0" name="tnt" required>
+                                                                </div>
+                                                        
+                                                                <div class="filter_div">
+                                                                    <i class="fa fa-taxi"></i>&nbsp;&nbsp;&nbsp;Back Pay (GhC)
+                                                                    <input type="number" step="any" @if ($alw->back_pay!='') value="{{$alw->back_pay}}" @endif min="0" name="back_pay" required>
                                                                 </div>
                                             
                                                                 <div class="form-group modal_footer">
@@ -298,6 +303,17 @@
                                                         <button type="submit" name="update_action" value="set_cola" class="allow_btn color1" onclick="return confirm('Do you want to enable Cola Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; Cola</button>
                                                     @else
                                                         <button type="submit" name="update_action" value="remove_cola" class="allow_btn bg4" onclick="return confirm('Do you want to disable Cola Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; Cola</button>
+                                                    @endif
+  
+                                                    @if (auth()->user()->status == 'Fianace' || auth()->user()->status == 'Administrator')
+                                                        <!-- TnT Allowance -->
+                                                        @if ($alw->back_pay == 'no' || $alw->back_pay == 0) 
+                                                            {{-- <button type="submit" name="update_action" value="set_tnt" class="allow_btn color1" onclick="return confirm('Do you want to enable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-times"></i>&nbsp; T & T</button> --}}
+                                                            <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn color1"><i class="fa fa-times"></i>&nbsp; Back Pay</button></a>
+                                                        @else
+                                                            {{-- <button type="submit" name="update_action" value="remove_tnt" class="allow_btn bg4" onclick="return confirm('Do you want to disable T&T Allowance for {{$alw->fname}}?')"><i class="fa fa-check"></i>&nbsp; T & T</button> --}}
+                                                            <a data-bs-toggle="modal" data-bs-target="#tnt_intr{{$alw->id}}"><button type="button" class="allow_btn bg4"><i class="fa fa-check"></i>&nbsp; Back Pay</button></a>
+                                                        @endif
                                                     @endif
                                                     
                                                     <!-- New Allowances -->

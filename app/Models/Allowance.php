@@ -10,7 +10,7 @@ class Allowance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','employee_id','fname','rent','prof','resp','risk','vma','ent','dom','cola','intr','tnt','new1','new2','new3','new4','new5'
+        'user_id','employee_id','fname','rent','prof','resp','risk','vma','ent','dom','intr','tnt','cola','back_pay','new1','new2','new3','new4','new5'
     ];
 
     public function employee(){

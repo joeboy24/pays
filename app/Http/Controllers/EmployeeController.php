@@ -782,7 +782,7 @@ class EmployeeController extends Controller
 
                         // Updated
 
-                        $back_pay = 0;
+                        $back_pay = $emp->allowance->back_pay;
                         $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
                         // $staff_loan = $emp->staff_loan;
                         // $net_aft_ded = $net_bef_ded - $staff_loan;
@@ -835,7 +835,7 @@ class EmployeeController extends Controller
                                         $sl->new3 = $saledit->new3;
                                         $sl->new4 = $saledit->new4;
                                         $sl->new5 = $saledit->new5;
-                                        $sl->back_pay = $saledit->back_pay;
+                                        $sl->back_pay = $back_pay;
                                         $sl->net_bef_ded = $saledit->net_bef_ded;
                                         $sl->std_loan = $saledit->std_loan;
                                         $sl->staff_loan = $saledit->staff_loan;
@@ -963,7 +963,7 @@ class EmployeeController extends Controller
                                             'new3' => $saledit->new3,
                                             'new4' => $saledit->new4,
                                             'new5' => $saledit->new5,
-                                            'back_pay' => $saledit->back_pay,
+                                            'back_pay' => $back_pay,
                                             'net_bef_ded' => $saledit->net_bef_ded,
                                             'std_loan' => $saledit->std_loan,
                                             'staff_loan' => $saledit->staff_loan,
@@ -1781,6 +1781,20 @@ class EmployeeController extends Controller
                 $sms_hold = '';
                 $msg = $request->input('message');
                 $sms_act = $request->input('sms_action');
+                if ($sms_act != 'Selected Contacts') {
+                    if ($sms_act != 'All') {
+                        $emp_sel = Employee::where('department_id', $sms_act)->get();
+                    }else {
+                        $emp_sel = Employee::all();
+                    }
+                    foreach ($emp_sel as $es) {
+                        $insert_sms = SMS::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'employee_id' => $es->id,
+                            'contact' => $es->contact
+                        ]);
+                    }
+                }
                 $smss = SMS::where('user_id', auth()->user()->id)->get();
                 if ($sms_act == 'Selected Contacts' && count($smss) == 0) {
                     return redirect(url()->previous())->with('error', 'Oops..! Select contacts from `View/Edit Data` page to add to queue');
@@ -2671,6 +2685,7 @@ class EmployeeController extends Controller
                 $allow = Allowance::find($id);
                 $allow->tnt = $request->input('tnt');
                 $allow->intr = $request->input('intr');
+                $allow->back_pay = $request->input('back_pay');
                 $allow->save();
                 return redirect(url()->previous())->with('success', 'T&T / Internet & Other Utilities Allowance for '.$allow->fname.' Successfully Updated!');
             break;

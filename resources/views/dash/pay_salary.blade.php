@@ -296,14 +296,16 @@
                                                         @endif
                                                     @endforeach
                                                 @endif
-                                                <form action="{{ action('EmployeeController@update', $slr->id) }}" method="POST">
-                                                    <input type="hidden" name="_method" value="PUT">
-                                                    @csrf
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit_sal{{$slr->id}}" 
-                                                        class="my_trash2 blue_bg color8 genhover"><i class="fa fa-pencil"></i>
-                                                        &nbsp;Edit
-                                                    </button>
-                                                </form>
+                                                @if ($slr->month == date('m-Y'))
+                                                    <form action="{{ action('EmployeeController@update', $slr->id) }}" method="POST">
+                                                        <input type="hidden" name="_method" value="PUT">
+                                                        @csrf
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#edit_sal{{$slr->id}}" 
+                                                            class="my_trash2 blue_bg color8 genhover"><i class="fa fa-pencil"></i>
+                                                            &nbsp;Edit
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                             <td class="text-bold-500">{{$slr->position}}</td>
                                             <td class="text-bold-500">{{number_format($slr->salary, 2)}}</td>

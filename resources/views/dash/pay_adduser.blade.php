@@ -308,7 +308,7 @@
                                                                         <label>Contact</label>
                                                                         <div class="form-group has-icon-left">
                                                                             <div class="position-relative">
-                                                                                <input name="contact" type="number" min="0" class="form-control" placeholder="Title" id="first-name-icon" value="{{ $user->contact }}" required>
+                                                                                <input name="contact" type="number" min="0" class="form-control" placeholder="eg. 024456789" id="first-name-icon" value="{{ $user->contact }}" required>
                                                                                 <div class="form-control-icon">
                                                                                     <i class="fa fa-phone"></i>
                                                                                 </div>

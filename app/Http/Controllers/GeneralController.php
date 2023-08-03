@@ -272,10 +272,11 @@ class GeneralController extends Controller
     }
 
     public function runs(){
+        
 
-        $string = '9,admin@google.com,8';
-        $array = explode(',', $string);
-        return $array[1];
+        // $string = '9,admin@google.com,8';
+        // $array = explode(',', $string);
+        // return $array[1];
 
         // // EMPLOYEE
         // $emprs = EmployeeRead::all();
@@ -513,6 +514,77 @@ class GeneralController extends Controller
         // //     }
         // // }
         // return "Contact import Done..!";
+
+        // ACCOUNT NO OMIT -
+        // $emps = Employee::all();
+        // foreach ($emps as $emp) {
+        //     if (str_contains($emp->acc_no, '-')) { 
+        //         $emp->acc_no = str_replace('-', '', $emp->acc_no);
+        //         $emp->save();
+        //     }
+        // }
+
+        // ADD DEPARTMENT ID's
+        // $depts = Employee::select('dept')->orderBy('dept', 'ASC')->distinct('dept')->get();
+        // foreach ($depts as $item) {
+        //     // if ($item->dept == 'CEO SECRETARIAT') {
+        //     //     $item->dept = "CEO'S SECRETARIAT";
+        //     //     $item->save();
+        //     // }
+        //     $insert_dept = Department::firstOrCreate([
+        //         'user_id' => auth()->user()->id,
+        //         'dept_name' => $item->dept,
+        //         // 'contact' => $es->contact
+        //     ]);
+        // }
+
+        // $emps = Employee::all();
+        // foreach ($emps as $item) {
+        //     $dept = Department::where('dept_name', $item->dept)->latest()->first();
+        //     $item->department_id = $dept->id;
+        //     $item->save();
+        // }
+        // return 'Done..!';
+
+
+        // // ADD DEPARTMENT ID's
+        // $emps = Employee::all();
+        // foreach ($emps as $item) {
+        //     // $er = EmployeeRead::where('staff_id', $item->staff_id)->latest()->first();
+        //     if (str_contains($item->sub_div, 'Managers')) {
+        //         $item->sub_div = str_replace("Managers", "Manager", $item->sub_div);
+        //         // $item->sub_div = $er->sub_div;
+        //         $item->save();
+        //     }
+        // }
+
+        // // $sub_divs = Employee::select('position')->orderBy('position', 'ASC')->distinct('position')->get();
+        // $sub_divs = SalaryCat::all();
+        // foreach ($sub_divs as $slc) {
+        //     $emp = Employee::where('position', $slc->position)->latest()->first();
+        //     // return $slc->position;
+        //     $slc->basic_sal = $emp->salary;
+        //     $slc->save();
+        //     // $insert_sal_cat = SalaryCat::firstOrCreate([
+        //     //     'user_id' => auth()->user()->id,
+        //     //     'title' => $sub->position,
+        //     //     'position' => $sub->position,
+        //     //     'basic_sal' => 0
+        //     // ]);
+        // }
+        // return $sub_divs;
+
+
+        // // ADD REGIONS
+        // $emps = Employee::all();
+        // foreach ($emps as $emp) {
+        //     $reg_src = Region::where('reg_name', $emp->region)->latest()->first();
+        //     if ($reg_src) {
+        //         $emp->region_id = $reg_src->id;
+        //         $emp->save();
+        //     }
+        // }
+        // return 'Done';
 
     }
 
