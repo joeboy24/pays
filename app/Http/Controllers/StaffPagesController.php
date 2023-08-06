@@ -22,7 +22,7 @@ class StaffPagesController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth', 'staff_auth']);
+        $this->middleware(['auth', 'load_auth', 'staff_auth']);
     } 
 
     public function index(){
@@ -48,11 +48,11 @@ class StaffPagesController extends Controller
 
         $user = auth()->user();
         $cur_pay = Salary::where('employee_id', $user->employee->id)->latest()->first();
-        if ($cur_pay->month == date('m-Y') && $cur_pay->status == 'Paid') {
-            $limit = 3;
-        } else {
-            $limit = 2;
-        }
+        // if ($cur_pay->month == date('m-Y') && $cur_pay->status == 'Paid') {
+        //     $limit = 3;
+        // } else {
+        //     $limit = 2;
+        // }
         
         $coworkers = Employee::where('region_id', $user->employee->region_id)->get();
         $pay_stubs = Salary::where('employee_id', $user->employee->id)->orderBy('id', 'DESC')->limit(3)->get();
@@ -60,7 +60,8 @@ class StaffPagesController extends Controller
         // return $coworkers;
 
         $sends = [
-            'limit' => $limit,
+            'limit' => 3,
+            // 'limit' => $limit,
             'leaves' => $leaves,
             'coworkers' => $coworkers,
             'pay_stubs' => $pay_stubs,

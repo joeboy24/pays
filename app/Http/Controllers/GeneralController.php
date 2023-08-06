@@ -38,8 +38,8 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){ 
-        $this->middleware(['auth', 'general_auth']);
-        // $this->middleware(['auth', 'load_auth', 'general_auth']);
+        // $this->middleware(['auth', 'general_auth']);
+        $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
     public function index(){
@@ -279,10 +279,12 @@ class GeneralController extends Controller
         // //     $sal->month = '07-2023';
         // //     $sal->save();
         // // }
-        // // $sals = Salary::where('month', '08-2023')->get();
-        // // foreach ($sals as $sal) {
-        // //     $sal->delete();
-        // // }
+        $sals = Salary::where('month', '07-2023')->get();
+        foreach ($sals as $sal) {
+            $sal->status = 'Paid';
+            $sal->save();
+        }
+        return 'Paid..!';
         // $sals = Salary::where('month', '07-2023')->get();
         // $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
         // $jv_check = Journal::find(1);

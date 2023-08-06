@@ -108,21 +108,22 @@
                 <div id="ps_tbl1">
                     <table class="mytable mb-0 table-lg">
                         <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-times-o color6"></i></td>
-                                    <td class="td_right">{{date('M, Y')}}
-                                        <p>Not Paid</p>
-                                    </td>
-                                </tr>
-                            @endif
                             @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
-                                    <td class="td_right">{{date('M, Y', strtotime('01-'.$pay->month))}}
-                                        <p>Paid | Gh₵{{number_format($pay->salary, 2)}}</p>
-                                    </td>
-                                </tr>
+                                @if ($pay->status == 'Paid')
+                                    <tr>
+                                        <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
+                                        <td class="td_right">{{date('M, Y', strtotime('01-'.$pay->month))}}
+                                            <p>Paid | Gh₵{{number_format($pay->net_aft_ded, 2)}}</p>
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td class="td_left"><i class="fa fa-calendar-times-o color6"></i></td>
+                                        <td class="td_right">{{date('M, Y')}}
+                                            <p>Not Paid</p>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -130,20 +131,21 @@
                 <div id="ps_tbl2">
                     <table class="mytable mb-0 table-lg">
                         <tbody>
-                            @if ($limit == 2)
-                                <tr>
-                                    <td class="">
-                                        <button class="ps_print"><i class="fa fa-warning color7"></i></button>
-                                    </td>
-                                </tr>
-                            @endif
                             @foreach ($pay_stubs as $pay)
-                                <tr>
-                                    <td class="">
-                                        <a href="/staff/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a>
-                                        {{-- <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a> --}}
-                                    </td>
-                                </tr>
+                                @if ($pay->status == 'Paid')
+                                    <tr>
+                                        <td class="">
+                                            <a href="/staff/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a>
+                                            {{-- <a href="/staff_portal/{{$pay->id}}"><button class="ps_print"><i class="fa fa-print"></i></button></a> --}}
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td class="">
+                                            <button class="ps_print"><i class="fa fa-warning color7"></i></button>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

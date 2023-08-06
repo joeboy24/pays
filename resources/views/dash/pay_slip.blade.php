@@ -519,8 +519,8 @@
                             {{-- <th class="col-sm-6 pl no_count">#</th> --}}
                             <th class="pl"></th>
                             <th class="pl">&nbsp;</th>
-                            <th class="pl">DEDUCTION</th>
-                            <th class="pr">PAYMENT</th>
+                            <th class="pl">DEDUCTION (GH₵)</th>
+                            <th class="pr">PAYMENT (GH₵)</th>
                         </thead>
                         <tbody>
                             <tr class="my_focus">

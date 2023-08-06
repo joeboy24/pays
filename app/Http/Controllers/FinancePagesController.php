@@ -33,7 +33,7 @@ class FinancePagesController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth', 'finance_auth']);
+        $this->middleware(['auth', 'load_auth', 'finance_auth']);
     } 
 
     public function pay_tax(){
