@@ -273,7 +273,7 @@
                             </tbody>
                         </table>
                     @else
-                        <p class="small_p gray">No records found</p> 
+                        <p class="small_p gray">No Leave Records Found</p> 
                     @endif
                 </div>
             </div>

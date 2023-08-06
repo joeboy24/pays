@@ -29,6 +29,7 @@ use App\Models\DirectPay;
 use App\Models\LoanGrant;
 use App\Models\Validation;
 use App\Models\Journal;
+use App\Models\JV;
 use App\Models\SMS;
 use App\Models\SmsHistory;
 use App\Models\Saledit;
@@ -1039,11 +1040,12 @@ class EmployeeController extends Controller
                 // 'user_id','month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye',
                 // 'advances','veh_loan','staff_loan','net_pay','debit','credit','status','del'
                 $sals = Salary::where('month', date('m-Y'))->get();
+                $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
+                    
                 $jv_check = Journal::where('month', date('m-Y'))->first();
                 if ($jv_check) {
-                    $jv_check->gross = $sals->sum('salary');
-                    
-                    $jv_check->gross = $sals->sum('gross_sal');
+
+                    $jv_check->gross = $new_gross;
                     $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
                     $jv_check->fuel_alw = $sals->sum('tnt');
                     $jv_check->back_pay = $sals->sum('back_pay');
@@ -1054,14 +1056,14 @@ class EmployeeController extends Controller
                     $jv_check->std_loan = $sals->sum('std_loan');
                     $jv_check->staff_loan = $sals->sum('staff_loan');
                     $jv_check->net_pay = $sals->sum('net_aft_ded');
-                    $jv_check->debit = $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
-                    $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+                    $jv_check->debit = $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+                    $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
                     $jv_check->save();
                 } else {
                     $jv_insert = Journal::firstOrCreate([
                         'user_id' => auth()->user()->id,
                         'month' => date('m-Y'),
-                        'gross' => $sals->sum('gross_sal'),
+                        'gross' => $new_gross,
                         'ssf_emp' => $sals->sum('ssf_emp_cont'),
                         'fuel_alw' => $sals->sum('tnt'),
                         'back_pay' => $sals->sum('back_pay'),
@@ -1072,9 +1074,77 @@ class EmployeeController extends Controller
                         'std_loan' => $sals->sum('std_loan'),
                         'staff_loan' => $sals->sum('staff_loan'),
                         'net_pay' => $sals->sum('net_aft_ded'),
-                        'debit' => $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
-                        'credit' => $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
+                        'debit' => $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
+                        'credit' => $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
                     ]);
+                }
+
+                // New JV
+                try {
+                    //code...
+                    JV::truncate();
+                    $jor = Journal::where('del', 'no')->latest()->first();
+                    // Debit
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Gross',
+                        'debit' => $jor->gross,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'SSF Employer',
+                        'debit' => $jor->ssf_emp,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Fuel Allowance',
+                        'debit' => $jor->fuel_alw,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Back Pay',
+                        'debit' => $jor->back_pay,
+                    ]);
+
+                    // Credit
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Total SSF',
+                        'credit' => $jor->total_ssf,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Total Paye',
+                        'credit' => $jor->total_paye,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Student Loan',
+                        'credit' => $jor->std_loan,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Vehicle Loan',
+                        'credit' => $jor->veh_loan,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Staff Loan',
+                        'credit' => $jor->staff_loan,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Net Pay',
+                        'credit' => $jor->net_pay,
+                    ]);
+                    $jv = JV::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'title' => 'Staff Loan',
+                        'debit' => $jor->debit,
+                        'credit' => $jor->credit,
+                    ]);
+                } catch (\Throwable $th) {
+                    throw $th;
                 }
 
                 return redirect(url()->previous())->with('success', 'Taxation & Salaries Recalculated!');
@@ -2073,11 +2143,11 @@ class EmployeeController extends Controller
 
                     // Update Journals with new values
                     $sals = Salary::where('month', date('m-Y'))->get();
+                    $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
+                
                     $jv_check = Journal::where('month', date('m-Y'))->first();
                     if ($jv_check) {
-                        $jv_check->gross = $sals->sum('salary');
-                        
-                        $jv_check->gross = $sals->sum('gross_sal');
+                        $jv_check->gross = $new_gross;
                         $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
                         $jv_check->fuel_alw = $sals->sum('tnt');
                         $jv_check->back_pay = $sals->sum('back_pay');
@@ -2088,14 +2158,14 @@ class EmployeeController extends Controller
                         $jv_check->std_loan = $sals->sum('std_loan');
                         $jv_check->staff_loan = $sals->sum('staff_loan');
                         $jv_check->net_pay = $sals->sum('net_aft_ded');
-                        $jv_check->debit = $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
-                        $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+                        $jv_check->debit = $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+                        $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
                         $jv_check->save();
                     } else {
                         $jv_insert = Journal::firstOrCreate([
                             'user_id' => auth()->user()->id,
                             'month' => date('m-Y'),
-                            'gross' => $sals->sum('gross_sal'),
+                            'gross' => $new_gross,
                             'ssf_emp' => $sals->sum('ssf_emp_cont'),
                             'fuel_alw' => $sals->sum('tnt'),
                             'back_pay' => $sals->sum('back_pay'),
@@ -2106,9 +2176,77 @@ class EmployeeController extends Controller
                             'std_loan' => $sals->sum('std_loan'),
                             'staff_loan' => $sals->sum('staff_loan'),
                             'net_pay' => $sals->sum('net_aft_ded'),
-                            'debit' => $sals->sum('salary') + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
-                            'credit' => $sals->sum('net_aft_ded') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
+                            'debit' => $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay'),
+                            'credit' => $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf')),
                         ]);
+                    }
+
+                    // New JV
+                    try {
+                        //code...
+                        JV::truncate();
+                        $jor = Journal::where('del', 'no')->latest()->first();
+                        // Debit
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Gross',
+                            'debit' => $jor->gross,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'SSF Employer',
+                            'debit' => $jor->ssf_emp,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Fuel Allowance',
+                            'debit' => $jor->fuel_alw,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Back Pay',
+                            'debit' => $jor->back_pay,
+                        ]);
+
+                        // Credit
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Total SSF',
+                            'credit' => $jor->total_ssf,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Total Paye',
+                            'credit' => $jor->total_paye,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Student Loan',
+                            'credit' => $jor->std_loan,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Vehicle Loan',
+                            'credit' => $jor->veh_loan,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Staff Loan',
+                            'credit' => $jor->staff_loan,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Net Pay',
+                            'credit' => $jor->net_pay,
+                        ]);
+                        $jv = JV::firstOrCreate([
+                            'user_id' => auth()->user()->id,
+                            'title' => 'Staff Loan',
+                            'debit' => $jor->debit,
+                            'credit' => $jor->credit,
+                        ]);
+                    } catch (\Throwable $th) {
+                        throw $th;
                     }
                 
                 } catch (\Throwable $th) {

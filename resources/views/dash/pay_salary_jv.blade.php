@@ -138,10 +138,17 @@
 
     <div class="page-heading">
         <h3><i class="fa fa-pie-chart color3"></i>&nbsp;&nbsp;Payroll JV</h3>
-        <form action="{{ action('EmployeeController@store') }}" method="POST">
+        <form action="{{ url('/payroll_jv') }}">
             @csrf
             <a href="/salaries"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Salary </p></a>
-            <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-refresh"></i></p></a>
+            <select name="mth" class="view_daily_report genhover" name="" id="">
+                <option value="" selected>-- Change Month --</option>
+                @for ($i = 0; $i < date('m'); $i++)
+                    {{-- @for ($i = 0; $i < $count; $i++) --}}
+                    <option value="{{date('m-Y', strtotime('-'.$i.' months'))}}">{{date('Y F', strtotime('-'.$i.' months'))}}</option>
+                @endfor
+            </select>
+            <button class="view_daily_report genhover"><i class="fa fa-refresh color10"></i></button>
             {{-- <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
         </form>
@@ -160,7 +167,7 @@
                             <table class="mytable">
                                 <thead>
                                     <tr>
-                                        <th class="td_right"><h6>{{date('M-Y')}} Payroll JV</h6></th>
+                                        <th class="td_right"><h6>{{date('F Y', strtotime('01-'.$mth))}} Payroll JV</h6></th>
                                         <th class="td_right"></th>
                                         <th class="td_right"></th>
                                     </tr>
@@ -199,7 +206,7 @@
                                     <tr>
                                         <td class="td_right">Total Paye</td>
                                         <td class="td_right"></td>
-                                        <td class="td_right">{{number_format($jv->gross, 2)}}</td>
+                                        <td class="td_right">{{number_format($jv->total_paye, 2)}}</td>
                                     </tr>
                                     <tr>
                                         <td class="td_right">Student Loan</td>
@@ -230,7 +237,7 @@
                             </table>
                         @else
                             <div class="alert alert-danger">
-                                No Records Found on {{date('M-Y')}} Payroll JV
+                                No Records Found on {{date('F Y', strtotime('01-'.$mth))}} Payroll JV
                             </div>
                         @endif
                     </div>

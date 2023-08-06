@@ -25,6 +25,7 @@ use App\Models\User;
 use App\Models\SMS;
 use App\Models\Leave;
 use App\Models\Region;
+use App\Models\Journal;
 use App\Models\LoanSetup;
 use App\Models\SalaryCat;
 use App\Models\SmsHistory;
@@ -37,8 +38,8 @@ class GeneralController extends Controller
 {
     //
     public function __construct(){ 
-        // $this->middleware(['auth', 'general_auth']);
-        $this->middleware(['auth', 'load_auth', 'general_auth']);
+        $this->middleware(['auth', 'general_auth']);
+        // $this->middleware(['auth', 'load_auth', 'general_auth']);
     }  
     
     public function index(){
@@ -272,6 +273,81 @@ class GeneralController extends Controller
     }
 
     public function runs(){
+        
+        // // $sals = Taxation::all();
+        // // foreach ($sals as $sal) {
+        // //     $sal->month = '07-2023';
+        // //     $sal->save();
+        // // }
+        // // $sals = Salary::where('month', '08-2023')->get();
+        // // foreach ($sals as $sal) {
+        // //     $sal->delete();
+        // // }
+        // $sals = Salary::where('month', '07-2023')->get();
+        // $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
+        // $jv_check = Journal::find(1);
+        // $jv_check->gross = $new_gross;
+        // $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
+        // $jv_check->fuel_alw = $sals->sum('tnt');
+        // $jv_check->back_pay = $sals->sum('back_pay');
+        // $jv_check->total_ssf = $sals->sum('ssf_emp_cont') + $sals->sum('ssf');
+        // $jv_check->total_paye = $sals->sum('income_tax');
+        // // $jv_check->advances = '';
+        // // $jv_check->veh_loan = '';
+        // $jv_check->std_loan = $sals->sum('std_loan');
+        // $jv_check->staff_loan = $sals->sum('staff_loan');
+        // $jv_check->net_pay = $sals->sum('net_aft_ded');
+        // $jv_check->debit = $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+        // $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+        // $jv_check->save();
+        // return 'Update Done..!';
+
+        // $emps = Employee::all();
+        // foreach ($emps as $emp) {
+        //     $emp_src = EmployeeRead::where('staff_id', $emp->staff_id)->latest()->first();
+        //     // $sal->month = '08-2023';
+        //     // $sal->save();
+        //     // Update Salary with Fada's July values
+        //     if ($emp_src) {
+        //         $sal = Salary::where('employee_id', $emp->id)->latest()->first();
+        //         $sal->ssf = $emp_src->ssf;
+        //         $sal->sal_aft_ssf = $emp_src->sal_aft_ssf;
+        //         $sal->rent = $emp_src->rent;
+        //         $sal->taxable_inc = $emp_src->taxable_inc;
+        //         $sal->income_tax = $emp_src->income_tax;
+        //         $sal->net_aft_inc_tax = $emp_src->net_aft_inc_tax;
+
+        //         if (!empty($emp_src->prof)) { $sal->prof = $emp_src->prof; }
+        //         if (!empty($emp_src->resp)) { $sal->resp = $emp_src->resp; }
+        //         if (!empty($emp_src->risk)) { $sal->risk = $emp_src->risk; }
+        //         if (!empty($emp_src->vma)) { $sal->vma = $emp_src->vma; }
+        //         if (!empty($emp_src->ent)) { $sal->ent = $emp_src->ent; }
+        //         if (!empty($emp_src->dom)) { $sal->dom = $emp_src->dom; }
+        //         if (!empty($emp_src->intr)) { $sal->intr = $emp_src->intr; }
+        //         if (!empty($emp_src->cola)) { $sal->cola = $emp_src->cola; }
+        //         if (!empty($emp_src->tnt)) { $sal->tnt = $emp_src->tnt; }
+        //         if (!empty($emp_src->back_pay)) { $sal->back_pay = $emp_src->back_pay; }
+        //         if (!empty($emp_src->std_loan)) { $sal->std_loan = $emp_src->std_loan; }
+        //         if (!empty($emp_src->staff_loan)) { $sal->staff_loan = $emp_src->staff_loan; }
+                
+        //         $sal->net_bef_ded = $emp_src->net_bef_ded;
+        //         $sal->net_aft_ded = $emp_src->net_aft_ded;
+        //         $sal->ssf_emp_cont = $emp_src->ssf_emp_cont;
+        //         $sal->gross_sal = $emp_src->gross_sal;
+        //         $sal->tot_ded = $emp_src->tot_ded;
+        //         $sal->save();
+        //     }else {
+        //         return $emp_src->id;
+        //     }
+        // }
+        // return 'Update Done..!';
+
+        // $sals = Salary::where('month', '07-2023')->get();
+        // foreach ($sals as $sal) {
+        //     $sal->month = '08-2023';
+        //     $sal->save();
+        // }
+        // return 'Update Done..!';
         
 
         // $string = '9,admin@google.com,8';
@@ -581,6 +657,18 @@ class GeneralController extends Controller
         //     $reg_src = Region::where('reg_name', $emp->region)->latest()->first();
         //     if ($reg_src) {
         //         $emp->region_id = $reg_src->id;
+        //         $emp->save();
+        //     }
+        // }
+        // return 'Done';
+
+
+        // // ADD REGIONS
+        // $emps = Employee::all();
+        // foreach ($emps as $emp) {
+        //     $bank_src = Bank::where('bank_abr', $emp->bank)->latest()->first();
+        //     if ($bank_src) {
+        //         $emp->bank_id = $bank_src->id;
         //         $emp->save();
         //     }
         // }

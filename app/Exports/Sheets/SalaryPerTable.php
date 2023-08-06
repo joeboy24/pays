@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Exports\Sheets;
+use App\Models\JV;
 use App\Models\Bank;
 use App\Models\User;
 use App\Models\Salary;
@@ -71,14 +72,19 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
             return $taxes;
 
         }elseif ($this->tbl == 'Payroll Journals') {
-            $jv = Journal::select([
-                'month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye','advances','veh_loan','std_loan','staff_loan','net_pay','debit','credit'
-            ])->where('month', $this->month)->get();
+            // $jv = Journal::select([
+            //     'month','gross','ssf_emp','fuel_alw','back_pay','total_ssf','total_paye','advances','veh_loan','std_loan','staff_loan','net_pay','debit','credit'
+            // ])->where('month', $this->month)->get();
 
-            foreach ($jv as $key => $value) {
-                $mo = '1-'.$jv[$key]->month;
-                $jv[$key]['month'] = date('M - Y', strtotime($mo));
-            }
+            // foreach ($jv as $key => $value) {
+            //     $mo = '1-'.$jv[$key]->month;
+            //     $jv[$key]['month'] = date('M - Y', strtotime($mo));
+            // }
+
+            $jv = JV::select([
+                'title','debit','credit'
+            ])->where('title', '!=', '')->get();
+
             return $jv;
 
         } elseif ($this->tbl == 'Comparison') {
@@ -91,7 +97,7 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
             ])->where('month', $this->month)->get();
 
             foreach ($salary as $key => $value) {
-                $premo = Salary::where('employee_id', $salary[$key]['employee_id'])->where('month', '06-2023')->latest()->first();
+                $premo = Salary::where('employee_id', $salary[$key]['employee_id'])->where('month', date('m-Y', strtotime('-1 month')))->latest()->first();
                 // $mo = '1-'.$salary[$key]->month;
                 // $salary[$key]['month'] = date('F - Y', strtotime($mo));
                 if ($premo) {
@@ -141,10 +147,19 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 // 'Cum. Income ',
             ];
         }elseif ($this->tbl == 'Payroll Journals') {
-            $jv = date('M-Y').' Payroll JV';
+            // $jv = date('M-Y').' Payroll JV';
+            // return [
+            //     'Month','Gross','SSF Employer','Fuel Allowance','Back Pay','Total SSF','Total Paye','Advances','Vehicle Loan','Student Loan','Staff Loan','Net Pay','Debit','Credit'
+            // ];
             return [
-                'Month','Gross','SSF Employer','Fuel Allowance','Back Pay','Total SSF','Total Paye','Advances','Vehicle Loan','Student Loan','Staff Loan','Net Pay','Debit','Credit'
+                date('F Y').', Payroll JV','Debit','Credit'
             ];
+
+            // $a1=array(date('F Y').', Payroll JV');
+            // $a2=array('','debit','credit');
+            // $heads = array_merge($a1,$a2);
+            // return $heads;
+            
         } elseif ($this->tbl == 'Comparison') {
             return [
                 '##','Region','Employee Name','Position',$this->prev_month,date('M-Y'),'Diff','Remarks'

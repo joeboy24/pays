@@ -160,22 +160,26 @@
                     </div>
                 </div>
                 <div id="ps_tbl3">
-                    <table class="mytable mb-0 table-lg">
-                        <tbody>
-                            @foreach ($leaves as $item)
-                                <tr>
-                                    @if ($item->status == 'Pending')
-                                        <td class="td_left"><i class="fa fa-calendar-times-o color7"></i></td>
-                                        <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Pending</p></td>
-                                    @else
-                                        <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
-                                        <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Approved</p></td>
-                                    @endif
-                                    <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($item->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($item->end_date))}}</p></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    @if (count($leaves)>0)
+                        <table class="mytable mb-0 table-lg">
+                            <tbody>
+                                @foreach ($leaves as $item)
+                                    <tr>
+                                        @if ($item->status == 'Pending')
+                                            <td class="td_left"><i class="fa fa-calendar-times-o color7"></i></td>
+                                            <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Pending</p></td>
+                                        @else
+                                            <td class="td_left"><i class="fa fa-calendar-check-o color4"></i></td>
+                                            <td class="td_right">{{$item->leave_type.' Leave / '.$item->days.' days'}}<p>Approved</p></td>
+                                        @endif
+                                        <td class="td_right align_right"><p>From: {{date('D, M d, Y', strtotime($item->start_date))}}</p><p class="color3">To: {{date('D, M d, Y', strtotime($item->end_date))}}</p></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="small_p gray">No Leave Records Found</p> 
+                    @endif
                 </div>
             </div>
 

@@ -111,11 +111,18 @@ class FinancePagesController extends Controller
         return view('dash.pay_sal_changes')->with($patch);
     }
 
-    public function pay_sal_jv(){
+    public function pay_sal_jv(Request $request){
+        if ($request->input('mth')) {
+            $mth = $request->input('mth');
+        } else {
+            $mth = date('m-Y');
+        }
+        
 
-        $jv = Journal::where('month', date('m-Y'))->latest()->first();
+        $jv = Journal::where('month', $mth)->latest()->first();
         // return $jv;
         $patch = [
+            'mth' => $mth,
             'jv' => $jv,
         ];
         // pay_list_updates

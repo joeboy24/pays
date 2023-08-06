@@ -48,7 +48,7 @@ class StaffPagesController extends Controller
 
         $user = auth()->user();
         $cur_pay = Salary::where('employee_id', $user->employee->id)->latest()->first();
-        if ($cur_pay->month == date('m-Y')) {
+        if ($cur_pay->month == date('m-Y') && $cur_pay->status == 'Paid') {
             $limit = 3;
         } else {
             $limit = 2;
