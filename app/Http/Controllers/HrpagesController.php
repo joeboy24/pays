@@ -21,7 +21,7 @@ class HrpagesController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth', 'hr_auth']);
+        $this->middleware(['auth', 'load_auth', 'hr_auth']);
     } 
 
     public function pay_leave()

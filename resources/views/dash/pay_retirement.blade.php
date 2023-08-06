@@ -188,7 +188,7 @@
                                 <tbody>
                                     @foreach ($retirements as $rtire)
                                         @if ($rtire->extend_id)
-                                            @if ($rtire->extend->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->extend->dob))), date_create(date('d-m-Y')))->y > $yrs)
+                                            @if ($rtire->extend->dob && date_diff(date_create(date('d-m-Y', strtotime($rtire->extend->dob))), date_create(date('d-m-Y')))->y >= $yrs)
                                                 @if ($c % 2 == 1)
                                                     <tr class="bg9">
                                                 @else
