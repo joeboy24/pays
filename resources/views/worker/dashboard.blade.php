@@ -76,7 +76,7 @@
         <div class="row">
 
             <div class="col-md-11">
-                <p class="gen_notice"><i class="fa fa-warning"></i>&nbsp;&nbsp; NOTE: General / Personalised information will pe posted via this platform so do not share login credentials</p>
+                <p class="gen_notice"><i class="fa fa-warning"></i>&nbsp;&nbsp; NOTE: General / Personalised information will pe posted via this platform so do not share login credentials. Also do not forget to change password after first login.</p>
             </div>
 
             {{-- <div class="row r1">
