@@ -35,6 +35,7 @@ class CreateExtend2sTable extends Migration
             $table->string('ssnit_no', 50)->nullable();
             $table->string('contact', 50)->nullable();
             $table->string('email', 50)->nullable();
+            $table->string('leave_bal', 12)->nullable();
 
             $table->string('photo', 50)->default('noimage.png', 50);
             $table->string('status', 50)->default('Active', 50); 

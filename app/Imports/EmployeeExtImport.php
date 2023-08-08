@@ -54,6 +54,7 @@ class EmployeeExtImport implements ToModel, WithStartRow, WithCalculatedFormulas
             'step' => $row[15],
             'ssnit_no' => $row[16],
             'contact' => $row[17],
+            'leave_bal' => $row[20],
             // 'email' => $row[17],
         ]);
 

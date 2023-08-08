@@ -32,6 +32,7 @@ class User extends Authenticatable
         'otp_time',
         'status',
         'pass_photo',
+        'entry_code',
         'del', 
     ];
     protected static $logAttributes = [

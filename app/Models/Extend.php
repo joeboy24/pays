@@ -11,7 +11,7 @@ class Extend extends Model
 
     protected $fillable = [
         'user_id','staff_id','tin','fname','sname','oname','dob','date_emp','gender','prev_place',
-        'pos','cur_pos','qual','grade','level','step','ssnit_no','contact','email','del'
+        'pos','cur_pos','qual','grade','level','step','ssnit_no','contact','email','leave_bal','del'
     ];
 
     public function employee(){

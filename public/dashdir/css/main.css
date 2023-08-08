@@ -1081,6 +1081,19 @@
     opacity: 0.8;
 }
 
+.attachments_cont {
+    width: 100%;
+    /* min-height: 100px;
+    margin: 10px 0;
+    background: violet!important; */
+}
+
+#txtmsg::placeholder {
+    font-size: 0.9em;
+    font-weight: 300;
+    color: #4486e9;
+}
+
 
 
 

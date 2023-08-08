@@ -180,12 +180,12 @@
                                                             <div class="filter_div" id="orderby">
                                                                 <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Type
                                                                 <select name="leave_type" id="leave_type" onchange="others_check()">
-                                                                    <option value="maternity">Maternity</option>
                                                                     <option value="casual" selected>Casual</option>
                                                                     <option value="annual">Annual</option>
                                                                     <option value="study">Study</option>
-                                                                    <option value="sick">Sick</option>
-                                                                    <option value="others">Others</option>
+                                                                    <option value="maternity">Maternity</option>
+                                                                    <option value="compassionate">Compassionate</option>
+                                                                    <option value="examamination">Examamination</option>
                                                                 </select>
                                                             </div>
                                                             
@@ -303,12 +303,12 @@
                             <div class="filter_div" id="orderby">
                                 <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Type
                                 <select name="leave_type" id="leave_type" onchange="others_check()">
-                                    <option value="maternity">Maternity</option>
-                                    <option value="casual" selected>Casual</option>
+                                    <option value="casual" selected>Casual</option> 
                                     <option value="annual">Annual</option>
                                     <option value="study">Study</option>
-                                    <option value="sick">Sick</option>
-                                    <option value="others">Others</option>
+                                    <option value="maternity">Maternity</option>
+                                    <option value="compassionate">Compassionate</option>
+                                    <option value="examamination">Examamination</option>
                                 </select>
                             </div>
                             
@@ -350,6 +350,11 @@
                             <div class="filter_div">
                                 <i class="fa fa-upload"></i> &nbsp; Scan&nbsp;Copy
                                 <input type="file" name="file_scan" placeholder="Upload Scan Copy" required>
+                            </div>
+
+                            <div class="filter_div" id="others">
+                                <i class="fa fa-calendar-check-o"></i>&nbsp;&nbsp; Leave&nbsp;Bal.
+                                <input value="{{auth()->user()->employee->extend->leave_bal}}" min="0" id="bal" name="bal" readonly>
                             </div>
 
                             <p class="small_p">&nbsp;</p>

@@ -173,6 +173,10 @@
                             <td>: &nbsp; {{ $emp->fname.' '.$emp->sname.' '.$emp->oname }}</td>
                           </tr>
                           <tr>
+                            <td class="faint_td">Staff ID.</td>
+                            <td>: &nbsp; {{ $emp->staff_id }}</td>
+                          </tr>
+                          <tr>
                             <td class="faint_td">AFIS No.</td>
                             <td>: &nbsp; {{ $emp->afis_no }}</td>
                           </tr>
@@ -210,45 +214,11 @@
 
                   </div>
 
-                  {{-- // 'biometric_reg_no',
-                    // 'year',
-                    // 'years_served',
-                    // 'staff_id',
-                    // 'name',
-                    // 'dob',
-                    // 'age',
-                    // 'date_emp',
-                    // 'gender',
-                    // 'position',
-                    // 'cur_pos',
-                    // 'qualification',
-                    // 'prog',
-                    // 'classification',
-                    // 'grade',
-                    // 'level',
-                    // 'ssnit_no',
-                    // 'contact',
-
-
-                    // 'photo',
-                    // 'email',
-                    // 'nat_id',
-                    // 'passport',
-                    // 'marital_status',
-                    // 'religion',
-                    // 'region',
-                    // 'res_address',
-                    // 'city',
-                    // 'nok',
-                    // 'nok_contact', 
-                  --}}
-
-                  <div class="col-md-6">
+                  {{-- <div class="col-md-6">
                     <p>&nbsp;</p>
                     <table class="prof_tbl2">
                       <thead>
                         <th>Other Details</th>
-                        {{-- </th>.......................................</th> --}}
                       </thead>
                       <tbody>
                         <tr>
@@ -309,7 +279,7 @@
                         </tr>
                       </tbody>
                     </table>
-                  </div>
+                  </div> --}}
                 </div>
 
                 <!-- Employee Profile View -->

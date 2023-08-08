@@ -10,6 +10,6 @@ class LeaveSetup extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','maternity','casual','annual','study','sick','others'
+        'user_id','maternity','casual','annual','study','sick','comp','exam','others'
     ];
 }

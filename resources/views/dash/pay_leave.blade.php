@@ -276,11 +276,6 @@
                     @csrf
 
                     <div class="filter_div">
-                        <i class="fa fa-user-md"></i>&nbsp;&nbsp; Maternity
-                        <input type="text" @if ($leaveset!='') value="{{$leaveset->maternity}}" @endif placeholder="No. of Days" name="maternity">
-                    </div>
-
-                    <div class="filter_div">
                         <i class="fa fa-black-tie"></i>&nbsp;&nbsp; Casual
                         <input type="text" @if ($leaveset!='') value="{{$leaveset->casual}}" @endif placeholder="No. of Days" name="casual">
                     </div>
@@ -296,16 +291,31 @@
                     </div>
 
                     <div class="filter_div">
+                        <i class="fa fa-user-md"></i>&nbsp;&nbsp; Maternity
+                        <input type="text" @if ($leaveset!='') value="{{$leaveset->maternity}}" @endif placeholder="No. of Days" name="maternity">
+                    </div>
+
+                    {{-- <div class="filter_div">
                         <i class="fa fa-stethoscope"></i>&nbsp;&nbsp; Sick
                         <input type="text" @if ($leaveset!='') value="{{$leaveset->sick}}" @endif placeholder="No. of Days" name="sick">
+                    </div> --}}
+
+                    <div class="filter_div">
+                        <i class="fa fa-stethoscope"></i>&nbsp;&nbsp; Compassionate
+                        <input type="text" @if ($leaveset!='') value="{{$leaveset->comp}}" @endif placeholder="No. of Days" name="comp">
                     </div>
 
                     <div class="filter_div">
+                        <i class="fa fa-stethoscope"></i>&nbsp;&nbsp; Examination
+                        <input type="text" @if ($leaveset!='') value="{{$leaveset->exam}}" @endif placeholder="No. of Days" name="exam">
+                    </div>
+
+                    {{-- <div class="filter_div">
                         <i class="fa fa-tasks"></i>&nbsp;&nbsp; Others
                         <input type="text" @if ($leaveset!='') value="{{$leaveset->others}}" @endif placeholder="No. of Days" name="others">
                     </div>
                     
-                    {{-- <div class="filter_div" id="orderby">
+                    <div class="filter_div" id="orderby">
                         <i class="fa fa-suitcase"></i>&nbsp;&nbsp; Payment
                         <select name="payment">
                             <option value="1" selected>With Pay</option>

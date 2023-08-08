@@ -54,6 +54,8 @@ class HrdashController extends Controller
                         $lst->annual = $request->input('annual');
                         $lst->study = $request->input('study');
                         $lst->sick = $request->input('sick');
+                        $lst->comp = $request->input('comp');
+                        $lst->exam = $request->input('exam');
                         $lst->others = $request->input('others');
                         $lst->save();
                     } else {
@@ -64,6 +66,8 @@ class HrdashController extends Controller
                             'annual' => $request->input('annual'),
                             'study' => $request->input('study'),
                             'sick' => $request->input('sick'),
+                            'comp' => $request->input('comp'),
+                            'exam' => $request->input('exam'),
                             'others' => $request->input('others'),
                         ]);
                     }
@@ -266,6 +270,7 @@ class HrdashController extends Controller
 
                 $emp = Employee::find($lv->employee_id);
                 $emp->status = 'inactive';
+                $emp->leave_bal = $emp->leave_bal - $lv->days;
                 if ($lv->with_pay != '1') {
                     $emp->del = 'yes';
                 }

@@ -259,12 +259,12 @@
                             <div class="filter_div" id="orderby">
                                 <i class="fa fa-clipboard"></i>&nbsp;&nbsp; Leave Type
                                 <select name="leave_type" id="leave_type" onchange="others_check()">
-                                    <option value="maternity">Maternity</option>
                                     <option value="casual" selected>Casual</option>
                                     <option value="annual">Annual</option>
                                     <option value="study">Study</option>
-                                    <option value="sick">Sick</option>
-                                    <option value="others">Others</option>
+                                    <option value="maternity">Maternity</option>
+                                    <option value="compassionate">Compassionate</option>
+                                    <option value="examamination">Examamination</option>
                                 </select>
                             </div>
                             

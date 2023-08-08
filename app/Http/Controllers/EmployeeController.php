@@ -35,6 +35,7 @@ use App\Models\SmsHistory;
 use App\Models\Saledit;
 use Session;
 use Auth;
+use \Illuminate\Support\Facades\Crypt;
 
 class EmployeeController extends Controller
 {
@@ -1857,15 +1858,17 @@ class EmployeeController extends Controller
                     }else {
                         $emp_sel = Employee::all();
                     }
+                    $user = User::where('employee_id', $emp_sel->id)->latest()->first();
                     foreach ($emp_sel as $es) {
                         $insert_sms = SMS::firstOrCreate([
-                            'user_id' => auth()->user()->id,
+                            'sender_id' => auth()->user()->id,
+                            'user_id' => $user->id,
                             'employee_id' => $es->id,
                             'contact' => $es->contact
                         ]);
                     }
                 }
-                $smss = SMS::where('user_id', auth()->user()->id)->get();
+                $smss = SMS::where('sender_id', auth()->user()->id)->get(); 
                 if ($sms_act == 'Selected Contacts' && count($smss) == 0) {
                     return redirect(url()->previous())->with('error', 'Oops..! Select contacts from `View/Edit Data` page to add to queue');
                 }
@@ -1878,7 +1881,8 @@ class EmployeeController extends Controller
                     // 'user_id','message','sent_to'
                     $send_sms = SmsHistory::firstOrCreate([
                         'user_id' => auth()->user()->id,
-                        'message' => str_replace('*FULLNAME*, ','',$msg),
+                        'message' => $msg,
+                        // 'message' => str_replace('*FULLNAME*, ','',$msg),
                     ]);
                     foreach ($smss as $sms) {
                         $sms_hold = $sms->contact.','.$sms_hold;
@@ -2536,8 +2540,10 @@ class EmployeeController extends Controller
                     return redirect(url()->previous())->with('error', 'Oops..! Update '.$emp->fname.'`s contact details to proceed');
                 }
                 try {
+                    $user = User::where('employee_id', $id)->latest()->first();
                     $add_sms = SMS::firstOrCreate([
-                        'user_id' => auth()->user()->id,
+                        'sender_id' => auth()->user()->id,
+                        'user_id' => $user->id,
                         'employee_id' => $id,
                         'contact' => $emp->contact,
                     ]);

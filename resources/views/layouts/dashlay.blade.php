@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="/dashdir/images/favicon.svg" type="image/x-icon">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 
 </head>
 
@@ -185,6 +185,7 @@
     <script src="/dashdir/js/pages/dashboard.js"></script>
 
     <script src="/dashdir/js/main.js"></script>
+    @yield('scripts')
 
 </body>
 

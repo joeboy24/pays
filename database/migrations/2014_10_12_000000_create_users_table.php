@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('otp_time')->nullable();
             $table->string('status')->default('user');
             $table->string('pass_photo');
+            $table->string('entry_code')->nullable();
             $table->string('del')->default('no');
             $table->rememberToken();
             $table->timestamps();

@@ -184,7 +184,20 @@
                     </select>
                 </div>
 
-                <textarea id="txtmsg" class="sms_message" name="message" id="" cols="30" rows="4" placeholder="Type Here"></textarea>
+                <div class="attachments_cont">
+                    <button type="button" class="sms_contact_view" onclick="attach('*EMAIL*')">&nbsp;
+                        <i class="fa fa-paperclip color5"></i>&nbsp; Attach Email
+                    </button>
+                    <button type="button" class="sms_contact_view" onclick="attach('*PASSWORD*')">&nbsp;
+                        <i class="fa fa-paperclip color5"></i>&nbsp; Attach Password
+                    </button>
+                    <button type="button" class="sms_contact_view" onclick="attach('*CONTACT*')">&nbsp;
+                        <i class="fa fa-paperclip color5"></i>&nbsp; Attach Contact
+                    </button>
+                </div>
+                <br>
+                <textarea id="txtmsg" class="sms_message" name="message" id="" cols="30" rows="4" maxlength="300" placeholder="Type Here... Avoid use of special characters like: '!@#$%^&*()_+"></textarea>
+                {{-- <p class="small_p">Avoid use of special characters like: '!@#$%^&*()_+</p> --}}
 
                 <div class="form-group modal_footer">
                     {{-- <button id="checks" type="button" class="load_btn"><i class="fa fa-send"></i>&nbsp; Check</button> --}}
@@ -220,7 +233,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Message</th>
-                                        <th class="align_right">Actions</th>
+                                        <th class="align_right action_size2">Actions</th>
                                     </tr>
                                 </thead>   
                                 <tbody>
@@ -305,13 +318,13 @@
                                         <script>
                                             function UseAsTemplate{{$smh->id}}() {
                                                 precedent = document.getElementById('precedent').value;
-                                                if (precedent == 'None') {
+                                                // if (precedent == 'None') {
                                                     sessionStorage.setItem('msg_template', '{{$smh->message}}');
                                                     document.getElementById('txtmsg').value = '{{$smh->message}}';
-                                                } else {
-                                                    sessionStorage.setItem('msg_template', ', {{$smh->message}}');
-                                                    document.getElementById('txtmsg').value = precedent + ', {{$smh->message}}';
-                                                }
+                                                // } else {
+                                                //     sessionStorage.setItem('msg_template', ', {{$smh->message}}');
+                                                //     document.getElementById('txtmsg').value = precedent + ', {{$smh->message}}';
+                                                // }
                                             }
                                         </script>
 
@@ -362,6 +375,24 @@
         </div>
 
         <script>
+            // txt = " Hi :/ ";
+            // txt = txt.replace(/:\//g,"<img src='img/smiley.gif'>");
+            // alert(txt)
+
+            function attach(shat) {
+                
+                txtarea = document.getElementById('txtmsg').value;
+                const result = txtarea.split('*').join('xx');
+                // document.getElementById('txtmsg').value = result;
+                document.getElementById('txtmsg').value = txtarea + ' ' + shat + ' ';
+                // txtarea = txtarea.replaceAll('*', '--');
+                // txtarea = txtarea.replaceAll('FULLNAME', 'JAY');
+                // alert(txtarea);
+
+
+                // alert(shat);
+            }
+
             // Set msg_template to '' on load || on page refresh
             sessionStorage.setItem('msg_template', '');
 
@@ -369,11 +400,18 @@
                 // alert('Yh');
                 precedent = document.getElementById('precedent').value;
                 txtmsg = sessionStorage.getItem('msg_template');
-                document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
+                txtarea = document.getElementById('txtmsg').value
+                // document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
                 if (precedent == 'None') {
                     document.getElementById('txtmsg').value = txtmsg;
                 } else {
-                    document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
+                    // alert(txtarea);
+                    txtarea = txtarea.replaceAll('Hi *FULLNAME*', precedent);
+                    txtarea = txtarea.replaceAll('Dear *FULLNAME*', precedent);
+                    txtarea = txtarea.replaceAll('Hello *FULLNAME*', precedent);
+                    txtarea = txtarea.replaceAll('Welcome *FULLNAME*', precedent);
+                    document.getElementById('txtmsg').value = txtarea;
+                    // document.getElementById('txtmsg').value = precedent + ' ' + txtmsg;
                 }
             }
             // function checRuns() {
@@ -407,15 +445,34 @@
                 msg = '{{$msg}}';
                 contact = '{{$item->contact}}';
                 cname = '{{$item->employee->fullname}}';
-                cmsg = msg.replace('*FULLNAME*', cname);
+                email = '{{$item->user->email}}';
+                pass = '{{$item->user->entry_code}}';
+                contact = '{{$item->user->contact}}';
+                cmsg = msg.replaceAll('*FULLNAME*', cname);
+                cmsg = cmsg.replaceAll('*EMAIL*', email);
+                cmsg = cmsg.replaceAll('*PASSWORD*', pass);
+                cmsg = cmsg.replaceAll('*CONTACT*', contact);
+                cmsg = escape(cmsg);
+                // const final_txt = msg.split('*').join('xx');
+                // cmsg = msg.replace(/xxFULLNAMExx/g, cname);
+                // alert(pass+' - '+contact+' - '+cmsg);
                 send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to="+contact+"&msg="+cmsg+"&sender_id=MASLOCGH");
             </script>
             @endforeach
         @endif
     </div>
 
-        
+@endsection
 
+
+@section('scripts')
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#none_yet' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 @endsection
 
  

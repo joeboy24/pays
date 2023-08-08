@@ -21,6 +21,8 @@ class CreateLeaveSetupsTable extends Migration
             $table->string('annual')->nullable();
             $table->string('study')->nullable();
             $table->string('sick')->nullable();
+            $table->string('comp')->nullable();
+            $table->string('exam')->nullable();
             $table->string('others')->nullable();
             $table->string('del')->default('no');
             $table->timestamps();

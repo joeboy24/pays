@@ -33,6 +33,7 @@ use App\Models\Department;
 use Spatie\Activitylog\Models\Activity;
 use Session;
 use DateTime;
+use \Illuminate\Support\Facades\Crypt;
 
 class GeneralController extends Controller
 {
@@ -264,7 +265,7 @@ class GeneralController extends Controller
         $sends = [
             'c' => 1,
             'sms' => SMS::all(),
-            'sms_history' => SmsHistory::all(),
+            'sms_history' => SmsHistory::orderBy('id', 'DESC')->get(),
             'department' => Department::all(),
             // 'coworkers' => $coworkers,
         ];
@@ -273,18 +274,124 @@ class GeneralController extends Controller
     }
 
     public function runs(){
+
+        // $str = 'aBgkI902343';
+        // return Hash::make($str);
+
+        $users = User::all();
+        foreach ($users as $user) {
+            return strtoupper($user->entry_code);
+            if ($user->id >= 385) {
+                $user->entry_code = strtoupper($user->entry_code);
+                $user->password = Hash::make(strtoupper($user->entry_code));
+                $user->save();
+            }
+        }
+        return 'Done..!';
+
+        // $users = User::all();
+        // $ids = '';
+        // foreach ($users as $usr) {
+        //     $emp = Employee::where('id', $usr->employee_id)->latest()->first();
+        //     if ($emp) {}else {
+        //         $ids = $ids.$emp->id.', ';
+        //     }
+        // }
+        
+        // $emps = Employee::all();
+        // $ids = '';
+        // foreach ($emps as $emp) {
+        //     $user = User::where('employee_id', $emp->id)->latest()->first();
+        //     if ($user) {}else {
+        //         $ids = $ids.$emp->id.', ';
+        //     }
+        // }
+        // return $ids;
+
+        // $encrypted = Crypt::encrypt("Jay's");
+        // $decrypted_string = Crypt::decrypt($encrypted);
+        // return $encrypted;
+
+        // $words = "Hello *FULLNAME*, you can now access your payslip, leave and loan requests on MASLOC's new staff portal. Please do not share your credentials. Email:  *EMAIL*  Password:  *PASSWORD* ";
+        // $words = str_replace('*', 'zz', $words);
+        // return $words;
+    
+        // GENERALIZE CREATE USERS
+
+        // $ps1 = $request->input('password');
+        // $ps2 = $request->input('password_confirmation');
+        // $username = $request->input('name');
+        // $email = $request->input('email');
+        // $contact = $request->input('contact');
+        // $status = $request->input('status');
+
+        // $emps = Employee::all();
+        // foreach ($emps as $emp) {
+        //     // pass = (fnam0,-3).contact/3*1234.(contact1,+3)
+        //     $user_src = User::where('employee_id', $emp->id)->latest()->first();
+        //     if ($user_src) {}else{
+        //         if ($emp->contact) {
+        //             $contact = $emp->contact;
+        //         }else {
+        //             $contact = '0247873637';
+        //         }
+        //         if ($emp->email) {
+        //             $email = $emp->email;
+        //         } else {
+        //             $email = $emp->staff_id;
+        //         }
+        //         $contact = str_replace(' ', '', $contact);
+                
+        //         $pass = substr($emp->fname, 0, 3).substr((substr($contact, -5) / 3) * 1234, 0, 5).substr($contact, 1, 3);
+        //         // return $contact;
+        //         // return $pass;
+        //         $create_user = User::firstOrCreate([
+        //             'user_id' => auth()->user()->id,
+        //             'employee_id' => $emp->id,
+        //             'staff_id' => $emp->staff_id,
+        //             'name' => $emp->fname,
+        //             'email' => $email,
+        //             'contact' => $contact,
+        //             'status' => 'Staff',
+        //             'password' => Hash::make($pass),
+        //             'pass_photo' => 'noimage.png',
+        //             'entry_code' => $pass,
+        //             // 'pass_photo' => $filenameToStore
+        //         ]);
+        //     }
+        // }
+        // return 'Done..!';
+
+        // try {
+        //     return redirect(url()->previous())->with('success', 'User `'.$username.'` successfully added!');
+            
+        // }catch(\Throwable $th){
+        //     return $th;
+        //     return redirect(url()->previous())->with('error', 'Oops..! Something is wrong! Could be duplicate entry.');
+        // }
+
+        // $emps = Extend::all();
+        // foreach ($emps as $emp) {
+        //     $ext2 = Extend2::where('staff_id', $emp->staff_id)->latest()->first();
+        //     if ($ext2) {
+        //         // return $ext2->leave_bal;
+        //         $emp->leave_bal = $ext2->leave_bal;
+        //         $emp->save();
+        //     }
+        // }
+        // return 'Done..!';
         
         // // $sals = Taxation::all();
         // // foreach ($sals as $sal) {
         // //     $sal->month = '07-2023';
         // //     $sal->save();
         // // }
-        $sals = Salary::where('month', '07-2023')->get();
-        foreach ($sals as $sal) {
-            $sal->status = 'Paid';
-            $sal->save();
-        }
-        return 'Paid..!';
+        // $sals = Salary::where('month', '07-2023')->get();
+        // foreach ($sals as $sal) {
+        //     $sal->status = 'Paid';
+        //     $sal->save();
+        // }
+        // return 'Paid..!';
         // $sals = Salary::where('month', '07-2023')->get();
         // $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
         // $jv_check = Journal::find(1);
