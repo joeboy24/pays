@@ -1858,8 +1858,8 @@ class EmployeeController extends Controller
                     }else {
                         $emp_sel = Employee::all();
                     }
-                    $user = User::where('employee_id', $emp_sel->id)->latest()->first();
                     foreach ($emp_sel as $es) {
+                        $user = User::where('employee_id', $es->id)->latest()->first();
                         $insert_sms = SMS::firstOrCreate([
                             'sender_id' => auth()->user()->id,
                             'user_id' => $user->id,

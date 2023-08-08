@@ -456,7 +456,7 @@
                 // const final_txt = msg.split('*').join('xx');
                 // cmsg = msg.replace(/xxFULLNAMExx/g, cname);
                 // alert(pass+' - '+contact+' - '+cmsg);
-                send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to="+contact+"&msg="+cmsg+"&sender_id=MASLOCGH");
+                // send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to="+contact+"&msg="+cmsg+"&sender_id=MASLOCGH");
             </script>
             @endforeach
         @endif
