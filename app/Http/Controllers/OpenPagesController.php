@@ -33,6 +33,10 @@ class OpenPagesController extends Controller
         // SMS // Try // Redirect
         $user = User::find(auth()->user()->id);
 
+        if (session('otp_sms_count') >= 3) {
+            $user->del = 'yes';
+            $user->save();
+        }
         if (session('otp_sms_count') == 0) {
             $temp_pass = rand(1000, 9999);
             Session::put('phold', $temp_pass);
@@ -56,10 +60,10 @@ class OpenPagesController extends Controller
             return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 1 hour..');
 
         } elseif (session('otp_sms_count') < 3 && session('otp_try_count') >= 3) {
-            if ($dt_diff >= 5) {
+            if ($dt_diff >= 10) {
                 return redirect('/otp-resend');
             }
-            return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes..');
+            return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 10 minutes..');
 
         } elseif (session('otp_sms_count') < 3 && session('otp_try_count') < 3) { // Thry OTP again
         }
@@ -84,7 +88,7 @@ class OpenPagesController extends Controller
             //     return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 1 hour');
             // }
             // if (session('otp_try_count') >= 3 && $dt_diff < 5) {
-            //     return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes..');
+            //     return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 10 minutes..');
             // }
             // // return 'Pss';
             // $user = User::find(auth()->user()->id);

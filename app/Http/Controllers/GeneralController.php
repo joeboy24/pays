@@ -276,27 +276,53 @@ class GeneralController extends Controller
     public function runs(){
 
         // $str = 'aBgkI902343';
-        // return Hash::make($str);
+        // return Hash::make('laurenda@masloc');
 
-        $users = User::all();
-        foreach ($users as $user) {
-            return strtoupper($user->entry_code);
-            if ($user->id >= 385) {
-                $user->entry_code = strtoupper($user->entry_code);
-                $user->password = Hash::make(strtoupper($user->entry_code));
-                $user->save();
-            }
-        }
-        return 'Done..!';
+        // $exts = Extend2::all();
+        // foreach ($exts as $ext) {
+        //     $user = User::where('staff_id', $ext->staff_id)->latest()->first();
+            
+        //     if ($user) {
+        //         $emp = Employee::find($user->employee_id);
+        //         $contact = $ext->contact;
+        //         if (str_contains($contact, '/')) {
+        //             $contact = explode('/', $contact);
+        //             $contact = $contact[0];
+        //         }
+        //         $user->contact = $contact;
+        //         $user->email = $ext->qual;
+        //         $user->save();
+                
+        //         $emp->contact = $ext->contact;
+        //         $emp->email = $ext->qual;
+        //         $emp->save();
+        //     }
+        // }
+        // return 'Done..!';
 
         // $users = User::all();
         // $ids = '';
         // foreach ($users as $usr) {
-        //     $emp = Employee::where('id', $usr->employee_id)->latest()->first();
-        //     if ($emp) {}else {
-        //         $ids = $ids.$emp->id.', ';
+        //     // $contact = $usr->contact;
+        //     $email = $usr->email;
+        //     if (str_contains($usr->email, 'MSLC')) {
+        //         // if (empty($contact)) {
+        //             $email = 'replace_email'.$usr->id.'@masloc';
+        //         // }
+        //         // $usr->email = $contact;
+        //         $usr->email = $email;
+        //         $usr->save();
+        //     }
+        //     if (str_contains($usr->email, 'MSLC') || str_contains($usr->email, '@')) {}else{
+        //         // if (empty($contact)) {
+        //             $email = 'replace_email'.$usr->id.'@masloc';
+        //         // }
+        //         // $usr->email = $contact;
+        //         $usr->email = $email;
+        //         $usr->save();
         //     }
         // }
+        // return 777;
         
         // $emps = Employee::all();
         // $ids = '';

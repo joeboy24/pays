@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Leave;
 use App\Models\LeaveSetup;
 use App\Models\Employee;
+use App\Models\User;
+use App\Models\SMS;
 
 class HrdashController extends Controller
 {
@@ -276,6 +279,44 @@ class HrdashController extends Controller
                 }
                 $emp->save();
                 return redirect(url()->previous())->with('success', 'Leave approved for '.$lv->employee->fname.' on '.date('d-m-Y'));
+            break;
+
+            case 'it_add_sms_contact':
+                // return $id;
+                
+                $user = User::find($id);
+                if (empty($user->contact)) {
+                    return redirect(url()->previous())->with('error', 'Oops..! Update '.$user->employee->fname.'`s contact details to proceed');
+                }
+                try {
+                    $add_sms = SMS::firstOrCreate([
+                        'sender_id' => auth()->user()->id,
+                        'user_id' => $id,
+                        'employee_id' => $user->employee->id,
+                        'contact' => $user->contact,
+                    ]);
+                } catch (\Throwable $th) {
+                    throw $th;
+                        return redirect(url()->previous())->with('error', 'Oops..! An error occured');
+                }
+                return redirect(url()->previous())->with('success', $user->employee->fname.'`s contact successfully added to SMS queue');
+
+            break;
+
+            case 'it_password_reset':
+                // return $id;
+                $random = rand(100, 1000);
+                $xter = substr(str_shuffle(str_repeat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5)), 0, 3);
+                $token = date('hi').$xter.$random;
+                // return $token;
+
+                $user = User::find($id);
+                $user->entry_code = $token;
+                $user->password = Hash::make($token);
+                $user->del = 'no';
+                $user->save();
+                return redirect(url()->previous())->with('success', 'Password reset done for '.$user->name);
+
             break;
 
         }

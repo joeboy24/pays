@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Department;
 use Spatie\Activitylog\Models\Activity;
 use Session;
@@ -22,9 +23,23 @@ class SystemAccessController extends Controller
         return view('dash.pay_company')->with('company', $company);
     }
 
-    public function pay_adduser(){
+    public function pay_adduser(Request $request){
+        $src = $request->input('search_emp');
+        if ($src) {
+            // return 1;
+            $employees = Employee::where('fullname', 'LIKE', '%'.$src.'%')->orwhere('fname', 'LIKE', '%'.$src.'%')->orwhere('sname', 'LIKE', '%'.$src.'%')->orwhere('oname', 'LIKE', '%'.$src.'%')->orwhere('staff_id', 'LIKE', '%'.$src.'%')->orwhere('contact', 'LIKE', '%'.$src.'%')->orwhere('position', 'LIKE', '%'.$src.'%')->get();
+            // return $src;
+            $users = User::query();
+            foreach($employees as $txt){
+                $users->orWhere('name', 'LIKE', '%'.$txt->fname.'%');
+            }
+            $users = $users->distinct()->orderBy('id', 'DESC')->paginate(20);
+            // return $users;
+        } else {
+            $users = User::orderBy('id', 'DESC')->paginate(20);
+            // return count($users);
+        }
 
-        $users = User::orderBy('id', 'DESC')->paginate(20);
         $patch = [
             'c' => 1,
             'users' => $users,

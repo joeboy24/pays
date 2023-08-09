@@ -29,7 +29,7 @@
           <p>Account has been disabled</p>
           @include('inc.messages')
           {{-- <div class="alert alert-danger">
-              Try again after 5 minutes
+              Try again after 10 minutes
           </div> --}}
         </div>
         <form>

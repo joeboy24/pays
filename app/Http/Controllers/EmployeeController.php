@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EmployeeMailImport;
 use App\Imports\EmployeeExtImport;
 use App\Imports\EmployeeImport;
 use App\Imports\TaxationImport;
@@ -1817,8 +1818,8 @@ class EmployeeController extends Controller
                     Session::put('otp_try_count', session('otp_try_count') + 1);
                     if (session('otp_try_count') >= 3) {
                         // Auth::logout();
-                        return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 5 minutes.');
-                        // return redirect('/logout')->with('error', 'Account disabled..! Try logging in after 5 minutes');
+                        return redirect('/account-block')->with('error', 'Account disabled..! Try log in after 10 minutes.');
+                        // return redirect('/logout')->with('error', 'Account disabled..! Try logging in after 10 minutes');
                     }
                     return redirect(url()->previous())->with('error', 'Oops..! Incorrect OTP. Account will be disabled after third try');
                 }
@@ -1879,16 +1880,15 @@ class EmployeeController extends Controller
                 Session::put('send01', 1);
                 try {
                     // 'user_id','message','sent_to'
-                    $send_sms = SmsHistory::firstOrCreate([
-                        'user_id' => auth()->user()->id,
-                        'message' => $msg,
-                        // 'message' => str_replace('*FULLNAME*, ','',$msg),
-                    ]);
                     foreach ($smss as $sms) {
                         $sms_hold = $sms->contact.','.$sms_hold;
                     }
-                    $send_sms->sent_to = $sms_hold;
-                    $send_sms->save();
+                    $send_sms = SmsHistory::firstOrCreate([
+                        'user_id' => auth()->user()->id,
+                        'sent_to' => $sms_hold,
+                        'message' => $msg,
+                        // 'message' => str_replace('*FULLNAME*, ','',$msg),
+                    ]);
                     // return $sms_hold;
 
                 } catch (\Throwable $th) {

@@ -142,9 +142,21 @@
 
     <div class="page-heading">
         <h3><i class="fa fa-address-card color6"></i>&nbsp;&nbsp;Manage User</h3>
-        {{-- <a href="/emp_report"><p class="print_report">&nbsp;<i class="fa fa-print"></i>&nbsp; Print Emp. Report</p></a>
-        <a href="#"><button type="submit" class="print_btn_small"><i class="fa fa-refresh"></i></button></a> --}}
+        <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back to Home</p></a>
+        <a href="/bulksms"><p class="view_daily_report">&nbsp;<i class="fa fa-envelope color5"></i>&nbsp; SMS</p></a>
+        <a href="/adduser"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
     </div>
+ 
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <form action="{{ url('/adduser') }}">
+                @csrf
+                <input type="text" name="search_emp" class="search_emp" placeholder="Search">
+                <button class="search_btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+    <p>&nbsp;</p>
 
     <div class="row">
         <div class="col-12 col-xl-10">
@@ -229,19 +241,23 @@
                                             <th>Email</th>
                                             <th>Contact</th>
                                             <th>Status</th>
-                                            <th class="align_right">Action</th>
+                                            <th class="align_right action_size2">Action</th>
                                         </tr>
                                     </thead>   
                                     <tbody>
                                         @foreach ($users as $user)
                                             @if ($user->del != 'null')
-                                                @if ($c % 2 == 1)
-                                                    <tr class="bg9">
+                                                @if ($user->del == 'yes')
+                                                    <tr class="del_danger">
                                                 @else
-                                                    <tr>
+                                                    @if ($c % 2 == 1)
+                                                        <tr class="bg9">
+                                                    @else
+                                                        <tr>
+                                                    @endif
                                                 @endif
                                                     <td class="text-bold-500">{{$c++}}</td>
-                                                    <td class="text-bold-500">{{ $user->name }}</td>
+                                                    <td class="text-bold-500">{{ $user->employee->fullname }}</td>
                                                     <td class="text-bold-500">{{ $user->email }}</td>
                                                     <td class="text-bold-500">{{ $user->contact }}</td>
                                                     <td class="text-bold-500">{{ $user->status }}</td>
@@ -253,7 +269,14 @@
                                                             <input type="hidden" name="_method" value="PUT">
                                                             @csrf
                                                             {{-- @if ($user->id == auth()->user()->id) --}}
-                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$user->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
+                                                                <button type="submit" name="update_action" value="it_add_sms_contact" class="my_trash_small blue_bg color8" onclick="return confirm('Click Ok to add {{$user->employee->fname}}`s contact to SMS list?')"><i class="fa fa-user-plus"></i></button>
+                                                                @if ($user->status != 'Administrator')
+                                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$user->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
+                                                                    <button type="submit" name="update_action" value="it_password_reset" class="my_trash_small bg10 color8" onclick="return confirm('Click Ok to proceed with {{$user->employee->fname}}`s password reset')"><i class="fa fa-gear"></i></button>
+                                                                @elseif ($user->status == 'Administrator' && $user->id == auth()->user()->id)
+                                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit{{$user->id}}" class="my_trash_small"><i class="fa fa-pencil"></i></button>
+                                                                    <button type="submit" name="update_action" value="it_password_reset" class="my_trash_small bg10 color8" onclick="return confirm('Click Ok to proceed with {{$user->employee->fname}}`s password reset')"><i class="fa fa-gear"></i></button>
+                                                                @endif
                                                             {{-- @endif --}}
                                                         </form>
 
@@ -268,7 +291,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalCenterTitle">
-                                                                    Edit User Here
+                                                                    Leave Application
                                                                 </h5>
                                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                                     aria-label="Close">
@@ -278,6 +301,7 @@
                                                             <form action="{{ action('EmployeeController@update', $user->id) }}" method="POST">
                                                                 <input type="hidden" name="_method" value="PUT">
                                                                 @csrf
+
                                                                 <div class="modal-body">
                                                                     
                                                                     <div class="col-md-12">
@@ -356,14 +380,14 @@
                                                                         </div>
                                                                     @endif
                                                                     
-                                                                </div> 
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                                                        <i class="fa fa-times d-block d-sm-none"></i><span class="d-none d-sm-block">Close</span>
-                                                                    </button>
-                                                                    <!--button id="success" class="btn btn-outline-success btn-lg btn-block" type="submit" name="update_action" value="update_user">Update</button-->
-                                                                    <button type="submit" name="update_action" value="update_user" class="btn btn-primary me-1 mb-1">Update</button>
+                                                                    <div class="modal-footer modal_footer">
+                                                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                                            <i class="fa fa-times d-block d-sm-none"></i><span class="d-none d-sm-block">Close</span>
+                                                                        </button>
+                                                                        <button type="submit" name="update_action" value="update_user" class="btn btn-primary me-1 mb-1">Update</button>
+                                                                    </div>
                                                                 </div>
+                                                                
                                                             </form>
                                                         </div>
                                                     </div>

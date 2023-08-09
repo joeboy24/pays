@@ -258,64 +258,64 @@
                         <th>Other Details</th>
                         {{-- </th>.......................................</th> --}}
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td class="faint_td2">Qualification</td>
-                            <td>: &nbsp; Null Qualification Qualification</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Classification</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Grade</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Marital Status</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">National Id</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Date of Birth</td>
-                            <td>: &nbsp; {{date('F d, Y', strtotime($emp->dob))}}</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Gender</td>
-                            <td>: &nbsp; null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">contact</td>
-                            <td>: &nbsp; null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Email</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Passport</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Residential Addr.</td>
-                            <td>: &nbsp; null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Religion</td>
-                            <td>: &nbsp; null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">Next of Kin</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        <tr>
-                            <td class="faint_td2">NOK's Contact</td>
-                            <td>: &nbsp; Null</td>
-                        </tr>
-                        </tbody>
+                        <tbody> 
+                            <tr>
+                              <td class="faint_td2">Qualification</td>
+                              <td>: &nbsp; {{$emp->extend->qual}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Classification</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Grade</td>
+                              <td>: &nbsp; {{$emp->extend->grade}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Marital Status</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">National Id</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Date of Birth</td>
+                              <td>: &nbsp; {{date('F d, Y', strtotime($emp->extend->dob))}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Gender</td>
+                              <td>: &nbsp; {{$emp->extend->gender}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">contact</td>
+                              <td>: &nbsp; {{$emp->extend->contact}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Email</td>
+                              <td>: &nbsp; {{$emp->extend->email}}</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Passport</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Residential Addr.</td>
+                              <td>: &nbsp; null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Religion</td>
+                              <td>: &nbsp; null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">Next of Kin</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                            <tr>
+                              <td class="faint_td2">NOK's Contact</td>
+                              <td>: &nbsp; Null</td>
+                            </tr>
+                          </tbody>
                     </table>
                     </div>
                 </div>

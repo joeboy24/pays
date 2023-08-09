@@ -142,7 +142,13 @@
 
         <form action="{{ action('EmployeeController@store') }}" method="POST">
             @csrf
-            <a href="/view_employee"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; View Employee</p></a>
+            @if (auth()->user()->status == 'HR')
+                <a href="/view_employee"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; View Employee</p></a>
+            @elseif (auth()->user()->status == 'Finance')
+                <a href="/"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Home</p></a>
+            @else
+                <a href="/adduser"><p class="print_report">&nbsp;<i class="fa fa-chevron-left"></i>&nbsp; Back</p></a>
+            @endif
             <a href="/bulksms"><button type="button" class="print_btn_small"><i class="fa fa-refresh"></i></button></a>
         </form>
     </div>
