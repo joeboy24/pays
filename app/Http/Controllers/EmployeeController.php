@@ -1861,12 +1861,14 @@ class EmployeeController extends Controller
                     }
                     foreach ($emp_sel as $es) {
                         $user = User::where('employee_id', $es->id)->latest()->first();
-                        $insert_sms = SMS::firstOrCreate([
-                            'sender_id' => auth()->user()->id,
-                            'user_id' => $user->id,
-                            'employee_id' => $es->id,
-                            'contact' => $es->contact
-                        ]);
+                        if (!empty($es->contact)) {
+                            $insert_sms = SMS::firstOrCreate([
+                                'sender_id' => auth()->user()->id,
+                                'user_id' => $user->id,
+                                'employee_id' => $es->id,
+                                'contact' => $user->contact
+                            ]);
+                        }
                     }
                 }
                 $smss = SMS::where('sender_id', auth()->user()->id)->get(); 
@@ -1880,8 +1882,13 @@ class EmployeeController extends Controller
                 Session::put('send01', 1);
                 try {
                     // 'user_id','message','sent_to'
-                    foreach ($smss as $sms) {
-                        $sms_hold = $sms->contact.','.$sms_hold;
+                    if ($sms_act == 'Selected Contacts') {
+                        foreach ($smss as $sms) {
+                            $sms_hold = $sms->contact.','.$sms_hold;
+                        }
+                    }else {
+                        $sms_hold = $sms_act;
+                        // return $sms_hold;
                     }
                     $send_sms = SmsHistory::firstOrCreate([
                         'user_id' => auth()->user()->id,

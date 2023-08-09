@@ -293,19 +293,23 @@
                                                 <td class="text-bold-500"><p class="small_p">Sent By:</p>{{$smh->user->name}}</td>
                                                 <td class="text-bold-500">{{$smh->message}} <p class="small_p">Status: {{$smh->status}}</p>
                                                     <p class="gray_p">&nbsp;</p><p class="gray_p">Sent To:</p>
-                                                    @if (count(explode(',', $smh->sent_to)) > 7)
-                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
-                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
-                                                                {{explode(',', $smh->sent_to)[$i]}}
-                                                            </button>
-                                                        @endfor
-                                                        <button data-bs-toggle="modal" data-bs-target="#view_more{{$smh->id}}" type="button" class="sms_contact_view">&nbsp;View More...</button>
+                                                    @if (str_contains($smh->sent_to, ','))
+                                                        @if (count(explode(',', $smh->sent_to)) > 7)
+                                                            @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                                <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                    {{explode(',', $smh->sent_to)[$i]}}
+                                                                </button>
+                                                            @endfor
+                                                            <button data-bs-toggle="modal" data-bs-target="#view_more{{$smh->id}}" type="button" class="sms_contact_view">&nbsp;View More...</button>
+                                                        @else
+                                                            @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
+                                                                <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
+                                                                    {{explode(',', $smh->sent_to)[$i]}}
+                                                                </button>
+                                                            @endfor
+                                                        @endif
                                                     @else
-                                                        @for ($i = 0; $i < count(explode(',', $smh->sent_to))-1; $i++)
-                                                            <button type="button" class="sms_contact_view bg8">&nbsp;<i class="fa fa-phone color5"></i>&nbsp; 
-                                                                {{explode(',', $smh->sent_to)[$i]}}
-                                                            </button>
-                                                        @endfor
+                                                        {{$smh->sent_to}}
                                                     @endif
                                                 </td>
 
