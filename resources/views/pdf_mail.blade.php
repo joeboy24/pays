@@ -376,8 +376,38 @@
     }
 
     .ext {
-        margin-top: -1px!important;
+            margin-top: -1px!important;
     }
+
+    .TsCont {
+        width: 100%;
+        /* display: table; */
+        /* background: #4486e9; */
+    }
+
+    .T_img {
+        width: 100%;
+    }
+    
+    .T1, .T3 {
+        width: 15%;
+        float: left;
+        /* display: table-cell; */
+        /* background: #721c24; */
+    }
+
+    .T2 {
+        float: left;
+        text-transform: uppercase;
+        width: calc(70% - 20px);
+        padding: 0 10px 10px 10px;
+        text-align: center;
+        font-size: 2.5vw;
+        /* background: #f1b0b7; */
+    }
+
+    .Tfr { width: 90%; float: right; margin: 5%; }
+    .Tfl { width: 90%;  float: left; margin: 5%; }
 
     .long_title {
         display: block;
@@ -437,19 +467,9 @@
             </div>
 
             <div class="invHeaderTop">
-                {{-- <div class="long_title">
-                    <h1><img src="data:image/png;base64,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" alt=""> &nbsp; 
-                        MicroFinance And Small Loans Centre <img class="logo2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Coat_of_arms_of_Ghana.svg/250px-Coat_of_arms_of_Ghana.svg.png" alt=""></h1>
-                </div>
-                <div class="short_title">
-                    <h1><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAABDlBMVEX///8AAAD0wRd6xeX1wRh6xuV6xOXT09Pz8/O0tLR5w+Lzwhf/0xiD0/aH2v0XJis+Y3L6xhg5LQt9yurXsxf6yxf/1BgvS1lPfpJnpcAuR1OMchIAAAYJDg9gTQ2J3P5zuNZrVg//3BpyXhQTHSEjN0E7OjohISFkZGSL4f8oQUyO5v/euxm8nRf4zRlSQhB4YhMwJguzlBZZSQ8nHQsXEQkMFRhUiJ5jnrZsr8xaj6bi4uLDw8KZmZlVVFQqKyq3traFhYV3dnaenp7p6OhKcoU4WGZJOg7GqhaEbxSfhBQsIw21mhrnvhzlxxvt0x//4xmSfBUWCgjLtxu6ohf/6xt0u89xs8CD1OtLS0oPM2vZAAAYJklEQVR4nO1di3vTRrbHo5HaaiwnjmKRgIODSQoJYN4kpCzbbjchBAiPsr3d//8fuXOeMzKQ8u3W4++7V6clsSXF1k/nzHnPzKVLHXXUUUcdddRRRx111FFHHXXUUUcdddRRRx111FFHHXXUUUcdddRRRx111NFfQz89/yEJPf9pOfi++9uLv/eS0M0Xf/suPb4ffkyDTujHX79Piu95YnxAN39OCPCX9PiAbiVj44vlAPSi+s//4wA9xCRc/Id83e7G5nYS2jzYl+98kQDgz4Jvc1DVX6bisxf/KfEHVINngvHXhQP8/iZ90+peXeZZVhSZ/5HlBfwscnzjiV7k/ngOx/EY/MLr6F0mJ4oix195wZ+QyafQT/yzem+DIS7c+v8qAOVGCRzfsb9LvSt4LzAAqEdLAOlB8OOQpxIupc+kP87xkL8kL/cO6Jv/sWCAzML9ieDKkVXCmFxvMvBT7phfZhGX8vBeztMjy8Kn49Pwv8rbqwRxwfr0OX3Ldi1iVij/gDl5dE8kdIKcbzrP6do8wlQEecxJuOmB4OfR3+Kf1SlG4ve38EtOBqXgijij7wqSNBmm0UG4V7kol0FcICoRARqp+Fm5sBkfVDk4TqBOf6LHeFjRo75QD1Zfef31q6uvXUwPoN6mb18owu/oO7I6AwmqtzeT0LOadG21g9++UKtPCHcqFC8Rm4XTyQTFthzsp0K4UpFirzYuuq+/jlYHYHrzYnAlIUJUF4DwydqC6bFHOClJ1SRESOoQEN6YjhZK0w/AQ3ygiRGCRgeE1/vWOmsN/g8/DL6EN46PGjxuncFDdNrgb/5HP/BzAsFF/kD/KvAQLUZqHuZFqQjxlvG2AQbcGEKgmzR45w4vQIiGXxp+HM7hpQ4P0ONx/AQMIyy9GS2SIszR2xgQQgLn5Nbp3hG3k6PEVYP4mD/hnz4g4noQCTiICAfoFCRFSE4W8RBZ5++Lbt9zAlnoGA5hZ54a5KZjRvLDiC4kUPwSWSk8LFLrUooTEGFjWZ4QKXIBxY7+J34alETLPBVppQvwmZB84znmIx7wP4mH5OctR5d6HtpISh2xRLSLCcyyqmSEoTJaHQ09a5ShOlYZobcW4MemlVL4TxHSTToZX05YKlAdPQBSrwJFryExp/FoWevoGFaEMO5T8hDj2YAQ7gnFDH+RmDLXLA9MQ0hJz/CToKuD4ZAR6YTTOg4xBknNQ5FSq7xwrGnYanjqT6cjQOLYTvgDTTNSm+h/DoesXpyoGHpGNDBFl0KcndZawKjw2lusheOh5tTsEQOaN9dvvGmGwE+H5rx5eG/t3t0RGg4AMmrO75w3Qx7GVn+TkQTeE0LgYWKEkabhoRNUhhj74ewlXL22PrLEXNs8wr+/O2Inprm7Nh5/vLbeZ49AXB98WCS7ijCx10ZJGOKhibU96w/0xGZrFBqMT4nPtnlFBx7PAK8ZNtc5eHjYV5em7e845WFqzxuGhbfA0ThEXYNiKupk+krDn1M0KfZ8zO/vDsFyNi/l/Pjt0Do2q06NKEqD+DTJPW9McqqUqusl9g1EcqoAeuM7fujZ0V15/woey/S6nu+9GSEeFk1WM/h6xBbf+4lpeQguTa5emyh4NfHAzelaQPDkfEhDiuhe49XsWTiNI5PsBztARvgZ7KH39JMizILnbcmoO1EOIqXXIggek+kr01737Wh9HM6O7wytUTElPWqicThJr2koqy2axpESDM4kWbKHEcLeq6loUkA0a3G4d69PT4hCRccePD6sESPMk49DL6ViD8lI41B0FD+QjM2exBDfjPr3FOHbaSyjXvPwczGiUA3DFV26DIvvR75GwE5GoHrbqCTexCjG6+8VYe/OeSSjIMISBWN0yB9nQ2yBdZC049A/0iJXr81xhsJxqM4gp49aEN+Ft+vxGPWa1rCjxw/HyhNbnj2k/LzwMGQubLhNNIAxwt6DMPTiQdg7a9i6i7FhMXcQK6s9TOx5UzFMEToNCl1sL7zC7P05PZqqhJPvLuxDZ0lj/OR+KbjeIRNFWsKZKIRF/7L/5iJsSB/BVEqwxP6QU+/damyRpUWILCwli2FCNGFVCXJ0cXYROqDTkTiymqITuBB1jUSXJs5EUTU3xBbsdlNMoPEivIy80y+SH4Tibdvgk2JeC9/01R4m56H4NI2i0cA2ymIY+/7GRQBvTBGSo8cjH2Q5Q+zZyJkoKPKnRYhBfhQfsq12RpIygtLa9w++DvDllFJU6K1bIzk64zQrJz5N+pw3NCWIPVTFZzhRIylTf4+jd9cvYOH984avgyyAc5KIklyd1Zx3kdrzzpSHDSeSnGTcHLkmmPi1zemTCwB6a/9q1p9nu0ZhRr02TAsl5mGUEY5SLJRkI78ZxHb6p6q09/HuVPJQqqbIO3XBWmAsk1jTFEWUESbp5EyUkezwnytSFtXpMMRdrGYc++F2WdETtTrJOGTPmxOCwTH9NoBe38yGoVijokBufJyJSjsOwdmPfRouKxkJYcHaf/g2gD4i9n6Nxl+Cjpi4xGxi4KGj6MI5rh1xoqxpRcC98b27IbZ4PKd/1hoNSBwlobjaE2pPqe0hJPU1q09uiCRquIg0+i0OAcf37/Tfh5Dp1fvT+x9jiNcayXy7KKllI12aGCFGTyX7NBIX2lC/dWY4exwBuHfutUk/ILzfDJt3rVH6oaGaoySiuMJqQ3UtsddWhNqTDQqCYiZ8+s39+PankKZoYoQewjS2leM7w+B1iwPnWpomfWVGpNQ56T0wUiZzwzgyfDillEsLoefP6Px1uOhlo/aC8spkMmgcFtjXmZiHIRMVFcOMlOv7IR0M4QPecRshQYy4SDnTMAJti4dF6o6hqLqmpV4nbom/9UiPvmqokm3bUooqd3QnXPegMVSj4m4FcnQ115a6MoMGMWSijItD+1a+e60RGW7xUCLkyGZi1c3Ix7jYHhbpEWZRnkbHDooraMLRabjv9RGnwduaxnDmsAnP4lETyoZG0gZLQ1gEn8Zx2SJ4znHR5fqUixqfSSnxK5RroAJlJHjS3GJ/SVkMHIdliA9N6LsArFG+d33IlbeWlN5oJE9hmxAgn/W16GEdF1w5EwWqNHmVWxByyERaFG8x0jMvG6vdUnMIOSfTDyPxUSM9YBLoh+gpT+zTYNNXESEkHYqBuo/Lg5Ce9bnFxl/QQshayTs/wXI+mYVWOM4YRL0YS+BhHtWAKcrnfERw2GBocZOJicfhjUYSUJ61QdesD20oY1HCbVk14LlxiE6INBp4rugwxJhBumnaUkoBJVT3g3/3kAul6iZZ6VQokufaYikN0TmNomgYgjSGUG8OoaOaYVRnvNo3opaly5S9NhCaxPawEClt6E40tHex7jgbsa/6JV3KjkA0EDH56qRA51q1pyVET0WQUi4ccVtwP4id9zUd14Xd3DikSqr/i+FbFep7fSmzGilFLnMcFlEHrfCPxC4gOR1KL2z7+I2GGQ9QQq14bWa1+40to8aHyXlYQNU58tqsFmRsqGajvZeYwzSfIaR6zOx1hFBEXfSzWIvUPcI0Jyn0CIdC/jxCrXuaOU1jtLN9pl7Ng5mT5L5j86NeW+oKKfRElVFsYajL8nMe2mDa5sahkcJG4OGDmbWa2SevRuuHqX0anGcW8qWG8sF0c/3QVe" alt=""> &nbsp; 
-                        MicroFinance And Small <img class="logo2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Coat_of_arms_of_Ghana.svg/250px-Coat_of_arms_of_Ghana.svg.png" alt="">
-                    </h1>
-                    <h1 class="ext">Loans Centre</h1>
-                </div> --}}
-                <h1 class="ext">MicroFinance And Small Loans Centre</h1>
-                <P class="locInfo">MASLOC, Office of the President</P>
-                <P class="locInfo">Box AH811, Accra - Ghana</P>
+                <h1 class="ext">{{session('company')->name}}</h1>
+                <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P>
+                {{-- <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P> --}}
                 <P class="contactInfo">Pay Slip - {{session('month')}}</P>
             </div>
 

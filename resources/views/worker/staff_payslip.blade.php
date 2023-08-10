@@ -77,7 +77,7 @@
         letter-spacing: 2px;
         }
 
-        .invHeaderTop img {
+        .invHeaderTopimg {
             width: 100px;
             margin: 0 -20px -35px 0;
             /* background: #f1b0b7;
@@ -138,9 +138,11 @@
         }
 
         .locInfo {
-        font-size: 0.9em;
-        font-weight: 300;
-        color: #363432;
+            font-size: 0.9em;
+            font-weight: 300;
+            color: #363432;
+            clear: both;
+            text-align: center;
         }
 
         .contactInfo {
@@ -394,13 +396,39 @@
             margin-top: -1px!important;
         }
 
-        .long_title {
-            display: block;
+        .TsCont {
+            width: 100%;
+            /* display: table; */
+            /* background: #4486e9; */
         }
 
-        .short_title {
-            display: none;
+        .T_img {
+            width: 100%;
         }
+        
+        .T1, .T3 {
+            width: 15%;
+            float: left;
+            /* display: table-cell; */
+            /* background: #721c24; */
+        }
+
+        .T2 {
+            float: left;
+            text-transform: uppercase;
+            width: calc(70% - 20px);
+            padding: 0 10px 10px 10px;
+            text-align: center;
+            font-size: 2.2vw;
+            /* background: #f1b0b7; */
+        }
+
+        .Tfr { width: 90%; float: right; margin: 5%; }
+        .Tfl { width: 90%;  float: left; margin: 5%; }
+
+
+
+
 
 
 
@@ -415,7 +443,6 @@
             }
 
         }
-
 
 
         @media print {
@@ -457,15 +484,13 @@
                 </div>
     
                 <div class="invHeaderTop">
-                    <div class="long_title">
-                        <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp; MicroFinance And Small Loans Centre <img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
+                    <div class="TsCont">
+                        <div class="T1"><img class="T_img Tfr" src="/maindir/images/masloc.png" alt=""></div>
+                        <div class="T2"><p class="small_p">&nbsp;</p>&nbsp;&nbsp; {{session('company')->name}} &nbsp;&nbsp; </div>
+                        <div class="T3"><img class="T_img Tfl" src="/maindir/images/coat2.png" alt=""></div>
                     </div>
-                    <div class="short_title">
-                        <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp; MicroFinance And Small <img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
-                        <h1 class="ext">Loans Centre</h1>
-                    </div>
-                    <P class="locInfo">MASLOC, Office of the President</P>
-                    <P class="locInfo">Box AH811, Accra - Ghana</P>
+                    <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P>
+                    {{-- <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P> --}}
                     <P class="contactInfo">Pay Slip - {{session('month')}}</P>
                     {{-- <h4>___________</h4> --}}
                 </div>

@@ -137,9 +137,11 @@
         }
 
         .locInfo {
-        font-size: 0.9em;
-        font-weight: 300;
-        color: #363432;
+            font-size: 0.9em;
+            font-weight: 300;
+            color: #363432;
+            clear: both;
+            text-align: center;
         }
 
         .contactInfo {
@@ -354,10 +356,10 @@
                 </div>
     
                 <div class="invHeaderTop">
-                    <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp; MASLOC <img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
-                    <P class="locInfo">MicroFinance And Small Loans Centre</P>
-                    <P class="locInfo">Box AH811, Accra - Ghana</P>
-                    <P class="contactInfo">024 555 3475, 024 832 1117, 024 642 7501</P>
+                    <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp;{{session('company')->abrv}}<img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
+                    <P class="locInfo">{{session('company')->name}}</P>
+                    <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P>
+                    <P class="contactInfo">{{session('company')->contact}}</P>
                     {{-- <h4>___________</h4> --}}
                 </div>
     

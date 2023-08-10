@@ -138,9 +138,11 @@
         }
 
         .locInfo {
-        font-size: 0.9em;
-        font-weight: 300;
-        color: #363432;
+            font-size: 0.9em;
+            font-weight: 300;
+            color: #363432;
+            clear: both;
+            text-align: center;
         }
 
         .contactInfo {
@@ -426,9 +428,9 @@
                 </div>
     
                 <div class="invHeaderTop">
-                    <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp; MicroFinance And Small Loans Centre <img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
-                    <P class="locInfo">MASLOC, Office of the President</P>
-                    <P class="locInfo">Box AH811, Accra - Ghana</P>
+                    <h1><img src="/maindir/images/masloc.png" alt=""> &nbsp; {{session('company')->name}} <img class="logo2" src="/maindir/images/coat2.png" alt=""></h1>
+                    <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P>
+                    <!-- <P class="locInfo">&nbsp;&nbsp;{{session('company')->comp_add}}&nbsp;&nbsp;</P> -->
                     <P class="contactInfo">Pay Slip - July 2022</P>
                     {{-- <h4>___________</h4> --}}
                 </div>

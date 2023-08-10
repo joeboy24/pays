@@ -132,9 +132,11 @@
         }
 
         .locInfo {
-        font-size: 0.9em;
-        font-weight: 300;
-        color: #363432;
+            font-size: 0.9em;
+            font-weight: 300;
+            color: #363432;
+            clear: both;
+            text-align: center;
         }
 
         .contactInfo {
