@@ -95,7 +95,7 @@ class HrdashController extends Controller
                 
                 $emp = auth()->user()->employee;
                 $lv_check = Leave::where('employee_id', $emp->id)->latest()->first();
-                if ($lv_check->status == 'Pending') {
+                if ($lv_check && $lv_check->status == 'Pending') {
                     return redirect(url()->previous())->with('error', 'Oops..! There is a pending application made on '.date('M, d Y', strtotime($lv_check->created_at)).'. Kindly wait for approval or defer and reapply for a different date');
                 }
                 $start = $request->input('from');
