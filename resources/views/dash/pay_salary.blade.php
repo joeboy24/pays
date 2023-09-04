@@ -456,7 +456,7 @@
                                                             <input type="number" max="100" maxlength="3" @if ($slr!='')value="{{$slr->pay_perc}}" @endif min="0" name="pay_perc" required>
                                                         </div> --}}
 
-                                                        <p class="">&nbsp;</p>
+                                                        {{-- <p class="">&nbsp;</p> --}}
                                                 
                                                         {{-- <div class="filter_div">
                                                             <i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;SSF
