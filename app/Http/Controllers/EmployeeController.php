@@ -595,7 +595,7 @@ class EmployeeController extends Controller
                         
                         // $basic_sal = $emp->salary * ($emp->pay_perc / 100);
                         // return $basic_sal;
-                        
+
                         $send_rent = ($rent/100) * $emp->salary;
                         $send_prof = ($prof/100) * $emp->salary;
                         $send_ssf = ($ssf/100) * $emp->salary;
@@ -2080,7 +2080,7 @@ class EmployeeController extends Controller
                         $sl->std_loan = $std_loan;
                         $sl->staff_loan = $staff_loan;
                         $sl->net_aft_ded = $net_aft_ded;
-                        $sl->pay_perc = $pay_perc;
+                        // $sl->pay_perc = $pay_perc;
                         // $sl->ssf_emp_cont = $ssf_emp_cont;
                         $sl->gross_sal = $gross_sal;
                         $sl->tot_ded = $tot_ded;
@@ -2117,7 +2117,7 @@ class EmployeeController extends Controller
                             'std_loan' => $std_loan,
                             'staff_loan' => $staff_loan,
                             'net_aft_ded' => $net_aft_ded,
-                            'pay_perc' => $pay_perc,
+                            // 'pay_perc' => $pay_perc,
                             'ssf_emp_cont' => $sal->ssf_emp_cont,
                             'gross_sal' => $gross_sal,
                             'tot_ded' => $tot_ded,
@@ -2158,7 +2158,7 @@ class EmployeeController extends Controller
                     $sal->std_loan = $std_loan;
                     $sal->staff_loan = $staff_loan;
                     $sal->net_aft_ded = $net_aft_ded;
-                    $sal->pay_perc = $pay_perc;
+                    // $sal->pay_perc = $pay_perc;
                     // $sal->ssf_emp_cont = $ssf_emp_cont;
                     $sal->gross_sal = $gross_sal;
                     $sal->tot_ded = $tot_ded;

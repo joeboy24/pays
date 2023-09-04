@@ -451,10 +451,10 @@
                                                             <input type="number" step="any" @if ($slr!='')value="{{$slr->staff_loan}}" @endif min="0" name="staff_loan" required>
                                                         </div>
                                                 
-                                                        <div class="filter_div">
+                                                        {{-- <div class="filter_div">
                                                             <i class="fa fa-percent"></i>&nbsp;&nbsp;&nbsp;Pay (%)
                                                             <input type="number" max="100" maxlength="3" @if ($slr!='')value="{{$slr->pay_perc}}" @endif min="0" name="pay_perc" required>
-                                                        </div>
+                                                        </div> --}}
 
                                                         <p class="">&nbsp;</p>
                                                 
