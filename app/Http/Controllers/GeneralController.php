@@ -412,12 +412,16 @@ class GeneralController extends Controller
         // //     $sal->month = '07-2023';
         // //     $sal->save();
         // // }
-        // $sals = Salary::where('month', '07-2023')->get();
+        // $sals = Salary::where('month', '09-2023')->get();
         // foreach ($sals as $sal) {
-        //     $sal->status = 'Paid';
-        //     $sal->save();
+        //     // $sal->status = 'Paid';
+        //     $sal->delete();
         // }
-        // return 'Paid..!';
+        // $taxs = Taxation::where('month', '09-2023')->get();
+        // foreach ($taxs as $tax) {
+        //     $tax->delete();
+        // }
+        // return 'Deleted..!';
         // $sals = Salary::where('month', '07-2023')->get();
         // $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
         // $jv_check = Journal::find(1);

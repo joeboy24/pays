@@ -593,6 +593,9 @@ class EmployeeController extends Controller
                             $prof = $alo->prof;
                         }
                         
+                        // $basic_sal = $emp->salary * ($emp->pay_perc / 100);
+                        // return $basic_sal;
+                        
                         $send_rent = ($rent/100) * $emp->salary;
                         $send_prof = ($prof/100) * $emp->salary;
                         $send_ssf = ($ssf/100) * $emp->salary;
@@ -843,6 +846,7 @@ class EmployeeController extends Controller
                                         $sl->std_loan = $saledit->std_loan;
                                         $sl->staff_loan = $saledit->staff_loan;
                                         $sl->net_aft_ded = $saledit->net_aft_ded;
+                                        $sl->pay_perc = $emp->pay_perc;
                                         $sl->ssf_emp_cont = $saledit->ssf_emp_cont;
                                         $sl->gross_sal = $saledit->gross_sal;
                                         $sl->tot_ded = $saledit->tot_ded;
@@ -900,6 +904,7 @@ class EmployeeController extends Controller
                                         $sl->std_loan = $std_loan;
                                         $sl->staff_loan = $staff_loan;
                                         $sl->net_aft_ded = $net_aft_ded;
+                                        $sl->pay_perc = $emp->pay_perc;
                                         $sl->ssf_emp_cont = $ssf_emp_cont;
                                         $sl->gross_sal = $gross_sal;
                                         $sl->tot_ded = $tot_ded;
@@ -2003,6 +2008,10 @@ class EmployeeController extends Controller
                 $intr = $request->input('intr');
                 $tnt = $request->input('tnt');
                 $cola = $request->input('cola');
+
+                $pay_perc = $request->input('pay_perc');
+                // return 2675.253682125 * ($pay_perc / 100);
+
                 if ($request->input('new1')) {
                     $new1 = $request->input('new1');
                 }else {
@@ -2041,9 +2050,10 @@ class EmployeeController extends Controller
                 $net_aft_inc_tax = $sal_taxable_inc - $inc_tax;
                 $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
                 $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
+                // $net_aft_ded = ($net_bef_ded - $staff_loan - $std_loan) * ($pay_perc / 100);
                 $tot_ded = $sal->ssf + $inc_tax + $std_loan + $staff_loan;
                 $gross_sal = $sal->sal_aft_ssf + $rent + $prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
-                
+                // return $net_aft_ded;
                 try {
 
                     if ($sl) {
@@ -2070,6 +2080,7 @@ class EmployeeController extends Controller
                         $sl->std_loan = $std_loan;
                         $sl->staff_loan = $staff_loan;
                         $sl->net_aft_ded = $net_aft_ded;
+                        $sl->pay_perc = $pay_perc;
                         // $sl->ssf_emp_cont = $ssf_emp_cont;
                         $sl->gross_sal = $gross_sal;
                         $sl->tot_ded = $tot_ded;
@@ -2106,6 +2117,7 @@ class EmployeeController extends Controller
                             'std_loan' => $std_loan,
                             'staff_loan' => $staff_loan,
                             'net_aft_ded' => $net_aft_ded,
+                            'pay_perc' => $pay_perc,
                             'ssf_emp_cont' => $sal->ssf_emp_cont,
                             'gross_sal' => $gross_sal,
                             'tot_ded' => $tot_ded,
@@ -2146,6 +2158,7 @@ class EmployeeController extends Controller
                     $sal->std_loan = $std_loan;
                     $sal->staff_loan = $staff_loan;
                     $sal->net_aft_ded = $net_aft_ded;
+                    $sal->pay_perc = $pay_perc;
                     // $sal->ssf_emp_cont = $ssf_emp_cont;
                     $sal->gross_sal = $gross_sal;
                     $sal->tot_ded = $tot_ded;
@@ -2155,7 +2168,8 @@ class EmployeeController extends Controller
                     // Update Journals with new values
                     $sals = Salary::where('month', date('m-Y'))->get();
                     $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
-                
+                    
+
                     $jv_check = Journal::where('month', date('m-Y'))->first();
                     if ($jv_check) {
                         $jv_check->gross = $new_gross;
@@ -2384,6 +2398,8 @@ class EmployeeController extends Controller
                     $emp->cur_pos = $request->input('position');
                     $emp->region = $request->input('region');
                     $emp->reg_mgr = $request->input('reg_mgr');
+                    $emp->salary = $request->input('sal_txtfield'); // 1871.218
+                    $emp->pay_perc = $request->input('pay_perc');
                     $emp->save();
                     return redirect(url()->previous())->with('success', $request->input('fname')."'s details successfully updated!");
                 } catch (\Throwable $th) {

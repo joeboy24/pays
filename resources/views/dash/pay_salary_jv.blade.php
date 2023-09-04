@@ -149,6 +149,7 @@
                 @endfor
             </select>
             <button class="view_daily_report genhover"><i class="fa fa-refresh color10"></i></button>
+            <p class="small_p">&nbsp;</p>
             {{-- <a href="/sal-multiexport"><p class="view_daily_report">&nbsp;<i class="fa fa-download color5"></i>&nbsp; Export to Excel</p></a>
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button> --}}
         </form>

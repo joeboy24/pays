@@ -22,7 +22,7 @@ class load_auth
         $company = Company::find(1);
         Session::put('company', $company);
         if (Auth::check()) { 
-            // }else {
+            }else {
             if (session('temp_pass')) {
                 if (session('temp_pass') == auth()->user()->temp_pass) {
                     return $next($request);

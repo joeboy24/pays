@@ -355,6 +355,32 @@
                                                                 <i class="fa fa-building"></i>&nbsp;&nbsp; AFIS No.
                                                                 <input name="afis_no" type="text" class="form-control" placeholder="AFIS No." id="first-name-icon" value="{{ $emp->afis_no }}">
                                                             </div>
+                                                            @if (auth()->user()->status == 'Finance' || auth()->user()->status == 'Administrator')
+                                                                <div class="filter_div" id="">
+                                                                    <i class="fa fa-money"></i>&nbsp;&nbsp; Basic Sal.
+                                                                    <input id="sal_txtfield{{$emp->id}}" type="number" step="any" min="0" name="sal_txtfield" class="form-control" value="{{ $emp->salary }}" required>
+                                                                </div>
+                                                
+                                                                <div class="filter_div">
+                                                                    <i class="fa fa-percent"></i>&nbsp;&nbsp;&nbsp;Pay (%)
+                                                                    <input id="sal_perc{{$emp->id}}" type="number" max="100" maxlength="3" value="{{$emp->pay_perc}}" min="0" name="pay_perc" onkeyup="calc_perc{{$emp->id}}({{$emp->salary}})" required>
+                                                                </div>
+                                                                <button type="button" onclick="reset_perc{{$emp->id}}({{$emp->salary}})" class="genhover my_trash2 blue_bg color8 float_right">Reset Salary</button>
+                                                                {{-- <p class="small_p">&nbsp;&nbsp; Click <span>Here</span> to reset to actual salary</p> --}}
+                                                                <script>
+                                                                    function calc_perc{{$emp->id}}(sal) {
+                                                                        perc = document.getElementById('sal_perc{{$emp->id}}').value;
+                                                                        document.getElementById('sal_txtfield{{$emp->id}}').value = sal * (perc / 100);
+                                                                        // alert('done '+sal);
+                                                                    }
+                                                                    function reset_perc{{$emp->id}}(sal) {
+                                                                        perc = '{{$emp->pay_perc}}';
+                                                                        document.getElementById('sal_perc{{$emp->id}}').value = 100;
+                                                                        document.getElementById('sal_txtfield{{$emp->id}}').value = sal * (100 / perc);
+                                                                        // alert('done '+sal);
+                                                                    }
+                                                                </script>
+                                                            @endif
                                                             
                                                             <div class="filter_div" id="">
                                                                 <i class="fa fa-user"></i>&nbsp;&nbsp; First Name

@@ -46,6 +46,7 @@ class CreateSalariesTable extends Migration
             $table->string('net_bef_ded', 50)->default(0);
             $table->string('std_loan', 50)->default(0);
             $table->string('staff_loan', 50)->default(0);
+            $table->string('pay_perc', 5)->default(100);
             $table->string('net_aft_ded', 50)->default(0);
             $table->string('ssf_emp_cont', 50)->default(0);
             $table->string('gross_sal', 50)->default(0);

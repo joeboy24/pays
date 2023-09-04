@@ -257,6 +257,7 @@
                                         <th class="staffloancol">Student Loan</th>
                                         <th class="staffloancol">Staff Loan</th>
                                         <th class="netcol">Net Salary After Deduction</th>
+                                        <th>Salary Percentage Paid</th>
                                         <th>13%/12.5% SSF EMPLOYERS CONT.</th>
                                         <th>Gross Salary</th>
                                         <th>Total Deductions</th>
@@ -340,6 +341,7 @@
                                             <td class="text-bold-500 staffloancol">{{number_format($slr->std_loan, 2)}}</td>
                                             <td class="text-bold-500 staffloancol">{{number_format($slr->staff_loan, 2)}}</td>
                                             <td class="text-bold-500 netcol">{{number_format($slr->net_aft_ded, 2)}}</td>
+                                            <td class="text-bold-500">{{$slr->pay_perc}}%</td>
                                             <td class="text-bold-500">{{number_format($slr->ssf_emp_cont, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->gross_sal, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->tot_ded, 2)}}</td>
@@ -447,6 +449,11 @@
                                                         <div class="filter_div">
                                                             <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Staff Loan
                                                             <input type="number" step="any" @if ($slr!='')value="{{$slr->staff_loan}}" @endif min="0" name="staff_loan" required>
+                                                        </div>
+                                                
+                                                        <div class="filter_div">
+                                                            <i class="fa fa-percent"></i>&nbsp;&nbsp;&nbsp;Pay (%)
+                                                            <input type="number" max="100" maxlength="3" @if ($slr!='')value="{{$slr->pay_perc}}" @endif min="0" name="pay_perc" required>
                                                         </div>
 
                                                         <p class="">&nbsp;</p>

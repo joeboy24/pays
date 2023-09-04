@@ -191,7 +191,7 @@
                                                 @if ($emp->reg_mgr == 'yes') <button type="button" class="my_trash2 blue_bg color8"><i class="fa fa-user-circle"></i>&nbsp; Regional Mgr.</button> @endif
                                             </td>
                                             <td class="text-bold-500">{{ number_format($emp->salary, 2) }}<br>
-                                                @if ($emp->status == 'Active')
+                                                @if ($emp->del == 'no')
                                                     <button type="button" class="my_trash2 green_bg color8"><i class="fa fa-print"></i>&nbsp; Active</button>
                                                 @else
                                                     <button type="button" class="my_trash2 bg6 color8"><i class="fa fa-print"></i>&nbsp; Inactive</button>

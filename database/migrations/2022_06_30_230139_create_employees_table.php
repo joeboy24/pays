@@ -39,6 +39,7 @@ class CreateEmployeesTable extends Migration
             $table->string('cur_pos', 50)->nullable();
             $table->string('ssn', 50)->nullable();
             $table->string('salary', 50)->nullable();
+            $table->string('pay_perc', 5)->default(100);
             $table->string('contact', 50)->nullable();
             $table->string('ssf', 50)->nullable();
             $table->string('2tier_ssf', 50)->nullable();
