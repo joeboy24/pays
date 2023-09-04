@@ -438,7 +438,7 @@
                                                 
                                                         <div class="filter_div">
                                                             <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Back Pay
-                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->back_pay}}" @endif min="0" name="back_pay" required>
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->back_pay}}" @endif name="back_pay" required>
                                                         </div>
                                                 
                                                         <div class="filter_div">
