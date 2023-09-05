@@ -22,21 +22,21 @@ class load_auth
         $company = Company::find(1);
         Session::put('company', $company);
         if (Auth::check()) { 
-            if (session('temp_pass')) {
-                if (session('temp_pass') == auth()->user()->temp_pass) {
+            // if (session('temp_pass')) {
+            //     if (session('temp_pass') == auth()->user()->temp_pass) {
                     return $next($request);
-                } else {
-                    return redirect('/otp-verification');
-                }
-                return redirect('/passed');
-            } else {
-                Session::put('temp_pass', 'null');
-                Session::put('phold', '');
-                Session::put('otp_sms_count', 0);
-                Session::put('otp_try_count', 0);
-                Session::put('check_otp_redirect', '');
-                return redirect('/');
-            }
+            //     } else {
+            //         return redirect('/otp-verification');
+            //     }
+            //     return redirect('/passed');
+            // } else {
+            //     Session::put('temp_pass', 'null');
+            //     Session::put('phold', '');
+            //     Session::put('otp_sms_count', 0);
+            //     Session::put('otp_try_count', 0);
+            //     Session::put('check_otp_redirect', '');
+            //     return redirect('/');
+            // }
         }
     }
 }

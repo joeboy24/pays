@@ -851,7 +851,7 @@ class EmployeeController extends Controller
                                             $sl->new3 = $saledit->new3;
                                             $sl->new4 = $saledit->new4;
                                             $sl->new5 = $saledit->new5;
-                                            $sl->back_pay = $back_pay;
+                                            $sl->back_pay = $saledit->back_pay;
                                             $sl->net_bef_ded = $saledit->net_bef_ded;
                                             $sl->std_loan = $saledit->std_loan;
                                             $sl->staff_loan = $saledit->staff_loan;
@@ -981,7 +981,7 @@ class EmployeeController extends Controller
                                                 'new3' => $saledit->new3,
                                                 'new4' => $saledit->new4,
                                                 'new5' => $saledit->new5,
-                                                'back_pay' => $back_pay,
+                                                'back_pay' => $saledit->back_pay,
                                                 'net_bef_ded' => $saledit->net_bef_ded,
                                                 'std_loan' => $saledit->std_loan,
                                                 'staff_loan' => $saledit->staff_loan,
