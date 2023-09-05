@@ -417,7 +417,7 @@
                                                 
                                                         <div class="filter_div">
                                                             <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ut (GhC)
-                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->intr}}" @endif min="0" name="intr" required>
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->cola}}" @endif min="0" name="intr" required>
                                                         </div>
                                                 
                                                         <div class="filter_div">
