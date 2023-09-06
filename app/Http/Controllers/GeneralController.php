@@ -456,7 +456,7 @@ class GeneralController extends Controller
         //         $sal->ssf = $emp_src->ssf;
         //         $sal->sal_aft_ssf = $emp_src->sal_aft_ssf;
         //         $sal->rent = $emp_src->rent;
-        //         $sal->taxable_inc = $emp_src->taxable_inc;
+        //         $sal->taxable_inc = $emp_src->taxable_inc; 
         //         $sal->income_tax = $emp_src->income_tax;
         //         $sal->net_aft_inc_tax = $emp_src->net_aft_inc_tax;
 
