@@ -441,14 +441,18 @@ class GeneralController extends Controller
         // $jv_check->save();
         // return 'Update Done..!';
 
-        // $emps = Employee::all();
-        // foreach ($emps as $emp) {
-        //     $emp_src = EmployeeRead::where('staff_id', $emp->staff_id)->latest()->first();
+        // $c = 1;
+        // $sals = Salary::where('month', '08-2023')->get();
+        // // return $emps[0]->employee->staff_id;
+        // foreach ($sals as $sal) {
+        //     $emp_src = EmployeeRead::where('staff_id', $sal->employee->staff_id)->latest()->first();
         //     // $sal->month = '08-2023';
         //     // $sal->save();
         //     // Update Salary with Fada's July values
         //     if ($emp_src) {
-        //         $sal = Salary::where('employee_id', $emp->id)->latest()->first();
+        //         $c = $c + 1;
+        //         // $sal = Salary::where('employee_id', $sal->id)->where('month', '08-2023')->latest()->first();
+        //         $sal->salary = $emp_src->salary;
         //         $sal->ssf = $emp_src->ssf;
         //         $sal->sal_aft_ssf = $emp_src->sal_aft_ssf;
         //         $sal->rent = $emp_src->rent;
@@ -476,8 +480,33 @@ class GeneralController extends Controller
         //         $sal->tot_ded = $emp_src->tot_ded;
         //         $sal->save();
         //     }else {
-        //         return $emp_src->id;
+        //         $sal->delete();
+        //         // return $emp_src->id;
         //     }
+        // }
+        // return $c;
+        // $sals = Salary::where('month', '08-2023')->get();
+        // // $sals = EmployeeRead::all();
+        // return $sals->sum('ssf_emp_cont') + $sals->sum('ssf');
+        // $new_gross = $sals->sum('salary') + $sals->sum('rent') + $sals->sum('prof') + $sals->sum('resp') + $sals->sum('risk') + $sals->sum('vma') + $sals->sum('ent') + $sals->sum('dom') + $sals->sum('intr') + $sals->sum('cola');
+        
+        // $jv_check = Journal::where('month', '08-2023')->first();
+        // if ($jv_check) {
+
+        //     $jv_check->gross = $new_gross;
+        //     $jv_check->ssf_emp = $sals->sum('ssf_emp_cont');
+        //     $jv_check->fuel_alw = $sals->sum('tnt');
+        //     $jv_check->back_pay = $sals->sum('back_pay');
+        //     $jv_check->total_ssf = $sals->sum('ssf_emp_cont') + $sals->sum('ssf');
+        //     $jv_check->total_paye = $sals->sum('income_tax');
+        //     // $jv_check->advances = '';
+        //     // $jv_check->veh_loan = '';
+        //     $jv_check->std_loan = $sals->sum('std_loan');
+        //     $jv_check->staff_loan = $sals->sum('staff_loan');
+        //     $jv_check->net_pay = $sals->sum('net_aft_ded');
+        //     $jv_check->debit = $new_gross + $sals->sum('ssf_emp_cont') + $sals->sum('tnt') + $sals->sum('back_pay');
+        //     $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
+        //     $jv_check->save();
         // }
         // return 'Update Done..!';
 

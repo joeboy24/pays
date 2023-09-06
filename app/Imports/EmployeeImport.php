@@ -44,7 +44,7 @@ class EmployeeImport implements ToModel, WithStartRow, WithCalculatedFormulas
             'user_id' => auth()->user()->id,
             // 'taxation_id' => $tx->id,
             // 'employee_id' => $emp->id,
-            'staff_id' => $row[37],
+            'staff_id' => $row[43],
             'afis_no' => $row[1],
             'fullname' => $row[2],
             'position' => $row[3],
@@ -82,8 +82,8 @@ class EmployeeImport implements ToModel, WithStartRow, WithCalculatedFormulas
             'acc_no' => $row[41],
             'sub_div' => $row[36],
             'fname' => $row[42],
-            'sname' => $row[43],
-            'oname' => $row[44]
+            'sname' => $row[40],
+            'oname' => $row[41]
         ]);
 
     }

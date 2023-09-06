@@ -1937,6 +1937,24 @@ class EmployeeController extends Controller
 
             break;
 
+            case 'publish_sal':
+                $sals = Salary::where('month', date('m-Y'))->get();
+                foreach ($sals as $sal) {
+                    $sal->status = 'Paid';
+                    $sal->save();
+                }
+                return redirect(url()->previous())->with('success', 'Salary records for '.date('M-Y').' successfully published');
+            break;
+
+            case 'unpublish_sal':
+                $sals = Salary::where('month', date('m-Y'))->get();
+                foreach ($sals as $sal) {
+                    $sal->status = 'no';
+                    $sal->save();
+                }
+                return redirect(url()->previous())->with('success', 'Salary records for '.date('M-Y').' has been unpublished');
+            break;
+
         }
 
     }

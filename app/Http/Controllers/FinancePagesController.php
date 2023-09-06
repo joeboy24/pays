@@ -80,6 +80,7 @@ class FinancePagesController extends Controller
             'c' => 1,
             'salaries' => $salaries,
             'totsal' => Salary::where('month', date('m-Y'))->get(),
+            'check_last_pay' => Salary::where('month', date('m-Y'))->latest()->first(),
             // 'saledits' => Saledit::where('month', date('m-Y'))->get(),
             'saledits2' => Saledit::where('month', date('m-Y', strtotime(date('Y-m')." -1 month")))->get(),
             'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),

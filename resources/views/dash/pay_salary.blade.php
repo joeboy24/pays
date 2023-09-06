@@ -145,6 +145,13 @@
             {{-- <a href="/payslip_forwarding" onclick="return confirm('This action will forward payslip to employees` emails. Click Ok to proceed')"><p class="view_daily_report genhover"><i class="fa fa-send color2"></i> Mail</p></a> --}}
             <a href="/sal_changes"><p class="view_daily_report genhover"><i class="fa fa-warning color6"></i> Changes</p></a>
             <a href="/payroll_jv"><p class="view_daily_report genhover"><i class="fa fa-file-text color10"></i> JV</p></a>
+            @if ($check_last_pay)
+                @if ($check_last_pay->status == 'no')
+                    <button type="submit" name="store_action" value="publish_sal" class="gen_btn bg-4 genhover" onclick="return confirm('Click `Ok` to publish salary records for current month')"><i class="fa fa-send color4"></i> Publish {{date('M')}}.</button>
+                @else
+                    <button type="submit" name="store_action" value="unpublish_sal" class="gen_btn bg-4 genhover" onclick="return confirm('Are you sure you want to unpublish salary records for current month?')"><i class="fa fa-times color6"></i> Unpublish {{date('M')}}.</button>
+                @endif
+            @endif
             <button type="submit" name="store_action" value="calc_taxation" class="print_btn_small"><i class="fa fa-refresh"></i></button>
         </form>
  
@@ -416,8 +423,8 @@
                                                         </div>
                                                 
                                                         <div class="filter_div">
-                                                            <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ut (GhC)
-                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->cola}}" @endif min="0" name="intr" required>
+                                                            <i class="fa fa-internet-explorer"></i>&nbsp;&nbsp;&nbsp;Int/Ot (GhC)
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->intr}}" @endif min="0" name="intr" required>
                                                         </div>
                                                 
                                                         <div class="filter_div">

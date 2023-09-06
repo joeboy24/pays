@@ -761,6 +761,24 @@
     /* height: 20px; */
 }
 
+.gen_btn {
+    /* max-width: 200px; */
+    outline: none;
+    color: rgb(133, 133, 133);
+    background: none;
+    float: left;
+    height: 25px;
+    text-transform: uppercase;
+
+    font-size: 0.73em;
+    padding: 3px 10px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    margin: 5px 5px 10px 0;
+    border: 0.5px solid #aaa;
+    /* background: turquoise; */
+}
+
 .view_daily_report {
     /* max-width: 200px; */
     outline: none;
@@ -778,7 +796,7 @@
     /* background: turquoise; */
 }
 
-.view_daily_report:hover, .sms_contact_view:hover {
+.view_daily_report:hover, .sms_contact_view:hover, .gen_btn:hover {
     background: none;
     outline: none;
     /* border: 1px solid #fff; */
