@@ -560,6 +560,18 @@ class EmployeeController extends Controller
                 // $ssf = $alo->ssf;
                 
                 $employees = Employee::get();
+
+                // Delete exist Salary and Taxation records before recalculation
+                $sal_del = Salary::where('month', date('m-Y'))->get();
+                $tax_del = Taxation::where('month', date('m-Y'))->get();
+                foreach ($sal_del as $item) {
+                    $item->delete();
+                }
+                foreach ($tax_del as $item) {
+                    $item->delete();
+                }
+                // return redirect(url()->previous());
+
                 // if (count($employee) < 1) {
                 //     return redirect(url()->previous())->with('error', 'Allowances / SSNIT (%) Successfully Updated');
                 // }
@@ -1523,8 +1535,8 @@ class EmployeeController extends Controller
                 if ($request->input('bank') == 'na' && $request->input('branch') == '') {
                     return redirect(url()->previous())->with('error', 'Oops..! Type Bank & Branch to Proceed');
                 }
-                if ($request->input('position') == 'all' || $request->input('sub_div') == 'all' || $request->input('salary_cat') == 'all' || $request->input('dept') == 'all') {
-                    return redirect(url()->previous())->with('error', 'Oops..! Position / Sub Div. / Salary Cat. & Department fields are required');
+                if ($request->input('position') == 'all' || $request->input('sub_div') == 'all' || $request->input('dept') == 'all') {
+                    return redirect(url()->previous())->with('error', 'Oops..! Position / Sub Div. & Department fields are required');
                 }
 
                 $bank = $request->input('bank');
@@ -2813,9 +2825,11 @@ class EmployeeController extends Controller
                 return redirect(url()->previous())->with('success', 'Responsible Allowance for '.$allow->fname.' Successfully Set!');
             break;
             case 'remove_resp':
+                // return 1234;
                 $allow = Allowance::find($id);
                 $allow->resp = 'no';
                 $allow->save();
+                // return $allow;
                 return redirect(url()->previous())->with('success', 'Responsible Allowance for '.$allow->fname.' has been Removed!');
             break;
 

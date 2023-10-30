@@ -309,16 +309,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                            {{-- <div class="filter_div">
-                                <i class="fa fa-folder"></i> &nbsp; Sub Division
-                                <select name="dept">
-                                    <option value="all" selected>Choose Sub Div.</option>
-                                    @foreach ($sub_div as $sub)
-                                        <option>{{$sub->sub_div}}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
                 
                             <div class="filter_div" id="region">
                                 <i class="fa fa-globe"></i> &nbsp; Region
@@ -380,7 +370,7 @@
 
                             <p>&nbsp;</p>
                     
-                            <div class="filter_div">
+                            {{-- <div class="filter_div">
                                 <i class="fa fa-address-book"></i> &nbsp; SSNIT No.
                                 <input type="text" name="ssnit_no" required>
                             </div>
@@ -438,10 +428,6 @@
                                 </select>
                             </div>
 
-                            {{-- // 'user_id','employee_id','maiden_fname','maiden_sname','maiden_oname','address','ssnit_no',
-                            // 'last_emp_place','lep_add','lep_phone','lep_pos','father','father_status','mother_status',
-                            // 'spouse','spouse_status','nok','nok_contact','del' --}}
-                    
                             <div class="filter_div">
                                 <i class="fa fa-user"></i> &nbsp; Spouse
                                 <input type="text" name="spouse" placeholder="Spouse's Fullname" required>
@@ -464,7 +450,7 @@
                             <div class="filter_div">
                                 <i class="fa fa-phone"></i> &nbsp; NOK's Phone
                                 <input type="text" name="addr" required>
-                            </div>
+                            </div> --}}
 
                     
                             <div class="filter_div">
@@ -531,7 +517,7 @@
 
                             <div class="filter_div">
                                 <i class="fa fa-car"></i> &nbsp; T & T
-                                <input type="number" min="0" placeholder="Type Amount eg. 300" name="tnt">
+                                <input type="number" min="0" placeholder="Type Amount eg. 300" name="tnt"> 
                             </div>
 
                             <div class="filter_div">
