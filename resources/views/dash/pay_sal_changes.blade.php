@@ -265,9 +265,35 @@
                                     </tr>
                                     <!-- Current Month -->
                                     @foreach ($saledits as $slt)
-                                        <tr>
+                                        @if ($slt->del == 'yes')
+                                            <tr class="del_danger">
+                                        {{-- @else
+                                            @if ($c % 2 == 1)
+                                                <tr class="bg9">
+                                            @else
+                                                <tr>
+                                            @endif --}}
+                                        @endif
                                             <td>{{$c++}}</td>
-                                            <td class="text-bold-500">{{ $slt->employee->fname.' '.$slt->employee->sname.' '.$slt->employee->oname }}</td>
+                                            <td class="text-bold-500">{{ $slt->employee->fname.' '.$slt->employee->sname.' '.$slt->employee->oname }}
+                                                <form action="{{ action('EmployeeController@update', $slt->id) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="PUT">
+                                                    @csrf
+                                                    @if ($slt->del == 'no')
+                                                        <button type="submit" name="update_action" value="del_saledit" 
+                                                            onclick="return confirm('This action will remove salary changes for current month. Click ok to proceed.')" 
+                                                            class="my_trash2 tomato_bg color8 genhover">
+                                                            Delete Changes
+                                                        </button>
+                                                    @else
+                                                        <button type="submit" name="update_action" value="revert_saledit" 
+                                                            onclick="return confirm('Are you sure you want to revert changes?')" 
+                                                            class="my_trash2 green_bg color8 genhover">
+                                                            Revert Changes
+                                                        </button>
+                                                    @endif
+                                                </form>
+                                            </td>
                                             <td class="text-bold-500">{{substr($slt->position, 0,12)}}...</td>
                                             <td class="text-bold-500">{{number_format($slt->salary, 2)}}</td>
                                             <td class="text-bold-500">{{date('F Y', strtotime('30-'.$slt->month))}}</td>

@@ -1089,6 +1089,7 @@ class EmployeeController extends Controller
                     $jv_check->credit = $sals->sum('net_aft_ded') + $sals->sum('std_loan') + $sals->sum('staff_loan') + $sals->sum('income_tax') + ($sals->sum('ssf_emp_cont') + $sals->sum('ssf'));
                     $jv_check->save();
                 } else {
+
                     $jv_insert = Journal::firstOrCreate([
                         'user_id' => auth()->user()->id,
                         'month' => date('m-Y'),
@@ -2124,6 +2125,8 @@ class EmployeeController extends Controller
                         // $sl->ssf_emp_cont = $ssf_emp_cont;
                         $sl->gross_sal = $gross_sal;
                         $sl->tot_ded = $tot_ded;
+                        $sl->status = 'used';
+                        $sl->del = 'no';
                         $sl->save();
                     } else {
                         $sl = Saledit::firstOrCreate([
@@ -2756,11 +2759,29 @@ class EmployeeController extends Controller
                 $val->delete();
                 return redirect(url()->previous())->with('success', 'Contact Deleted');
             break;
+            
+            case 'del_saledit':
+                $sl = Saledit::find($id);
+                $sl->status = 'no';
+                $sl->del = 'yes';
+                $sl->save();
+                return redirect(url()->previous())->with('success', 'Salary changes temporarily deleted!');
+            break;
+
 
 
 
             
             // Restore
+
+            case 'revert_saledit':
+                $sl = Saledit::find($id);
+                $sl->status = 'used';
+                $sl->del = 'no';
+                $sl->save();
+                return redirect(url()->previous())->with('success', 'Salary changes restored!');
+            break;
+
             case 'restore_employee':
                 $emp = Employee::find($id);
                 $emp->valid_comment = '';
