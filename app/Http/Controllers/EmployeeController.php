@@ -604,106 +604,18 @@ class EmployeeController extends Controller
                                 $ssf = $alo->ssf;
                                 $ssf1 = $alo->ssf1;
                             }
+
                             if ($emp->allowance->rent == 'no') {
                                 $rent = 0;
                             }else {
                                 $rent = $alo->rent;
                             }
+
                             if ($emp->allowance->prof == 'no') {
                                 $prof = 0;
                             }else {
                                 $prof = $alo->prof;
                             }
-                            
-                            // $basic_sal = $emp->salary * ($emp->pay_perc / 100);
-                            // return $basic_sal;
-
-                            $send_rent = ($rent/100) * $emp->salary;
-                            $send_prof = ($prof/100) * $emp->salary;
-                            $send_ssf = ($ssf/100) * $emp->salary;
-                            // $total_income = $send_rent;
-                            $total_income = $emp->salary + $send_rent + $send_prof;
-                            $taxable_inc = $total_income - $send_ssf;
-                            $first1 = 0;
-                            $next1 = 0;
-                            $next2 = 0;
-                            $next3 = 0;
-                            $next4 = 0;
-                            $next5 = 0;
-                            $tax_pay = 0;
-                            // return $send_prof;
-
-                            // Next 1 Calc
-                            if (($taxable_inc - 319) > 100) {
-                                $next1 = (5/100) * 100;
-                                if ($next1 < 0) { $next1 = 0; }
-                            } else {
-                                $next1 = ($taxable_inc - 319) * (5/100);
-                            }
-
-                            // Next 2 Calc
-                            if (($taxable_inc - 419) > 120) {
-                                $next2 = (10/100) * 120;
-                                if ($next2 < 0) { $next2 = 0; }
-                            } else {
-                                $next2 = ($taxable_inc - 419) * (10/100);
-                            }
-
-                            // Next 3 Calc
-                            if (($taxable_inc - 539) < 3000) {
-                                $next3 = ($taxable_inc - 539) * (17.5/100);
-                                if ($next3 < 0) { $next3 = 0; }
-                            } else {
-                                $next3 = (17.5/100) * 3000;
-                            }
-
-                            // Next 4 Calc
-                            if (($taxable_inc - 3539) < 16461) {
-                                $next4 = ($taxable_inc - 3539) * (25/100);
-                                if ($next4 < 0) { $next4 = 0; }
-                            } else {
-                                $next4 = (25/100) * 16461;
-                            }
-
-                            // Next 5 Calc
-                            if (($taxable_inc - 20000) > 0) {
-                                $next5 = ($taxable_inc - 20000) * (30/100);
-                                if ($next5 < 0) { $next5 = 0; }
-                            } else {
-                                $next5 = 0;
-                            }
-
-                            // Total Tax Payable
-                            // $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            if ($emp->salary <= 319) {
-                                $tax_pay = 0;
-                            } elseif ($emp->salary > 319 && $emp->salary <= 419) {
-                                $tax_pay = $next1;
-                            } elseif ($emp->salary > 419 && $emp->salary <= 539) {
-                                $tax_pay = $next2;
-                                $next3 = 0;
-                                $next4 = 0;
-                                $next5 = 0;
-                                // $tax_pay = $next1 + $next2;
-                            } elseif ($emp->salary > 539 && $emp->salary <= 3000) {
-                                $tax_pay = $next1 + $next2 + $next3;
-                                $next4 = 0;
-                                $next5 = 0;
-                            } elseif ($emp->salary > 3000 && $emp->salary <= 16461) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4;
-                                $next5 = 0;
-                            } elseif ($emp->salary > 16461 && $emp->salary <= 20000) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            } elseif ($emp->salary > 20000) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            }
-                            // return $tax_pay;
-
-                            // Salary Workings
-                            $sal_aft_ssf = $emp->salary - $send_ssf;
-                            $sal_taxable_inc = $sal_aft_ssf + $send_rent + $send_prof;
-                            $income_tax = $tax_pay;
-                            $net_aft_inc_tax = $sal_taxable_inc - $income_tax;
                             // Get Resp Allow
                             if ($emp->allowance->resp == 'no') {
                                 $resp = 0;
@@ -808,6 +720,99 @@ class EmployeeController extends Controller
                                 }
                             }
 
+                            
+                            // $basic_sal = $emp->salary * ($emp->pay_perc / 100);
+                            // return $basic_sal;
+
+                            $send_rent = ($rent/100) * $emp->salary;
+                            $send_prof = ($prof/100) * $emp->salary;
+                            $send_ssf = ($ssf/100) * $emp->salary;
+                            // $total_income = $send_rent;
+                            // $total_income = $emp->salary + $send_rent + $send_prof;
+                            $total_income = $emp->salary + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
+                            // return $emp->fullname.' - '.$total_income;
+                            $taxable_inc = $total_income - $send_ssf;
+                            $first1 = 0;
+                            $next1 = 0;
+                            $next2 = 0;
+                            $next3 = 0;
+                            $next4 = 0;
+                            $next5 = 0;
+                            $tax_pay = 0;
+                            // return $send_prof;
+
+                            // Next 1 Calc
+                            if (($taxable_inc - 319) > 100) {
+                                $next1 = (5/100) * 100;
+                                if ($next1 < 0) { $next1 = 0; }
+                            } else {
+                                $next1 = ($taxable_inc - 319) * (5/100);
+                            }
+
+                            // Next 2 Calc
+                            if (($taxable_inc - 419) > 120) {
+                                $next2 = (10/100) * 120;
+                                if ($next2 < 0) { $next2 = 0; }
+                            } else {
+                                $next2 = ($taxable_inc - 419) * (10/100);
+                            }
+
+                            // Next 3 Calc
+                            if (($taxable_inc - 539) < 3000) {
+                                $next3 = ($taxable_inc - 539) * (17.5/100);
+                                if ($next3 < 0) { $next3 = 0; }
+                            } else {
+                                $next3 = (17.5/100) * 3000;
+                            }
+
+                            // Next 4 Calc
+                            if (($taxable_inc - 3539) < 16461) {
+                                $next4 = ($taxable_inc - 3539) * (25/100);
+                                if ($next4 < 0) { $next4 = 0; }
+                            } else {
+                                $next4 = (25/100) * 16461;
+                            }
+
+                            // Next 5 Calc
+                            if (($taxable_inc - 20000) > 0) {
+                                $next5 = ($taxable_inc - 20000) * (30/100);
+                                if ($next5 < 0) { $next5 = 0; }
+                            } else {
+                                $next5 = 0;
+                            }
+
+                            // Total Tax Payable
+                            // $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            if ($emp->salary <= 319) {
+                                $tax_pay = 0;
+                            } elseif ($emp->salary > 319 && $emp->salary <= 419) {
+                                $tax_pay = $next1;
+                            } elseif ($emp->salary > 419 && $emp->salary <= 539) {
+                                $tax_pay = $next2;
+                                $next3 = 0;
+                                $next4 = 0;
+                                $next5 = 0;
+                                // $tax_pay = $next1 + $next2;
+                            } elseif ($emp->salary > 539 && $emp->salary <= 3000) {
+                                $tax_pay = $next1 + $next2 + $next3;
+                                $next4 = 0;
+                                $next5 = 0;
+                            } elseif ($emp->salary > 3000 && $emp->salary <= 16461) {
+                                $tax_pay = $next1 + $next2 + $next3 + $next4;
+                                $next5 = 0;
+                            } elseif ($emp->salary > 16461 && $emp->salary <= 20000) {
+                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            } elseif ($emp->salary > 20000) {
+                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            }
+                            // return $tax_pay;
+
+                            // Salary Workings
+                            $sal_aft_ssf = $emp->salary - $send_ssf;
+                            $sal_taxable_inc = $sal_aft_ssf + $send_rent + $send_prof;
+                            $income_tax = $tax_pay;
+                            $net_aft_inc_tax = $sal_taxable_inc - $income_tax;
+                            
                             // Updated
 
                             $back_pay = $emp->allowance->back_pay;
