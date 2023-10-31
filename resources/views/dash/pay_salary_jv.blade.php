@@ -146,6 +146,7 @@
                 @for ($i = 0; $i < date('m'); $i++)
                     {{-- @for ($i = 0; $i < $count; $i++) --}}
                     <option value="{{date('m-Y', strtotime('-'.$i.' months'))}}">{{date('Y F', strtotime('-'.$i.' months'))}}</option>
+                    {{-- <option value="{{date('m-Y', strtotime('-'.$i.' months'))}}">{{date('Y F', strtotime($i.' months'))}}</option> --}}
                 @endfor
             </select>
             <button class="view_daily_report genhover"><i class="fa fa-refresh color10"></i></button>

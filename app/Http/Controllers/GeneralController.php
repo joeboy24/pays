@@ -275,6 +275,18 @@ class GeneralController extends Controller
 
     public function runs(){
 
+        $salary = Salary::where('month', '10-2023')->get();
+        $taxation = Taxation::where('month', '10-2023')->get();
+        foreach ($salary as $sal) {
+            $sal->month = '09-2023';
+            $sal->save();
+        }
+        foreach ($taxation as $tax) {
+            $tax->month = '09-2023';
+            $tax->save();
+        }
+        return 'Done..!';
+
         // $str = 'aBgkI902343';
         // return Hash::make('laurenda@masloc');
 
