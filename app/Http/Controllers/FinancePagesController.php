@@ -248,8 +248,8 @@ class FinancePagesController extends Controller
             'regions' => $regions,
             'main_regions' => Region::all(),
             'position' => $position,
-            'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
-            'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->get(),
+            'alw_update' => Allowance::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->orderBy('id', 'DESC')->get(),
+            'emp_update' => Employee::where('updated_at', 'LIKE', '%'.date('Y-m').'%')->orderBy('id', 'DESC')->get(),
             'new_allows' => AllowanceList::all()
         ];
         return view('dash.pay_list_updates')->with($patch);

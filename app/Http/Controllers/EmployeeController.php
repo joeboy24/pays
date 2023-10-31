@@ -820,7 +820,8 @@ class EmployeeController extends Controller
                             $staff_loan = $emp->staff_loan;
                             $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
                             // $ssf_emp_cont = ($ssf1 / 100) * $emp->salary;
-                            $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
+                            // $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
+                            $ssf_emp_cont = ($ssf1 / 100) * $emp->salary;
                             $tot_ded = $send_ssf + $income_tax + $staff_loan + $std_loan;
                             $gross_sal = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
                             
