@@ -21,8 +21,8 @@ class TaxExport implements FromCollection, WithHeadings, WithColumnWidths, WithE
     public function collection()
     {
         $taxes = Taxation::select([
-            'employee_id','position','salary','rent','prof','tot_income','ssf','taxable_inc',
-            'tax_pay','first1','next1','next2','next3','next4','next5','net_amount'
+            'employee_id','position','salary','rent','prof','resp','risk','vma','ent','dom','intr','tnt','cola',
+            'tot_income','ssf','taxable_inc','tax_pay','first1','next1','next2','next3','next4','next5','net_amount'
         ])->get();
 
         foreach ($taxes as $key => $value) {
@@ -53,6 +53,7 @@ class TaxExport implements FromCollection, WithHeadings, WithColumnWidths, WithE
             'Gross Basic Salaries',
             '15% Rent Allow',
             '25% Prof. Allow',
+            '10% Resp. Allow','15% Risk Allow','10% V.M.A','15% Entertaiment Allow','10% Domestic Help','Internet & Other Utilities','T&T Allowance','15% COLA',
             'Total Income',
             'SSF @5.5%',
             'Taxable Income',

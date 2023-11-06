@@ -182,10 +182,10 @@
                     <!-- Allowances View -->
                     <div class="table-responsive">
                         @if (count($salaries) > 0)
-                            <table class="table mb-0 table-lg">
+                            <table class="table mb-0 table-lg tbl-custom">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        {{-- <th>#</th> --}}
                                         <th class="name_width">Employee Name</th>
                                         <th>Position</th>
                                         <th>Basic Salary</th>
@@ -194,9 +194,6 @@
                                         <th>Basic After SSF</th>
                                         <th>{{$allowoverview->rent}}% Rent Allow</th>
                                         <th>{{$allowoverview->prof}}% Prof. Allow</th>
-                                        <th>Total Taxable Income</th>
-                                        <th>Income Tax</th>
-                                        <th>Net After Income Tax</th>
                                         <th>{{$allowoverview->resp}}% Resp. Allow</th>
                                         <th>{{$allowoverview->risk}}% Risk Allow</th>
                                         <th>{{$allowoverview->vma}}% V.M.A Allow</th>
@@ -205,7 +202,6 @@
                                         <th>{{$allowoverview->intr}} Internet & Other Utilities</th>
                                         <th>{{$allowoverview->tnt}} T&T Allow</th>
                                         <th>{{$allowoverview->cola}}% COLA</th>
-
                                         @if ($allowoverview->new1 != 0)
                                             @if ($new_allows[0]->allow_perc != 0)
                                                 <th>{{$allowoverview->new1}}% {{substr($new_allows[0]->allow_name, 0, 10)}}...</th>
@@ -256,15 +252,15 @@
                                             <th>Empty</th>
                                         @endif
 
-                                        {{-- @foreach ($new_allows as $nalws)
-                                            <th>{{$allowoverview->tnt}} T&T Allow</th>
-                                        @endforeach --}}
                                         <th>Back Pay</th>
+                                        <th>Total Taxable Income</th>
+                                        <th>Income Tax</th>
                                         <th>Net Salary Before Deduction</th>
                                         <th class="staffloancol">Student Loan</th>
                                         <th class="staffloancol">Staff Loan</th>
                                         <th class="netcol">Net Salary After Deduction</th>
                                         <th>Salary Percentage Paid</th>
+                                        <th>Net After Income Tax</th>
                                         <th>13%/12.5% SSF EMPLOYERS CONT.</th>
                                         <th>Gross Salary</th>
                                         <th>Total Deductions</th>
@@ -279,13 +275,14 @@
                                     </tr>
                                 </thead>   
                                 <tbody>
+                                    <tr class="tr-space"><td></td></tr>
                                     @foreach ($salaries as $slr)
                                         @if ($c % 2 == 1)
                                             <tr class="bg9">
                                         @else
                                             <tr>
                                         @endif
-                                            <td>{{$c++}}</td>
+                                            {{-- <td>{{$c++}}</td> --}}
                                             <td class="text-bold-500 name_width">{{ $slr->employee->fname.' '.$slr->employee->sname.' '.$slr->employee->oname }}
                                                 @if (count($saledits2) > 0)
                                                     @foreach ($saledits2 as $edt)
@@ -322,9 +319,6 @@
                                             <td class="text-bold-500">{{number_format($slr->sal_aft_ssf, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->rent, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->prof, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($slr->taxable_inc, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($slr->income_tax, 2)}}</td>
-                                            <td class="text-bold-500">{{number_format($slr->net_aft_inc_tax, 2)}}</td>
 
                                             <td class="text-bold-500">{{number_format($slr->resp, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->risk, 2)}}</td>
@@ -334,9 +328,6 @@
                                             <td class="text-bold-500">{{number_format($slr->intr, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->tnt, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->cola, 2)}}</td>
-                                            {{-- @if ($allowoverview->new1 != 0)
-                                                
-                                            @endif --}}
                                             <td class="text-bold-500">{{number_format($slr->new1, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->new2, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->new3, 2)}}</td>
@@ -344,11 +335,14 @@
                                             <td class="text-bold-500">{{number_format($slr->new5, 2)}}</td>
 
                                             <td class="text-bold-500">{{number_format($slr->back_pay, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($slr->taxable_inc, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($slr->income_tax, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->net_bef_ded, 2)}}</td>
                                             <td class="text-bold-500 staffloancol">{{number_format($slr->std_loan, 2)}}</td>
                                             <td class="text-bold-500 staffloancol">{{number_format($slr->staff_loan, 2)}}</td>
                                             <td class="text-bold-500 netcol">{{number_format($slr->net_aft_ded, 2)}}</td>
                                             <td class="text-bold-500">{{$slr->pay_perc}}%</td>
+                                            <td class="text-bold-500">{{number_format($slr->net_aft_inc_tax, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->ssf_emp_cont, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->gross_sal, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($slr->tot_ded, 2)}}</td>
@@ -493,7 +487,7 @@
                                     @endforeach
 
                                     <tr>
-                                        <td></td>
+                                        {{-- <td></td> --}}
                                         <td class="text-bold-500"></td>
                                         <td class="text-bold-500"></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('salary'), 2)}}</b></td>
@@ -502,9 +496,6 @@
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('sal_aft_ssf'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('rent'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('prof'), 2)}}</b></td>
-                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('taxable_inc'), 2)}}</b></td>
-                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('income_tax'), 2)}}</b></td>
-                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('net_aft_inc_tax'), 2)}}</b></td>
 
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('resp'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('risk'), 2)}}</b></td>
@@ -514,9 +505,6 @@
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('intr'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('tnt'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('cola'), 2)}}</b></td>
-                                        {{-- @if ($allowoverview->new1 != 0)
-                                            
-                                        @endif --}}
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('new1'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('new2'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('new3'), 2)}}</b></td>
@@ -524,10 +512,14 @@
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('new5'), 2)}}</b></td>
 
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('back_pay'), 2)}}</b></td>
+                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('taxable_inc'), 2)}}</b></td>
+                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('income_tax'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('net_bef_ded'), 2)}}</b></td>
                                         <td class="text-bold-500 staffloancol"><b>{{number_format($totsal->sum('std_loan'), 2)}}</b></td>
                                         <td class="text-bold-500 staffloancol"><b>{{number_format($totsal->sum('staff_loan'), 2)}}</b></td>
                                         <td class="text-bold-500 netcol"><b>{{number_format($totsal->sum('net_aft_ded'), 2)}}</b></td>
+                                        <td class="text-bold-500"></td>
+                                        <td class="text-bold-500"><b>{{number_format($totsal->sum('net_aft_inc_tax'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('ssf_emp_cont'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('gross_sal'), 2)}}</b></td>
                                         <td class="text-bold-500"><b>{{number_format($totsal->sum('tot_ded'), 2)}}</b></td>
@@ -543,7 +535,7 @@
 
                                 </tbody>
                             </table>
-                            {{ $salaries->links() }}
+                            {{-- {{ $salaries->links() }} --}}
                         @else
                             <div class="alert alert-danger">
                                 No Records Found on Salaries

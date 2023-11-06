@@ -1098,6 +1098,29 @@
     color: #4486e9;
 }
 
+.table-responsive {
+    max-height: 475px;
+}
+
+.tbl-custom {
+    position: relative;
+}
+
+/* .tbl-custom thead {
+    position: fixed;
+    min-height: 150px!important;
+    background: rgba(255, 255, 255, 0.84);
+} */
+
+/* .tr-space {
+    height: 150px;
+} */
+
+/* .name_width {
+    position: fixed;
+    min-width: 250px;
+    background: rgba(255, 255, 255, 0.84)!important;
+} */
 
 
 

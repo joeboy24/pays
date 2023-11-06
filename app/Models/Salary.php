@@ -18,7 +18,7 @@ class Salary extends Model
         return $this->belongsTo('App\Models\Employee');
     }
 
-    public function taxation(){
+    public function taxation(){ 
         return $this->belongsTo('App\Models\Taxation');
     }
     

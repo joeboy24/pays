@@ -887,6 +887,21 @@ class EmployeeController extends Controller
                                             $tx->salary = $emp->salary;
                                             $tx->rent = $send_rent;
                                             $tx->prof = $send_prof;
+
+                                            $tx->resp = $resp;
+                                            $tx->risk = $risk;
+                                            $tx->vma = $vma;
+                                            $tx->ent = $ent;
+                                            $tx->dom = $dom;
+                                            $tx->intr = $intr;
+                                            $tx->tnt = $tnt;
+                                            $tx->cola = $cola;
+                                            $tx->new1 = $new1;
+                                            $tx->new2 = $new2;
+                                            $tx->new3 = $new3;
+                                            $tx->new4 = $new4;
+                                            $tx->new5 = $new5;
+
                                             $tx->tot_income = $total_income;
                                             $tx->ssf = $send_ssf;
                                             $tx->taxable_inc = $taxable_inc;
@@ -956,6 +971,21 @@ class EmployeeController extends Controller
                                             'salary' => $emp->salary,
                                             'rent' => $send_rent,
                                             'prof' => $send_prof,
+                                            
+                                            'resp' => $resp,
+                                            'risk' => $risk,
+                                            'vma' => $vma,
+                                            'ent' => $ent,
+                                            'dom' => $dom,
+                                            'intr' => $intr,
+                                            'tnt' => $tnt,
+                                            'cola' => $cola,
+                                            'new1' => $new1,
+                                            'new2' => $new2,
+                                            'new3' => $new3,
+                                            'new4' => $new4,
+                                            'new5' => $new5,
+
                                             'tot_income' => $total_income,
                                             'ssf' => $send_ssf,
                                             'taxable_inc' => $taxable_inc,

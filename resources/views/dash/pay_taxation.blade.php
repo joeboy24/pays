@@ -172,6 +172,65 @@
                                         <th>Month</th>
                                         <th>{{$allowoverview->rent}}% Rent Allow</th>
                                         <th>{{$allowoverview->prof}}% Prof. Allow</th>
+
+                                        <th>{{$allowoverview->resp}}% Resp. Allow</th>
+                                        <th>{{$allowoverview->risk}}% Risk Allow</th>
+                                        <th>{{$allowoverview->vma}}% V.M.A Allow</th>
+                                        <th>{{$allowoverview->ent}}% Entertainment Allow</th>
+                                        <th>{{$allowoverview->dom}}% Domestic Help</th>
+                                        <th>{{$allowoverview->intr}} Internet & Other Utilities</th>
+                                        <th>{{$allowoverview->tnt}} T&T Allow</th>
+                                        <th>{{$allowoverview->cola}}% COLA</th>
+                                        @if ($allowoverview->new1 != 0)
+                                            @if ($new_allows[0]->allow_perc != 0)
+                                                <th>{{$allowoverview->new1}}% {{substr($new_allows[0]->allow_name, 0, 10)}}...</th>
+                                            @else
+                                                <th>{{$allowoverview->new1}} {{substr($new_allows[0]->allow_name, 0, 10)}}...</th>
+                                            @endif
+                                        @else
+                                            <th>Empty</th>
+                                        @endif
+
+                                        @if ($allowoverview->new2 != 0)
+                                            @if ($new_allows[1]->allow_perc != 0)
+                                                <th>{{$allowoverview->new2}}% {{substr($new_allows[1]->allow_name, 0, 10)}}...</th>
+                                            @else
+                                                <th>{{$allowoverview->new2}} {{substr($new_allows[1]->allow_name, 0, 10)}}...</th>
+                                            @endif
+                                        @else
+                                            <th>Empty</th>
+                                        @endif
+
+                                        @if ($allowoverview->new3 != 0)
+                                            @if ($new_allows[2]->allow_perc != 0)
+                                                <th>{{$allowoverview->new3}}% {{substr($new_allows[2]->allow_name, 0, 10)}}...</th>
+                                            @else
+                                                <th>{{$allowoverview->new3}} {{substr($new_allows[2]->allow_name, 0, 10)}}...</th>
+                                            @endif
+                                        @else
+                                            <th>Empty</th>
+                                        @endif
+
+                                        @if ($allowoverview->new4 != 0)
+                                            @if ($new_allows[3]->allow_perc != 0)
+                                                <th>{{$allowoverview->new4}}% {{substr($new_allows[3]->allow_name, 0, 10)}}...</th>
+                                            @else
+                                                <th>{{$allowoverview->new4}} {{substr($new_allows[3]->allow_name, 0, 10)}}...</th>
+                                            @endif
+                                        @else
+                                            <th>Empty</th>
+                                        @endif
+
+                                        @if ($allowoverview->new5 != 0)
+                                            @if ($new_allows[4]->allow_perc != 0)
+                                                <th>{{$allowoverview->new5}}% {{substr($new_allows[4]->allow_name, 0, 10)}}...</th>
+                                            @else
+                                                <th>{{$allowoverview->new5}} {{substr($new_allows[4]->allow_name, 0, 10)}}...</th>
+                                            @endif
+                                        @else
+                                            <th>Empty</th>
+                                        @endif
+
                                         <th>Total Income</th>
                                         <th>SSF&nbsp;@ {{$allowoverview->ssf}}%</th>
                                         <th>Taxable Income</th>
@@ -183,7 +242,7 @@
                                         <th>Next GhC 16,461</th>
                                         <th>Next GhC 20,000</th>
                                         <th>Net Amount(GhC)</th>
-                                        {{-- <th>Allowances</th> --}}
+                                        {{-- <th>Allowances</th> --}} 
                                     </tr>
                                 </thead>   
                                 <tbody>
@@ -201,6 +260,21 @@
                                             <td class="text-bold-500">{{date('F Y', strtotime('30-'.$txn->month))}}</td>
                                             <td class="text-bold-500">{{number_format($txn->rent, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($txn->prof, 2)}}</td>
+
+                                            <td class="text-bold-500">{{number_format($txn->resp, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->risk, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->vma, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->ent, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->dom, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->intr, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->tnt, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->cola, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->new1, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->new2, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->new3, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->new4, 2)}}</td>
+                                            <td class="text-bold-500">{{number_format($txn->new5, 2)}}</td>
+
                                             <td class="text-bold-500">{{number_format($txn->tot_income, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($txn->ssf, 2)}}</td>
                                             <td class="text-bold-500">{{number_format($txn->taxable_inc, 2)}}</td>
@@ -224,6 +298,21 @@
                                             <td></td>
                                             <td class="text-bold-500"><b>{{number_format($tottax->sum('rent'), 2)}}</b></td>
                                             <td class="text-bold-500"><b>{{number_format($tottax->sum('prof'), 2)}}</b></td>
+
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('resp'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('risk'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('vma'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('ent'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('dom'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('intr'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('tnt'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('cola'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('new1'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('new2'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('new3'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('new4'), 2)}}</b></td>
+                                            <td class="text-bold-500"><b>{{number_format($tottax->sum('new5'), 2)}}</b></td>
+
                                             <td class="text-bold-500"><b>{{number_format($tottax->sum('tot_income'), 2)}}</b></td>
                                             <td class="text-bold-500"><b>{{number_format($tottax->sum('ssf'), 2)}}</b></td>
                                             <td class="text-bold-500"><b>{{number_format($tottax->sum('taxable_inc'), 2)}}</b></td>

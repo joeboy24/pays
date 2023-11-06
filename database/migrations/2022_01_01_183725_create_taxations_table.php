@@ -22,6 +22,21 @@ class CreateTaxationsTable extends Migration
             $table->string('salary', 50);
             $table->string('rent', 50);
             $table->string('prof', 50);
+
+            $table->string('resp', 50)->default(0);
+            $table->string('risk', 50)->default(0);
+            $table->string('vma', 50)->default(0);
+            $table->string('ent', 50)->default(0);
+            $table->string('dom', 50)->default(0);
+            $table->string('intr', 50)->default(0);
+            $table->string('tnt', 50)->default(0);
+            $table->string('cola', 50)->default(0);
+            $table->string('new1', 50)->default(0);
+            $table->string('new2', 50)->default(0);
+            $table->string('new3', 50)->default(0);
+            $table->string('new4', 50)->default(0);
+            $table->string('new5', 50)->default(0);
+            
             $table->string('tot_income', 50);
             $table->string('ssf', 50);
             $table->string('taxable_inc', 50);
