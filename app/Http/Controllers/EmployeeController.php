@@ -809,7 +809,7 @@ class EmployeeController extends Controller
 
                             // Salary Workings
                             $sal_aft_ssf = $emp->salary - $send_ssf;
-                            $sal_taxable_inc = $sal_aft_ssf + $send_rent + $send_prof;
+                            $sal_taxable_inc = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
                             $income_tax = $tax_pay;
                             $net_aft_inc_tax = $sal_taxable_inc - $income_tax;
                             
@@ -2123,7 +2123,7 @@ class EmployeeController extends Controller
                 
 
                 // Salary Workings
-                $sal_taxable_inc = $sal->sal_aft_ssf + $rent + $prof;
+                $sal_taxable_inc = $sal->sal_aft_ssf + $rent + $prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
                 $net_aft_inc_tax = $sal_taxable_inc - $inc_tax;
                 $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
                 $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
