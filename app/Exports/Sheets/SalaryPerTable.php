@@ -50,7 +50,9 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 // 'taxable_inc','income_tax','net_aft_inc_tax','resp','risk','vma','ent','dom','intr','tnt','cola','back_pay',
                 // 'net_bef_ded','std_loan','staff_loan','net_aft_ded','ssf_emp_cont','gross_sal','tot_ded','ssn','email','dept','region','bank','branch','acc_no'
 
-                'month','taxation_id','employee_id','position','salary','ssf','sal_aft_ssf','rent','prof','resp','risk','vma','ent','dom','intr','tnt','cola',
+                'month','taxation_id',
+                // 'user_id',
+                'employee_id','position','salary','ssf','sal_aft_ssf','rent','prof','resp','risk','vma','ent','dom','intr','tnt','cola',
                 'back_pay','taxable_inc','income_tax',
                 'net_bef_ded','std_loan','staff_loan','net_aft_ded','ssf_emp_cont','gross_sal','tot_ded','ssn','email','dept','region','bank','branch','acc_no'
             ])->where('month', $this->month)->get();
@@ -59,6 +61,7 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 $mo = '1-'.$salary[$key]->month;
                 $salary[$key]['month'] = date('F - Y', strtotime($mo));
                 $salary[$key]['taxation_id'] = $salary[$key]->employee->afis_no;
+                // $salary[$key]['user_id'] = $salary[$key]->employee->extend->staff_id;
                 $salary[$key]['employee_id'] = $salary[$key]->employee->fname.' '.$salary[$key]->employee->sname.' '.$salary[$key]->employee->oname;
             }
             return $salary;
@@ -68,12 +71,14 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 // 'employee_id','position','salary','rent','prof','tot_income','ssf','taxable_inc',
                 // 'tax_pay','first1','next1','next2','next3','next4','next5','net_amount'
 
+                // 'user_id',
                 'employee_id','position','salary','rent','prof','resp','risk','vma','ent','dom','intr','tnt','cola',
                 'tot_income','ssf','taxable_inc','tax_pay','first1','next1','next2','next3','next4','next5','net_amount'
             ])->where('month', $this->month)->get();
 
             // $taxes = User::all();
             foreach ($taxes as $key => $value) {
+                // $taxes[$key]['user_id'] = $taxes[$key]->employee->extend->staff_id;
                 $taxes[$key]['employee_id'] = $taxes[$key]->employee->fname.' '.$taxes[$key]->employee->sname.' '.$taxes[$key]->employee->oname;
             }
             return $taxes;
@@ -147,7 +152,9 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 // 'Net Salary Before Deductions','Student Loan','Staff Loan','Net Salary After Deductions','13%/12.5% SSF EMPLOYERS CONT.',
                 // 'GROSS SALARY','TOTAL DEDUCTIONS','SOCIAL SECURITY NUMBER','EMAIL ADDRESS','DEPARTMENT','REGION','BANK','BRANCH','A/C NO'
 
-                'MONTH','AFIS NO','Employee Name','Position','Basic Salary','SSF 5.5%','BASIC AFTER SSF','15% Rent Allow',
+                'MONTH','AFIS NO',
+                // 'STAFF ID',
+                'Employee Name','Position','Basic Salary','SSF 5.5%','BASIC AFTER SSF','15% Rent Allow',
                 '25% Prof. Allow','10% Resp. Allow','15% Risk Allow','10% V.M.A','15% Entertaiment Allow','10% Domestic Help','Internet & Other Utilities','T&T Allowance','15% COLA',
                 'BACK PAY','Total Taxable Income','Income Tax',
                 'Net Salary Before Deductions','Sdudent Loan','Staff Loan','Net Salary After Deductions','13%/12.5% SSF EMPLOYERS CONT.',
@@ -158,6 +165,7 @@ class SalaryPerTable implements FromCollection, WithHeadings, WithTitle, ShouldA
                 // 'Employee Name','Position','Gross Basic Salaries','15% Rent Allow','25% Prof. Allow','Total Income','SSF @5.5%','Taxable Income',
                 // 'Total Tax payable','First GHS319','Next GHS100','Next GHS539','Next GHS3,539','Next GHS16461','Exc. GHS20,000','Net Amount'
                 
+                // 'STAFF ID',
                 'Employee Name','Position','Gross Basic Salaries','15% Rent Allow','25% Prof. Allow',
                 '10% Resp. Allow','15% Risk Allow','10% V.M.A','15% Entertaiment Allow','10% Domestic Help','Internet & Other Utilities','T&T Allowance','15% COLA',
                 'Total Income','SSF @5.5%','Taxable Income','Total Tax payable','First GHS319','Next GHS100','Next GHS539','Next GHS3,539','Next GHS16461',

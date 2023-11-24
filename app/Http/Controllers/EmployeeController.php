@@ -781,42 +781,43 @@ class EmployeeController extends Controller
                                 $next5 = 0;
                             }
 
-                            // Total Tax Payable
-                            // $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            if ($emp->salary <= 319) {
-                                $tax_pay = 0;
-                            } elseif ($emp->salary > 319 && $emp->salary <= 419) {
-                                $tax_pay = $next1;
-                            } elseif ($emp->salary > 419 && $emp->salary <= 539) {
-                                $tax_pay = $next2;
-                                $next3 = 0;
-                                $next4 = 0;
-                                $next5 = 0;
-                                // $tax_pay = $next1 + $next2;
-                            } elseif ($emp->salary > 539 && $emp->salary <= 3000) {
-                                $tax_pay = $next1 + $next2 + $next3;
-                                $next4 = 0;
-                                $next5 = 0;
-                            } elseif ($emp->salary > 3000 && $emp->salary <= 16461) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4;
-                                $next5 = 0;
-                            } elseif ($emp->salary > 16461 && $emp->salary <= 20000) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            } elseif ($emp->salary > 20000) {
-                                $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
-                            }
-                            // return $tax_pay;
+                            // // Total Tax Payable
+                            $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            // if ($emp->salary <= 319) {
+                            //     $tax_pay = 0;
+                            // } elseif ($emp->salary > 319 && $emp->salary <= 419) {
+                            //     $tax_pay = $next1;
+                            // } elseif ($emp->salary > 419 && $emp->salary <= 539) {
+                            //     $tax_pay = $next2;
+                            //     // $next3 = 0;
+                            //     // $next4 = 0;
+                            //     // $next5 = 0;
+                            //     // $tax_pay = $next1 + $next2;
+                            // } elseif ($emp->salary > 539 && $emp->salary <= 3000) {
+                            //     $tax_pay = $next1 + $next2 + $next3;
+                            //     // $next4 = 0;
+                            //     // $next5 = 0;
+                            // } elseif ($emp->salary > 3000 && $emp->salary <= 16461) {
+                            //     $tax_pay = $next1 + $next2 + $next3 + $next4;
+                            //     // $next5 = 0;
+                            // } elseif ($emp->salary > 16461 && $emp->salary <= 20000) {
+                            //     $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            // } elseif ($emp->salary > 20000) {
+                            //     $tax_pay = $next1 + $next2 + $next3 + $next4 + $next5;
+                            // }
+                            // // return $tax_pay;
+                            // Updated
+
+                            $back_pay = $emp->allowance->back_pay;
 
                             // Salary Workings
                             $sal_aft_ssf = $emp->salary - $send_ssf;
                             $sal_taxable_inc = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
                             $income_tax = $tax_pay;
                             $net_aft_inc_tax = $sal_taxable_inc - $income_tax;
+                            $net_bef_ded = ($sal_taxable_inc - $income_tax) + $back_pay;
                             
-                            // Updated
-
-                            $back_pay = $emp->allowance->back_pay;
-                            $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
+                            // $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
                             // $staff_loan = $emp->staff_loan;
                             // $net_aft_ded = $net_bef_ded - $staff_loan;
                             // $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
@@ -828,7 +829,7 @@ class EmployeeController extends Controller
                             // $ssf_emp_cont = ((18.5 - $ssf) / 100) * $emp->salary;
                             $ssf_emp_cont = ($ssf1 / 100) * $emp->salary;
                             $tot_ded = $send_ssf + $income_tax + $staff_loan + $std_loan;
-                            $gross_sal = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 = + $new3 + $new4 + $new5 + $back_pay;
+                            $gross_sal = $sal_aft_ssf + $send_rent + $send_prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
                             
 
                             $where = [
@@ -2125,7 +2126,9 @@ class EmployeeController extends Controller
                 // Salary Workings
                 $sal_taxable_inc = $sal->sal_aft_ssf + $rent + $prof + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5;
                 $net_aft_inc_tax = $sal_taxable_inc - $inc_tax;
-                $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
+
+                $net_bef_ded = ($sal_taxable_inc - $inc_tax) + $back_pay;
+                // $net_bef_ded = $net_aft_inc_tax + $resp + $risk + $vma + $ent + $dom + $intr + $tnt + $cola + $new1 + $new2 + $new3 + $new4 + $new5 + $back_pay;
                 $net_aft_ded = $net_bef_ded - $staff_loan - $std_loan;
                 // $net_aft_ded = ($net_bef_ded - $staff_loan - $std_loan) * ($pay_perc / 100);
                 $tot_ded = $sal->ssf + $inc_tax + $std_loan + $staff_loan;
