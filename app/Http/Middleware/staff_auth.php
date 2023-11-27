@@ -17,11 +17,11 @@ class staff_auth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status == 'Staff' || Auth::user()->status == 'Administrator' || Auth::user()->status == 'Finanace' || Auth::user()->status == 'HR') {
+        // if (Auth::check() && Auth::user()->status == 'Staff' || Auth::user()->status == 'Administrator' || Auth::user()->status == 'Finanace' || Auth::user()->status == 'HR') {
             return $next($request);
-        }else {
-            return redirect(url()->previous())->with('warning', 'Oops..! Access denied. Login as `Staff` to proceed');
-            abort(403);
-        }
+        // }else {
+        //     return redirect(url()->previous())->with('warning', 'Oops..! Access denied. Login as `Staff` to proceed');
+        //     abort(403);
+        // }
     }
 }
