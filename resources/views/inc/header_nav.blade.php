@@ -63,7 +63,7 @@
                             @else href="/admin-profile" 
                             @endif>
                         <i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
-                        @if(auth()->user()->status == 'Administrator')
+                        @if(auth()->user()->status == 'Administrator' || auth()->user()->status == 'Finance')
                             <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i> Settings</a></li>
                             <li><a class="dropdown-item" href="/activity-log"><i class="icon-mid bi bi-calendar-check me-2"></i> Activity Log</a></li>
                             <li><a class="dropdown-item" href="/portal-switch"><i class="fa fa-toggle-on me-2"></i> {{session('cur_stat')}} Portal</a></li>
