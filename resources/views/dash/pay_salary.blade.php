@@ -449,7 +449,7 @@
                                                 
                                                         <div class="filter_div">
                                                             <i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Staff Loan
-                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->staff_loan}}" @endif min="0" name="staff_loan" required>
+                                                            <input type="number" step="any" @if ($slr!='')value="{{$slr->staff_loan}}" @endif name="staff_loan" required>
                                                         </div>
                                                 
                                                         {{-- <div class="filter_div">
