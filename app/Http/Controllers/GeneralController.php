@@ -45,10 +45,10 @@ class GeneralController extends Controller
     
     public function index(){
 
-        // if (Session::get('https') != 'https'){
-        //     Session::put('https', 'https');
-        //     return redirect('https://portal.masloc.gov.gh/');
-        // }
+        if (Session::get('https') != 'https'){
+            Session::put('https', 'https');
+            return redirect('https://portal.masloc.gov.gh/');
+        }
 
         // $ext = Extend::find(1);
 
