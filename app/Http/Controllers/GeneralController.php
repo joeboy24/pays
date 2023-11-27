@@ -45,10 +45,10 @@ class GeneralController extends Controller
     
     public function index(){
 
-        if (Session::get('https') != 'https'){
-            Session::put('https', 'https');
-            return redirect('https://portal.masloc.gov.gh/');
-        }
+        // if (Session::get('https') != 'https'){
+        //     Session::put('https', 'https');
+        //     return redirect('https://portal.masloc.gov.gh/');
+        // }
 
         // $ext = Extend::find(1);
 
@@ -275,16 +275,25 @@ class GeneralController extends Controller
 
     public function runs(){
 
-        $salary = Salary::where('month', '10-2023')->get();
-        $taxation = Taxation::where('month', '10-2023')->get();
+        // return 'Null';
+
+        $salary = Salary::where('month', '09-2023')->orWhere('month', '10-2023')->get();
+        $taxation = Taxation::where('month', '09-2023')->get();
         foreach ($salary as $sal) {
-            $sal->month = '09-2023';
+            // $sal->created_at = '2023-10-29 15:24:32';
+            // $sal->updated_at = '2023-10-29 15:24:32';
+            // $sal->month = '10-2023';
+            $sal->status = 'Paid';
             $sal->save();
+            // $sal->delete();
         }
-        foreach ($taxation as $tax) {
-            $tax->month = '09-2023';
-            $tax->save();
-        }
+        // foreach ($taxation as $tax) {
+        //     // $tax->created_at = '2023-10-29 15:24:32';
+        //     // $tax->updated_at = '2023-10-29 15:24:32';
+        //     // $tax->month = '10-2023';
+        //     $tax->save();
+        //     // $tax->delete();
+        // }
         return 'Done..!';
 
         // $str = 'aBgkI902343';
