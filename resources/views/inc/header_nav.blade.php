@@ -66,7 +66,12 @@
                         @if(auth()->user()->status == 'Administrator')
                             <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i> Settings</a></li>
                             <li><a class="dropdown-item" href="/activity-log"><i class="icon-mid bi bi-calendar-check me-2"></i> Activity Log</a></li>
+                            <li><a class="dropdown-item" href="/portal-switch"><i class="fa fa-toggle-on me-2"></i> {{session('cur_stat')}} Portal</a></li>
                         @endif
+                        {{-- @if(session('cur_stat') != 'Staff')
+                            <li><a class="dropdown-item" href="/companysetup"><i class="icon-mid bi bi-gear me-2"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="/activity-log"><i class="icon-mid bi bi-calendar-check me-2"></i> Activity Log</a></li>
+                        @endif --}}
                         <li>
                             <hr class="dropdown-divider">
                         </li>

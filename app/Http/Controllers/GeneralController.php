@@ -45,10 +45,10 @@ class GeneralController extends Controller
     
     public function index(){
 
-        // if (Session::get('https') != 'https'){
-        //     Session::put('https', 'https');
-        //     return redirect('https://portal.masloc.gov.gh/');
-        // }
+        if (Session::get('https') != 'https'){
+            Session::put('https', 'https');
+            return redirect('https://portal.masloc.gov.gh/');
+        }
 
         // $ext = Extend::find(1);
 
@@ -272,6 +272,23 @@ class GeneralController extends Controller
 
         return view('dash.pay_bulksms')->with($sends);
     }
+
+    public function portal_switch()
+    {
+
+        // return $msg;
+
+        if (session('cur_stat') == 'Staff') {
+            Session::put('cur_stat', 'Admin');
+            return redirect('/mydashboard');
+        } else {
+            Session::put('cur_stat', 'Staff');
+            return redirect('/');
+        }
+        
+    }
+
+
 
     public function runs(){
 

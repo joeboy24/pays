@@ -65,6 +65,7 @@ Route::get('/sal_cat', 'HrpagesController@pay_sal_cat');
 Route::get('/allowance_mgt', 'HrpagesController@pay_allowance_mgt');
 
 Route::get('/pay_employee', 'GeneralController@pay_employee');  // Checkout
+Route::get('/portal-switch', 'GeneralController@portal_switch');
 // Finance Pages
 Route::get('/taxation', 'FinancePagesController@pay_tax');
 Route::get('/salaries', 'FinancePagesController@pay_sal');

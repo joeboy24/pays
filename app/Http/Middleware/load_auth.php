@@ -30,6 +30,7 @@ class load_auth
                 }
                 return redirect('/passed');
             } else {
+                Session::put('cur_stat', 'Staff');
                 Session::put('temp_pass', 'null');
                 Session::put('phold', '');
                 Session::put('otp_sms_count', 0);
