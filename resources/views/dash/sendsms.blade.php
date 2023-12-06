@@ -20,7 +20,7 @@
 
             <script language="javascript" type="text/javascript">   
                 // alert ('sent')
-                send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to=<?php echo $item->contact; ?>&msg=Dear <?php echo $item->employee->fname.' '.$item->employee->sname; ?>, <?php echo $msg; ?>&sender_id=MASLOCGh");
+                send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to=<?php echo $item->contact; ?>&msg=Dear <?php echo $item->employee->fname.' '.$item->employee->sname; ?>, <?php echo $msg; ?>&sender_id=MASLOC-GH");
             </script>
             @endforeach
         @endif

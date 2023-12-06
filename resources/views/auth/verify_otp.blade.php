@@ -83,7 +83,7 @@
 
           <script language="javascript" type="text/javascript">   
             // alert ('sent')
-            send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to=<?php echo auth()->user()->contact; ?>&msg=Your OTP is <?php echo session('phold'); ?>&sender_id=MASLOCGh");
+            send_with_ajax("https://apps.mnotify.net/smsapi?key=EDjbRLUSSIfwfGV9gar4kmi8n&to=<?php echo auth()->user()->contact; ?>&msg=Your OTP is <?php echo session('phold'); ?>&sender_id=MASLOC-GH");
           </script>
         @endif
       </section>
